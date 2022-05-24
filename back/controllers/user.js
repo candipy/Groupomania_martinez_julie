@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const Models = require("../models");
 
 exports.signup = (req, res, next) => {
-  console.log("req.body :>> ", req.body);
+  // console.log("req.body :>> ", req.body);
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
@@ -43,4 +43,55 @@ exports.login = (req, res, next) => {
         .catch((error) => res.status(500).json({ error }));
     })
     .catch((error) => res.status(500).json({ error }));
+};
+
+exports.modifyUser = (req, res, next) => {
+  Models.User.findOne({ where: { id: req.params.id } })
+    .then((user) => {
+      if (!user) {
+        res.status(404).json({ Message: "Utilisateur non trouvé" });
+      }
+
+      if (user.id !== req.auth.userId) {
+        res.status(403).json({ Message: "Requete non authorisée par cet utilisateur" });
+      } else {
+        bcrypt
+          .hash(req.body.password, 10)
+          .then((hash) => {
+            const passwordHash = hash;
+            console.log("passwordHash :>> ", passwordHash);
+            const userObject = {
+              // id: req.body.id,
+              firstName: req.body.firstName,
+              lastName: req.body.lastName,
+              email: req.body.email,
+              password: passwordHash,
+              url_avatar: req.body.url_avatar,
+              description: req.body.description,
+              // ,
+              // admin: req.body.admin,
+              // createdAt: req.body.createdAt,
+              // updateAt: req.body.updateAt,
+            };
+            user
+              .update(userObject, { where: { id: req.params.id } }, console.log("userObject :>> ", userObject))
+              .then((userUpdate) => res.status(200).json({ userUpdate: userUpdate }))
+              .catch((error) => res.status(404).json({ error }));
+          })
+          .catch((error) => res.status(500).json({ error }));
+      }
+    })
+    .catch((error) => res.status(409).json({ error }));
+};
+
+exports.getOneUser = (req, res, next) => {
+  Models.User.findOne({ where: { id: req.params.id } })
+    .then((user) => res.status(200).json(user))
+    .catch((error) => res.status(404).json({ error }));
+};
+
+exports.getAllUsers = (req, res, next) => {
+  Models.User.findAll()
+    .then((users) => res.status(200).json(users))
+    .catch((error) => error.status(500).json({ error }));
 };
