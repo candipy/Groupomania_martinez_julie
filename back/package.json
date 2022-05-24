@@ -12,14 +12,19 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "dotenv": "^16.0.1",
+    "email-validator": "^2.0.4",
     "express": "^4.18.1",
     "express-rate-limit": "^6.4.0",
+    "helmet": "^5.1.0",
     "jsonwebtoken": "^8.5.1",
     "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "nodemon": "^2.0.16",
+    "password-validator": "^5.3.0",
     "sequelize": "^6.19.2",
-    "sequelize-auto": "^0.8.8",
+    "sequelize-auto": "^0.8.8"
+  },
+  "devDependencies": {
     "sequelize-cli": "^6.4.1"
   }
 }

@@ -1,7 +1,8 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const rateLimit = require("express-rate-limit");
-const db = require("./db/models/index");
+const helmet = require("helmet");
+// const sequelize = require("./models/index");
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 app.use(limiter);
+app.use(helmet());
 
 // UserRoutes
 const userRoutes = require("./routes/user");
