@@ -58,6 +58,7 @@ export default {
 <style lang="scss">
 .container_principal {
   width: 100%;
+  // width: 50%;
   padding: 10px;
 }
 .form {
@@ -68,7 +69,9 @@ export default {
   width: 100%;
   border-radius: 10px;
   border: #fd2d01;
-  border-style: dotted;
+  border-top-style: dotted;
+  border-bottom-style: dotted;
+  // border-style: dotted;
   box-shadow: 0 0 20px #4e5166;
 
   padding: 2%;
@@ -90,7 +93,6 @@ export default {
       width: 100%;
       border: #4e5166 1px;
       border-style: solid;
-      margin: 10px;
     }
   }
 }
