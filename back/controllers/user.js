@@ -2,14 +2,14 @@
 const bcrypt = require("bcrypt"); // package de chiffrement
 const jwt = require("jsonwebtoken");
 
-const Models = require("../models");
+const db = require("../models");
 
 exports.signup = (req, res, next) => {
   // console.log("req.body :>> ", req.body);
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
-      Models.User.create({
+      db.User.create({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
@@ -22,22 +22,22 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-  Models.User.findOne({ where: { email: req.body.email } })
+  db.User.findOne({ where: { email: req.body.email } })
 
-    .then((User) => {
-      console.log("User :>> ", User);
-      if (!User) {
+    .then((user) => {
+      console.log("User :>> ", user);
+      if (!user) {
         return res.status(401).json({ error: "Utilisateur non trouvé !" });
       }
       bcrypt
-        .compare(req.body.password, User.password) // compare le mdp entré par l'utilisateur avec le mdp de la bdd
+        .compare(req.body.password, user.password) // compare le mdp entré par l'utilisateur avec le mdp de la bdd
         .then((valid) => {
           if (!valid) {
             return res.status(401).json({ error: "Mot de passe incorrect !" });
           }
           res.status(200).json({
-            userId: User.id,
-            token: jwt.sign({ userId: User.id }, process.env.TOKEN_SECRET, { expiresIn: "1h" }), // Penser à faire plus tard, une supp du token si pas activité
+            userId: user.id,
+            token: jwt.sign({ userId: user.id }, process.env.TOKEN_SECRET, { expiresIn: "1h" }), // Penser à faire plus tard, une supp du token si pas activité
           });
         })
         .catch((error) => res.status(500).json({ error }));
@@ -46,7 +46,7 @@ exports.login = (req, res, next) => {
 };
 
 exports.modifyUser = (req, res, next) => {
-  Models.User.findOne({ where: { id: req.params.id } })
+  db.User.findOne({ where: { id: req.params.id } })
     .then((user) => {
       if (!user) {
         res.status(404).json({ Message: "Utilisateur non trouvé" });
@@ -55,7 +55,7 @@ exports.modifyUser = (req, res, next) => {
       if (user.id !== req.auth.userId) {
         res.status(403).json({ Message: "Requete non authorisée par cet utilisateur" });
       } else {
-        bcrypt
+        bcrypt // si req.body.password => hash, sinon que les autres
           .hash(req.body.password, 10)
           .then((hash) => {
             const passwordHash = hash;
@@ -85,13 +85,13 @@ exports.modifyUser = (req, res, next) => {
 };
 
 exports.getOneUser = (req, res, next) => {
-  Models.User.findOne({ where: { id: req.params.id } })
+  db.User.findOne({ where: { id: req.params.id } })
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(404).json({ error }));
 };
 
 exports.getAllUsers = (req, res, next) => {
-  Models.User.findAll()
+  db.User.findAll()
     .then((users) => res.status(200).json(users))
     .catch((error) => error.status(500).json({ error }));
 };
