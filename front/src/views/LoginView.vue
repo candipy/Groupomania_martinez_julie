@@ -34,7 +34,7 @@
           <p class="form__error"><!-- validation --></p>
         </div>
 
-        <button class="btn-grad" type="submit">Se connecter</button>
+        <button class="btn-grad" type="submit">Connexion</button>
       </form>
     </div>
     <h2>Pas encore de compte ?</h2>
@@ -107,7 +107,7 @@ export default {
     #fd2d01 100%
   );
   margin: 10px;
-  padding: 15px 45px;
+  padding: 15px;
   text-align: center;
   text-transform: uppercase;
   transition: 0.5s;
@@ -116,7 +116,7 @@ export default {
   box-shadow: 0 0 20px #4e5166;
   border-radius: 10px;
   display: block;
-  width: 30%;
+  width: 33%;
   border: none;
 }
 
