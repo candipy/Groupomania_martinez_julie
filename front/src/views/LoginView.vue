@@ -1,6 +1,8 @@
 <template>
   <Header />
-  <router-link to="/">Home</router-link>
+  <nav>
+    <router-link to="/" class="btn-grad">Home</router-link>
+  </nav>
   <!-- <router-link to="/login">Login</router-link> -->
   <div class="container_principal">
     <h1>Connexion</h1>
@@ -31,16 +33,16 @@
           />
           <p class="form__error"><!-- validation --></p>
         </div>
-        <div class="form__input">
-          <button class="btn-grad" type="submit">Se connecter</button>
-        </div>
+
+        <button class="btn-grad" type="submit">Se connecter</button>
       </form>
     </div>
-
     <h2>Pas encore de compte ?</h2>
-    <router-link to="/signup"
-      ><button class="btn-gard-light">Créer un compte</button>
-    </router-link>
+    <div class="form__input">
+      <router-link to="/signup"
+        ><button class="btn-grad-light">Créer un compte</button>
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -114,11 +116,14 @@ export default {
   box-shadow: 0 0 20px #4e5166;
   border-radius: 10px;
   display: block;
+  width: 30%;
+  border: none;
 }
 
 .btn-grad:hover {
   background-position: right center; /* change the direction of the change here */
   color: #fff;
   text-decoration: none;
+  cursor: pointer;
 }
 </style>

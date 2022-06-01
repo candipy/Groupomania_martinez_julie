@@ -2,8 +2,11 @@
   <div class="home">
     <Header />
 
-    <router-link to="/signup">Créer un compte</router-link> |
-    <router-link to="/login">Login</router-link>
+    <nav>
+      <router-link to="/signup" class="btn-grad">Créer un compte</router-link>
+
+      <router-link to="/login" class="btn-grad">Login</router-link>
+    </nav>
     <h1>Bienvenue sur votre espace salariés</h1>
     <!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
     <!-- <Compteur /> -->
@@ -25,3 +28,12 @@ export default {
   },
 };
 </script>
+
+
+<style lang="scss">
+nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+</style>

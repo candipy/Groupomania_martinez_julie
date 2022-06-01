@@ -1,5 +1,10 @@
 <template>
   <Header />
+  <nav>
+    <router-link to="/" class="btn-grad">Home</router-link>
+
+    <router-link to="/login" class="btn-grad">Login</router-link>
+  </nav>
   <div v-if="plusinfo" class="container_principal">
     <h1>Création de votre compte</h1>
 
@@ -53,15 +58,14 @@
           />
           <p class="form__error"><!-- validation --></p>
         </div>
-        <div class="form__input">
-          <button class="btn-grad" type="submit">Valider</button>
-        </div>
+
+        <button class="btn-grad" type="submit">Valider</button>
       </form>
     </div>
     <div class="form__input">
-      <button @click="afficher" class="btn-grad-light">
+      <div @click="afficher" class="btn-grad-light">
         Vous voulez nous en dire plus ?
-      </button>
+      </div>
     </div>
   </div>
   <div v-else="plusinfo" class="container_principal">
@@ -192,11 +196,13 @@ export default {
   box-shadow: 0 0 20px #4e5166;
   border-radius: 10px;
   display: block;
+  border: none;
 }
 
 .btn-grad-light:hover {
   background-position: right center; /* change the direction of the change here */
   color: black;
   text-decoration: none;
+  cursor: pointer;
 }
 </style>

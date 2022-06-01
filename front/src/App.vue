@@ -17,7 +17,7 @@ body {
 
 #app {
   width: 100%;
-  
+
   font-family: Lato, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -33,6 +33,11 @@ body {
 a {
   font-weight: bold;
   color: #4e5166;
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   &.router-link-exact-active {
     color: #4e5166;
