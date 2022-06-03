@@ -31,9 +31,4 @@ export default {
 
 
 <style lang="scss">
-nav {
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-}
 </style>
