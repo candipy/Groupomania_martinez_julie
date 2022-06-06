@@ -112,25 +112,23 @@ export default {
     Header,
   },
 
-  data() {
+  data: function () {
     return {
       mode: "login",
 
       lastName: "",
-      // errorLastName: false,
+
       firstName: "",
-      // errorFirstName: false,
+
       email: "",
-      // errorEmail: false,
+
       password: "",
-      // regexAlpha: new RegExp(/^[A-Za-zÀ-ž-'\s]+$/), // Est ce une bonne pratique ?
-      // regexEmail: new RegExp(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+.[a-zA-Z]{2,4}$/),
     };
   },
 
   computed: {
-    isEmpty() {
-      if ((this.mode = "create")) {
+    isEmpty: function () {
+      if (this.mode == "create") {
         if (
           this.email !== "" &&
           this.password !== "" &&
@@ -154,11 +152,11 @@ export default {
     console() {
       console.log("mode :>> ", this.mode);
     },
-    switchToCreateAccount() {
+    switchToCreateAccount: function () {
       this.mode = "create";
     },
 
-    switchToLogin() {
+    switchToLogin: function () {
       this.mode = "login";
     },
 
