@@ -15,7 +15,6 @@ const store = createStore({
     createAccount: ({ commit }, userInfos) => {
       return new Promise((resolve, reject) => {
         commit;
-        // console.log("userInfos :>> ", userInfos);
         instance
           .post("/auth/signup/", userInfos)
           .then(function (response) {
@@ -30,7 +29,7 @@ const store = createStore({
     login: ({ commit }, userInfos) => {
       return new Promise((resolve, reject) => {
         commit;
-        // console.log("userInfos :>> ", userInfos);
+        console.log("userInfos :>> ", userInfos);
         instance
           .post("/auth/login/", userInfos)
           .then(function (response) {

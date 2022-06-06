@@ -180,7 +180,7 @@ export default {
 
     login() {
       this.$store
-        .dispatch("createAccount", {
+        .dispatch("login", {
           email: this.email,
           password: this.password,
         })
