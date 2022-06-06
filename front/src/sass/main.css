@@ -6,6 +6,7 @@
 
 body {
   margin: auto;
+  height: 100vh;
 }
 
 a {
@@ -31,9 +32,33 @@ nav {
       justify-content: space-around;
 }
 
-.container_principal {
+.card {
   width: 100%;
   padding: 10px;
+}
+
+.card_subtitle {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.card_subtitle span {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-left: 3px;
+  text-decoration: underline;
+}
+
+.card_subtitle span:hover {
+  cursor: pointer;
 }
 
 .btn-grad-light {
@@ -86,6 +111,11 @@ nav {
   color: #fff;
   text-decoration: none;
   cursor: pointer;
+}
+
+.btn-grad--disabled {
+  opacity: 0.6;
+  pointer-events: none;
 }
 
 .form {
@@ -151,7 +181,7 @@ nav {
 
 #app {
   width: 100%;
-  height: 100vw;
+  height: 100%;
   font-family: Lato, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
