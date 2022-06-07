@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 
-
 const routes = [
   {
     path: "/",
@@ -21,6 +20,16 @@ const routes = [
     path: "/login",
     name: "login",
     component: () => import(/* webpackChunkName: "about" */ "../views/LoginView.vue"),
+  },
+  {
+    path: "/feed",
+    name: "feed",
+    component: () => import(/* webpackChunkName: "about" */ "../views/FeedView.vue"),
+  },
+  {
+    path: "/profil",
+    name: "profil",
+    component: () => import(/* webpackChunkName: "about" */ "../views/ProfilView.vue"),
   },
 ];
 

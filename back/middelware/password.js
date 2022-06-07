@@ -10,13 +10,10 @@ passwordSchema
   .has()
   .uppercase("1", "Majuscule") // Must have uppercase letters
   .has()
-  .lowercase("1", "Miniscule") // Must have lowercase letters
+  .lowercase("1", "Minuscule") // Must have lowercase letters
   .has()
   .not()
-  .spaces() // Should not have spaces
-  .is()
-  .not()
-  .oneOf(["Passw0rd", "Password123", "Azerty", "Azerty123"]); // Blacklist these values;
+  .spaces(); // Should not have spaces
 
 // Vérification de la qualité du password par rapport au schéma
 
@@ -26,6 +23,6 @@ module.exports = (req, res, next) => {
   if (passwordSchema.validate(password)) {
     return next();
   } else {
-    return res.status(400).json({ error: passwordSchema.validate(password, { list: true }) });
+    return res.status(405).json({ error: passwordSchema.validate(password, { list: true }) });
   }
 };

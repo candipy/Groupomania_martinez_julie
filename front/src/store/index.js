@@ -8,37 +8,117 @@ const instance = axios.create({
   // headers: {'X-Custom-Header': 'foobar'}
 });
 
+let localStorageUser = JSON.parse(localStorage.getItem("user"));
+
+if (!localStorageUser) {
+  localStorageUser = {
+    userId: -1,
+    token: "",
+  };
+}
+
 const store = createStore({
-  state: {},
+  state: {
+    status: "",
+    user: localStorageUser,
+    userInfos: {
+      id: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      url_avatar: "",
+      description: "",
+      admin: false,
+      createdAt: "",
+      updatedAt: "",
+    },
+  },
+
+  mutations: {
+    setStatus(state, status) {
+      state.status = status;
+    },
+    logUser(state, user) {
+      instance.defaults.headers.common["Authorization"] = localStorageUser.token;
+      localStorage.setItem("user", JSON.stringify(user));
+      state.user = user;
+    },
+
+    userInfos(state, userInfos) {
+      state.userInfos = userInfos;
+    },
+  },
 
   actions: {
-    createAccount: ({ commit }, userInfos) => {
+    createAccount: ({ commit }, user) => {
+      commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
-        commit;
         instance
-          .post("/auth/signup/", userInfos)
-          .then(function (response) {
+          .post("/auth/signup/", user)
+          .then((response) => {
+            commit("setStatus", "");
             resolve(response);
           })
-          .catch(function (error) {
-            reject(error);
+          .catch((error) => {
+            if (error.response.status == 400) {
+              commit("setStatus", "error_email");
+              reject(error);
+            }
+            if (error.response.status == 405) {
+              commit("setStatus", "error_password");
+              reject(error);
+            }
+            if (error.response.status == 403) {
+              commit("setStatus", "error_unique");
+              reject(error);
+            }
+            if (error.response.status == 500) {
+              commit("setStatus", "error_serveur");
+              reject(error);
+            }
           });
       });
     },
 
-    login: ({ commit }, userInfos) => {
+    login: ({ commit }, logUser) => {
+      commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
-        commit;
-        console.log("userInfos :>> ", userInfos);
         instance
-          .post("/auth/login/", userInfos)
-          .then(function (response) {
+          .post("/auth/login/", logUser)
+          .then((response) => {
+            commit("setStatus", "");
+            commit("logUser", response.data);
             resolve(response);
           })
-          .catch(function (error) {
-            reject(error);
+          .catch((error) => {
+            if (error.response.status == 404) {
+              commit("setStatus", "error_user");
+              reject(error);
+            }
+            if (error.response.status == 401) {
+              commit("setStatus", "error_password");
+              reject(error);
+            }
+            if (error.response.status == 500) {
+              commit("setStatus", "error_serveur");
+              reject(error);
+            }
           });
       });
+    },
+
+    getUserInfos: ({ commit }) => {
+      instance
+        .get("/user/" + localStorageUser.userId)
+        .then((response) => {
+          commit("UserInfos", response.data);
+          // resolve(response);
+        })
+        .catch((error) => {
+          commit("user", "error_user");
+          // reject(error);
+        });
     },
   },
 });
