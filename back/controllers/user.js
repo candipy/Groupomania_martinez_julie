@@ -25,7 +25,7 @@ exports.login = (req, res, next) => {
   db.User.findOne({ where: { email: req.body.email } })
 
     .then((user) => {
-      console.log("User :>> ", user);
+      console.log("user :>> ", user);
       if (!user) {
         return res.status(404).json({ error: "Utilisateur non trouvé !" });
       }
@@ -86,7 +86,7 @@ exports.modifyUser = (req, res, next) => {
 
 exports.getOneUser = (req, res, next) => {
   db.User.findOne({ where: { id: req.params.id } })
-    .then((userInfos) => res.status(200).json(userInfos))
+    .then((user) => res.status(200).json(user))
     .catch((error) => res.status(404).json({ error }));
 };
 

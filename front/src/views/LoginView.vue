@@ -19,8 +19,8 @@
       <span @click="switchToLogin()"> Se connecter </span>
     </div>
     <!-- Formulaire de connexion / création de compte -->
-    <div class="form">
-      <form @submit.prevent method="post">
+    <div class="card">
+      <form @submit.prevent method="post" class="form">
         <div v-if="mode == 'create'" class="form__input">
           <label for="lastName">Nom</label>
           <input
@@ -273,11 +273,11 @@ export default {
         })
         .then(
           (response) => {
-            console.log("response :>> ", response);
+            console.log("response.create :>> ", response);
             this.login();
           },
           (error) => {
-            console.log("error :>> ", error);
+            console.log("error.login :>> ", error);
           }
         );
     },
@@ -292,11 +292,11 @@ export default {
         })
         .then(
           (response) => {
-            console.log("response :>> ", response);
+            console.log("response.login :>> ", response);
             this.$router.push("feed"); // Penser à modifier quand page post OK
           },
           (error) => {
-            console.log("error :>> ", error);
+            console.log("error.login :>> ", error);
           }
         );
     },

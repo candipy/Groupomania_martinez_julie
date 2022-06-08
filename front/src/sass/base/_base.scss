@@ -30,14 +30,22 @@ a {
 
 nav {
   width: 100%;
+  padding: 10px;
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
+  .btn-grad{
+    width:inherit;
+  }
 }
 
 .card {
   width: 100%;
   // width: 50%;
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   &_subtitle{
     display: flex;
@@ -45,6 +53,7 @@ nav {
     span{
       display: flex;
       align-items: center;
+      
       padding-left: 3px;
       text-decoration: underline;
      &:hover{

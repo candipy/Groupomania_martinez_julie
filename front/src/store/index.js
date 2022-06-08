@@ -8,19 +8,29 @@ const instance = axios.create({
   // headers: {'X-Custom-Header': 'foobar'}
 });
 
-let localStorageUser = JSON.parse(localStorage.getItem("user"));
+let user = localStorage.getItem("user");
 
-if (!localStorageUser) {
-  localStorageUser = {
+if (!user) {
+  user = {
     userId: -1,
     token: "",
   };
+} else {
+  try {
+    user = JSON.parse(user);
+    instance.defaults.headers.common["Authorization"] = "Bearer " + user.token;
+  } catch {
+    user = {
+      userId: -1,
+      token: "",
+    };
+  }
 }
 
 const store = createStore({
   state: {
     status: "",
-    user: localStorageUser,
+    user: user,
     userInfos: {
       id: "",
       firstName: "",
@@ -29,7 +39,7 @@ const store = createStore({
       password: "",
       url_avatar: "",
       description: "",
-      admin: false,
+      admin: "",
       createdAt: "",
       updatedAt: "",
     },
@@ -40,22 +50,30 @@ const store = createStore({
       state.status = status;
     },
     logUser(state, user) {
-      instance.defaults.headers.common["Authorization"] = localStorageUser.token;
+      instance.defaults.headers.common["Authorization"] = "Bearer " + user.token;
       localStorage.setItem("user", JSON.stringify(user));
       state.user = user;
     },
-
     userInfos(state, userInfos) {
       state.userInfos = userInfos;
+    },
+
+    logout(state) {
+      state.user = {
+        userId: -1,
+        token: "",
+      }
+      localStorage.removeItem('user');
     },
   },
 
   actions: {
-    createAccount: ({ commit }, user) => {
+    createAccount: ({ commit }, userInfos) => {
       commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
+        commit;
         instance
-          .post("/auth/signup/", user)
+          .post("/auth/signup/", userInfos)
           .then((response) => {
             commit("setStatus", "");
             resolve(response);
@@ -81,11 +99,11 @@ const store = createStore({
       });
     },
 
-    login: ({ commit }, logUser) => {
+    login: ({ commit }, user) => {
       commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
         instance
-          .post("/auth/login/", logUser)
+          .post("/auth/login/", user)
           .then((response) => {
             commit("setStatus", "");
             commit("logUser", response.data);
@@ -110,14 +128,17 @@ const store = createStore({
 
     getUserInfos: ({ commit }) => {
       instance
-        .get("/user/" + localStorageUser.userId)
+        // .get("auth/user/" + user.userId + "/")
+        .get(
+          "auth/user/" + user.userId + "/"
+          // , { headers: { Authorization: "Bearer " + user.token } }
+        )
         .then((response) => {
-          commit("UserInfos", response.data);
-          // resolve(response);
+          commit("userInfos", response.data);
+          console.log("response.getOneUSer :>> ", response);
         })
         .catch((error) => {
-          commit("user", "error_user");
-          // reject(error);
+          console.log("error.getOneUser :>> ", error);
         });
     },
   },
