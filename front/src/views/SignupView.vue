@@ -142,6 +142,7 @@ export default {
     // Activation du bouton CONNEXION
     classIs() {
       if (
+        // Si il y a une erreur, la classe est "btn-grad-disabled"
         this.errorLastName ||
         this.errorFirstName ||
         this.errorEmail ||
@@ -154,6 +155,7 @@ export default {
     },
 
     isDisabledAttribute() {
+      // Si il y a une erreur, le bouton est désactivé
       if (
         this.errorLastName ||
         this.errorFirstName ||
