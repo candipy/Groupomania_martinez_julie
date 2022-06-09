@@ -55,10 +55,18 @@
           contactez votre administrateur
         </div>
 
-        <button v-bind:class="isActive" @click="login()">
+        <button
+          :class="classIs"
+          :disabled="isDisabledAttribute"
+          @click="login()"
+        >
           <span v-if="status == 'loading'"> Connexion en cours</span>
           <span v-else>Connexion</span>
         </button>
+
+        <!-- <button class="btn-grad--disabled" disabled="disabled">
+          non actif
+        </button> -->
       </form>
     </div>
   </div>
@@ -80,24 +88,27 @@ export default {
       // Saisie Utilisateur
       email: "",
       password: "",
-
-      // Bouton Connexion désactivé
-      btnIsActive: false,
     };
   },
 
   computed: {
     // Activation du bouton CONNEXION
-    isActive() {
-      // Si Email + password ne sont pas vide
-      if (this.email !== "" && this.password !== "") {
-        this.btnIsActive = true;
-        console.log(this.btnIsActive);
-        return "btn-grad";
-      } else {
+    classIs() {
+      if (this.email == "" || this.password == "") {
         return "btn-grad--disabled";
+      } else {
+        return "btn-grad";
       }
     },
+
+    isDisabledAttribute() {
+      if (this.email == "" || this.password == "") {
+        return true;
+      } else {
+        return false;
+      }
+    },
+
     ...mapState(["status"]),
   },
 
@@ -114,8 +125,8 @@ export default {
             console.log("userLog :>> ", userLog);
             this.$router.push("feed"); // Penser à modifier quand page post OK
           },
-          (error) => {
-            console.log("userLog-error :>> ", error);
+          (errorUserLogin) => {
+            console.log("errorUserLogin :>> ", errorUserLogin);
           }
         );
     },
