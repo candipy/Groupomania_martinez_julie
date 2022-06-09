@@ -139,7 +139,7 @@ export default {
   },
 
   computed: {
-    // Activation du bouton CONNEXION
+    // Desactivation du bouton CONNEXION
     classIs() {
       if (
         // Si il y a une erreur, la classe est "btn-grad-disabled"
