@@ -55,7 +55,7 @@
       cursor: pointer;
     }
     &--disabled{
-  
+      @extend .btn-grad;
       opacity: 0.6;
       pointer-events: none;
     }

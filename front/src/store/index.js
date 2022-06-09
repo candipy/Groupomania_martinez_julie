@@ -62,8 +62,8 @@ const store = createStore({
       state.user = {
         userId: -1,
         token: "",
-      }
-      localStorage.removeItem('user');
+      };
+      localStorage.removeItem("user");
     },
   },
 
@@ -140,6 +140,14 @@ const store = createStore({
         .catch((error) => {
           console.log("error.getOneUser :>> ", error);
         });
+    },
+
+    deleteToken: ({}) => {
+      instance.delete("auth/user/" + user.userId + "/", {
+        headers: {
+          Authorization: "Bearer " + user.token,
+        },
+      });
     },
   },
 });

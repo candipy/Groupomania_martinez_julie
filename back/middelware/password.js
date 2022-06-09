@@ -23,6 +23,6 @@ module.exports = (req, res, next) => {
   if (passwordSchema.validate(password)) {
     return next();
   } else {
-    return res.status(405).json({ error: passwordSchema.validate(password, { list: true }) });
+    return res.status(400).json({ error: passwordSchema.validate(password, { list: true }) });
   }
 };

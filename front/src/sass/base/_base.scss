@@ -50,15 +50,13 @@ nav {
   &_subtitle{
     display: flex;
     justify-content: center;
-    span{
+    a{
       display: flex;
       align-items: center;
       
       padding-left: 3px;
       text-decoration: underline;
-     &:hover{
-      cursor: pointer;
-     } 
+  
     }
   }
 }

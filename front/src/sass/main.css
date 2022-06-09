@@ -35,7 +35,7 @@ nav {
       flex-wrap: wrap;
 }
 
-nav .btn-grad {
+nav .btn-grad, nav .btn-grad--disabled {
   width: inherit;
 }
 
@@ -63,7 +63,7 @@ nav .btn-grad {
           justify-content: center;
 }
 
-.card_subtitle span {
+.card_subtitle a {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -72,10 +72,6 @@ nav .btn-grad {
           align-items: center;
   padding-left: 3px;
   text-decoration: underline;
-}
-
-.card_subtitle span:hover {
-  cursor: pointer;
 }
 
 .btn-grad-light {
@@ -103,7 +99,7 @@ nav .btn-grad {
   cursor: pointer;
 }
 
-.btn-grad {
+.btn-grad, .btn-grad--disabled {
   background-image: -webkit-gradient(linear, left top, right top, from(#fd2d01), color-stop(51%, #4e5166), to(#fd2d01));
   background-image: linear-gradient(to right, #fd2d01 0%, #4e5166 51%, #fd2d01 100%);
   margin-top: 10px;
@@ -129,7 +125,7 @@ nav .btn-grad {
           align-items: center;
 }
 
-.btn-grad:hover {
+.btn-grad:hover, .btn-grad--disabled:hover {
   background-position: right center;
   /* change the direction of the change here */
   color: #fff;
