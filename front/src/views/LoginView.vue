@@ -94,6 +94,7 @@ export default {
   computed: {
     // Activation du bouton CONNEXION
     classIs() {
+      // Si il n'y a pas d'email ou de mot de passe, la class est "btn-grad-disabled"
       if (this.email == "" || this.password == "") {
         return "btn-grad--disabled";
       } else {
@@ -102,6 +103,7 @@ export default {
     },
 
     isDisabledAttribute() {
+      // Si il n'y a pas d'email ou de mot de passe, le bouton est désactivé
       if (this.email == "" || this.password == "") {
         return true;
       } else {
