@@ -64,9 +64,7 @@
           <span v-else>Connexion</span>
         </button>
 
-        <!-- <button class="btn-grad--disabled" disabled="disabled">
-          non actif
-        </button> -->
+
       </form>
     </div>
   </div>
@@ -92,7 +90,7 @@ export default {
   },
 
   computed: {
-    // Activation du bouton CONNEXION
+    // Desactivation du bouton CONNEXION
     classIs() {
       // Si il n'y a pas d'email ou de mot de passe, la class est "btn-grad-disabled"
       if (this.email == "" || this.password == "") {
