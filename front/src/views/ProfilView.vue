@@ -47,12 +47,14 @@ export default {
     ...mapState(["userInfos"]),
   },
   methods: {
-    logout () {
+    logout() {
       this.$store.commit("logout");
+      this.$store.dispatch("deleteToken");
       this.$router.push("/");
-    }
-   
+    },
   },
+
+  
 };
 </script>
 

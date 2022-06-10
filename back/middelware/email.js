@@ -6,6 +6,6 @@ module.exports = (req, res, next) => {
   if (validator.validate(email)) {
     next();
   } else {
-    return res.status(400).json({ error: `L'email ${email} n'est pas valide` });
+    return res.status(400).json({ Message: { error_email: " Merci d'entrer un courriel conforme. Ex : contact@groupomania.com" } });
   }
 };

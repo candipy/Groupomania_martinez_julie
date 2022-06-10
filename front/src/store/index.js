@@ -1,3 +1,4 @@
+import { RouterLink } from "vue-router";
 import { createStore } from "vuex";
 
 const axios = require("axios");
@@ -43,12 +44,18 @@ const store = createStore({
       createdAt: "",
       updatedAt: "",
     },
+    errors: "",
   },
 
   mutations: {
-    setStatus(state, status) {
+    setStatus(state, { status, errors }) {
       state.status = status;
+      state.errors = errors;
     },
+
+    // setErrors(state, errors) {
+    //   state.errors = errors;
+    // },
     logUser(state, user) {
       instance.defaults.headers.common["Authorization"] = "Bearer " + user.token;
       localStorage.setItem("user", JSON.stringify(user));
@@ -68,59 +75,69 @@ const store = createStore({
   },
 
   actions: {
+    login: ({ commit }, user) => {
+      commit("setStatus", "loading");
+      return new Promise((resolve, reject) => {
+        instance
+          .post("/auth/login/", user)
+          .then((userLog) => {
+            commit("setStatus", "");
+            commit("logUser", userLog.data);
+            resolve(response);
+          })
+          .catch((errorUserLogin) => {
+            let message = errorUserLogin.response.data.Message;
+
+            if (message.error_user) {
+              console.log("errorUserLogin.response.data.Message.User :>> ", errorUserLogin.response.data.Message.error_user);
+              commit("setStatus", { status: "error_user", errors: message.error_user });
+              reject(errorUserLogin);
+            }
+            if (message.error_password) {
+              console.log("errorUserLogin.response.data.Message.User :>> ", errorUserLogin.response.data.Message.error_password);
+              commit("setStatus", { status: "error_password", errors: message.error_password });
+              reject(errorUserLogin);
+            }
+            if (message.error_serveur) {
+              console.log("errorUserLogin.response.data.Message.User :>> ", errorUserLogin.response.data.Message.error_serveur);
+              commit("setStatus", { status: "error_serveur", errors: message.error_serveur });
+              reject(errorUserLogin);
+            }
+          });
+      });
+    },
     createAccount: ({ commit }, userInfos) => {
       commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
         commit;
         instance
           .post("/auth/signup/", userInfos)
-          .then((response) => {
+          .then((userCreate) => {
             commit("setStatus", "");
-            resolve(response);
+            resolve(userCreate);
           })
-          .catch((error) => {
-            if (error.response.status == 400) {
-              commit("setStatus", "error_email");
-              reject(error);
-            }
-            if (error.response.status == 405) {
-              commit("setStatus", "error_password");
-              reject(error);
-            }
-            if (error.response.status == 403) {
-              commit("setStatus", "error_unique");
-              reject(error);
-            }
-            if (error.response.status == 500) {
-              commit("setStatus", "error_serveur");
-              reject(error);
-            }
-          });
-      });
-    },
+          .catch((errorUserCreate) => {
+            let message = errorUserCreate.response.data.Message;
 
-    login: ({ commit }, user) => {
-      commit("setStatus", "loading");
-      return new Promise((resolve, reject) => {
-        instance
-          .post("/auth/login/", user)
-          .then((response) => {
-            commit("setStatus", "");
-            commit("logUser", response.data);
-            resolve(response);
-          })
-          .catch((error) => {
-            if (error.response.status == 404) {
-              commit("setStatus", "error_user");
-              reject(error);
+            if (message.error_email) {
+              console.log(" ", errorUserCreate.response.data.Message.error_email);
+              commit("setStatus", { status: "error_email", errors: message.error_email });
+              reject(errorUserCreate);
             }
-            if (error.response.status == 401) {
-              commit("setStatus", "error_password");
-              reject(error);
+            if (message.error_password) {
+              console.log(" ", errorUserCreate.response.data.Message.error_password);
+              commit("setStatus", { status: "error_password", errors: message.error_password });
+              reject(errorUserCreate);
             }
-            if (error.response.status == 500) {
-              commit("setStatus", "error_serveur");
-              reject(error);
+
+            if (message.error_unique) {
+              console.log(" ", errorUserCreate.response.data.Message.error_unique);
+              commit("setStatus", { status: "error_password", errors: message.error_unique });
+              reject(errorUserCreate);
+            }
+            if (message.error_serveur) {
+              commit("setStatus", { status: "error_serveur", errors: message.error_serveur });
+              reject(errorUserCreate);
             }
           });
       });
@@ -142,13 +159,13 @@ const store = createStore({
         });
     },
 
-    deleteToken: ({}) => {
-      instance.delete("auth/user/" + user.userId + "/", {
-        headers: {
-          Authorization: "Bearer " + user.token,
-        },
-      });
-    },
+    // deleteToken: ({}) => {
+    //   instance.delete("auth/user/" + user.userId + "/", {
+    //     headers: {
+    //       Authorization: "Bearer " + user.token,
+    //     },
+    //   });
+    // },
   },
 });
 

@@ -31,6 +31,11 @@ const routes = [
     name: "profil",
     component: () => import(/* webpackChunkName: "about" */ "../views/ProfilView.vue"),
   },
+  {
+    path: "/error500",
+    name: "error500",
+    component: () => import(/* webpackChunkName: "about" */ "../views/Error500View.vue"),
+  },
 ];
 
 const router = createRouter({

@@ -32,7 +32,7 @@
           />
 
           <div v-if="status == 'error_user'" class="form__error">
-            Utilisateur non trouvé
+            {{ errors }}
           </div>
         </div>
         <div class="form__input">
@@ -47,13 +47,13 @@
             required
           />
           <div v-if="status == 'error_password'" class="form__input">
-            Mot de passe incorrect
+            {{ errors }}
           </div>
         </div>
-        <div v-if="status == 'error_serveur'" class="form__input">
+        <!-- <div v-if="status == 'error_serveur'" class="form__input">
           Une erreur inconnue s'est produite, veuillez reessayer plus tard ou
           contactez votre administrateur
-        </div>
+        </div> -->
 
         <button
           :class="classIs"
@@ -63,8 +63,6 @@
           <span v-if="status == 'loading'"> Connexion en cours</span>
           <span v-else>Connexion</span>
         </button>
-
-
       </form>
     </div>
   </div>
@@ -89,6 +87,7 @@ export default {
     };
   },
 
+  mounted() {},
   computed: {
     // Desactivation du bouton CONNEXION
     classIs() {
@@ -110,6 +109,7 @@ export default {
     },
 
     ...mapState(["status"]),
+    ...mapState(["errors"]),
   },
 
   methods: {
@@ -127,6 +127,9 @@ export default {
           },
           (errorUserLogin) => {
             console.log("errorUserLogin :>> ", errorUserLogin);
+            if (this.status == "error_serveur") {
+              this.$router.push("error500");
+            }
           }
         );
     },

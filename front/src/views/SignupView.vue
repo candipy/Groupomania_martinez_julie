@@ -64,13 +64,12 @@
             placeholder="Sera votre identifiant"
             required
           />
+          <p v-if="status == 'error_email'" class="form__error">
+            {{ errors }}
+          </p>
           <p v-if="errorEmail" class="form__error">
             Merci d'entrer un courriel conforme. Ex : contact@groupomania.com
           </p>
-
-          <!-- <div v-if="status == 'error_email'" class="form__error">
-            Merci d'entrer un courriel conforme. Ex : contact@groupomania.com
-          </div> -->
           <div v-if="status == 'error_unique'" class="form__error">
             Vous avez déjà un compte avec cette adresse mail, retournez à la
             page de connexion
@@ -87,11 +86,9 @@
             placeholder="Indiquez un mot de passe"
             required
           />
-
-          <div v-if="status == 'error_password'" class="form__input">
-            Votre mot de passe doit comprendre entre 8 et 200 caractères, une
-            majuscule, une minuscule, et aucun espace
-          </div>
+        </div>
+        <div v-if="status == 'error_password'" class="form__input">
+          {{ errors }}
         </div>
         <div v-if="status == 'error_serveur'" class="form__input">
           Une erreur inconnue s'est produite, veuillez reessayer plus tard ou
@@ -103,6 +100,10 @@
           :disabled="isDisabledAttribute"
           @click="createAccount()"
         >
+          <span v-if="status == 'loading'"> Création en cours</span>
+          <span v-else>Valider</span>
+        </button>
+        <button @click="createAccount()">
           <span v-if="status == 'loading'"> Création en cours</span>
           <span v-else>Valider</span>
         </button>
@@ -169,6 +170,7 @@ export default {
     },
 
     ...mapState(["status"]),
+    ...mapState(["errors"]),
   },
 
   methods: {
@@ -225,8 +227,8 @@ export default {
           (userCreate) => {
             console.log("UserCreate :>> ", userCreate);
           },
-          (error) => {
-            console.log("UserCreate-Error :>> ", error);
+          (errorUserCreate) => {
+            console.log("UserCreate-Error :>> ", errorUserCreate);
           }
         );
     },
