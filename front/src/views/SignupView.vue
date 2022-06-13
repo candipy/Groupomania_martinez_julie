@@ -103,10 +103,6 @@
           <span v-if="status == 'loading'"> Création en cours</span>
           <span v-else>Valider</span>
         </button>
-        <button @click="createAccount()">
-          <span v-if="status == 'loading'"> Création en cours</span>
-          <span v-else>Valider</span>
-        </button>
       </form>
     </div>
   </div>
@@ -226,6 +222,7 @@ export default {
         .then(
           (userCreate) => {
             console.log("UserCreate :>> ", userCreate);
+            this.$router.push("feed");
           },
           (errorUserCreate) => {
             console.log("UserCreate-Error :>> ", errorUserCreate);

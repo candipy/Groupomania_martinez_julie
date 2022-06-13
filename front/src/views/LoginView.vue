@@ -87,7 +87,9 @@ export default {
     };
   },
 
-  mounted() {},
+  mounted() {
+    this.$store.commit("logout");
+  },
   computed: {
     // Desactivation du bouton CONNEXION
     classIs() {
@@ -122,7 +124,7 @@ export default {
         })
         .then(
           (userLog) => {
-            console.log("userLog :>> ", userLog);
+            console.log("userLog Vue login:>> ", userLog);
             this.$router.push("feed"); // Penser à modifier quand page post OK
           },
           (errorUserLogin) => {

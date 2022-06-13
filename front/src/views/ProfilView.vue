@@ -30,16 +30,16 @@ export default {
     Header,
   },
   mounted() {
-    // console.log("this.$store.state.user :>> ", this.$store.state.user);
-    // console.log(
-    //   "this.$store.state.userInfos :>> ",
-    //   this.$store.state.userInfos
-    // );
-
+    console.log("localstorage 1 :>> ", sessionStorage.getItem("user"));
     if (this.$store.state.user.userId == -1) {
       this.$router.push("/login");
       return;
     }
+
+   
+
+    // this.$store.commit("logUser", JSON.parse(sessionStorage.getItem("user")));
+
     this.$store.dispatch("getUserInfos");
   },
 
@@ -49,12 +49,10 @@ export default {
   methods: {
     logout() {
       this.$store.commit("logout");
-      this.$store.dispatch("deleteToken");
+      // this.$store.dispatch("deleteToken");
       this.$router.push("/");
     },
   },
-
-  
 };
 </script>
 

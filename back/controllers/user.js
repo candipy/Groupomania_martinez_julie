@@ -34,7 +34,6 @@ exports.login = (req, res, next) => {
   db.User.findOne({ where: { email: req.body.email } })
 
     .then((userLog) => {
-      console.log("user :>> ", userLog);
       if (!userLog) {
         return res.status(404).json({ Message: { error_user: "Utilisateur non trouvé !" } });
       }
@@ -45,8 +44,8 @@ exports.login = (req, res, next) => {
             return res.status(401).json({ Message: { error_password: "Mot de passe incorrect !" } });
           }
           res.status(200).json({
-            userId: user.id,
-            token: jwt.sign({ userId: user.id }, process.env.TOKEN_SECRET, { expiresIn: "1h" }), // Penser à faire plus tard, une supp du token si pas activité
+            userId: userLog.id,
+            token: jwt.sign({ userId: userLog.id }, process.env.TOKEN_SECRET, { expiresIn: "1h" }), // Penser à faire plus tard, une supp du token si pas activité
           });
         })
         .catch((errorUserLogin) => res.status(500).json({ Message: { error_serveur: " Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
