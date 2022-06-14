@@ -38,18 +38,22 @@ export default {
       return;
     }
 
-    this.$store.dispatch("getUserInfos");
+    this.$store.dispatch("userStore/getUserInfos");
   },
 
   computed: {
-    ...mapState(["userInfos"]),
-    ...mapState(["status"]),
-    ...mapState(["user"]),
+
+     ...mapState("userStore", {
+      errors: (state) => state.errors,
+      status: (state) => state.status,
+      userInfos : (state) => state.userInfos,
+      user:  (state) => state.user
+    }),
+ 
   },
   methods: {
     logout() {
-      this.$store.commit("logout");
-      // this.$store.dispatch("deleteToken");
+      this.$store.commit("userStore/logout");
       this.$router.push("/");
     },
   },

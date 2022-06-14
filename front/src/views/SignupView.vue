@@ -165,8 +165,10 @@ export default {
       }
     },
 
-    ...mapState(["status"]),
-    ...mapState(["errors"]),
+     ...mapState("userStore", {
+      errors: (state) => state.errors,
+      status: (state) => state.status,
+    }),
   },
 
   methods: {
@@ -213,7 +215,7 @@ export default {
     // Création de compte
     createAccount() {
       this.$store
-        .dispatch("createAccount", {
+        .dispatch("userStore/createAccount", {
           firstName: this.firstName,
           lastName: this.lastName,
           email: this.email,
@@ -223,7 +225,7 @@ export default {
           (userCreate) => {
             console.log("UserCreate :>> ", userCreate);
             this.$store
-              .dispatch("login", {
+              .dispatch("userStore/login", {
                 email: this.email,
                 password: this.password,
               })

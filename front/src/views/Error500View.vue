@@ -21,8 +21,11 @@ export default {
   },
 
   computed: {
-    ...mapState(["status"]),
-    ...mapState(["errors"]),
+    ...mapState("userStore", {
+      errors: (state) => state.errors,
+      status: (state) => state.status,
+      userInfos: (state) => state.userInfos,
+    }),
   },
 };
 </script>

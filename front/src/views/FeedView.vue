@@ -31,9 +31,11 @@ export default {
     Header,
   },
   computed: {
-    ...mapState(["status"]),
-    ...mapState(["errors"]),
-    ...mapState(["user"]),
+    ...mapState("userStore", {
+      errors: (state) => state.errors,
+      status: (state) => state.status,
+      userInfos: (state) => state.userInfos,
+    }),
   },
 };
 </script>

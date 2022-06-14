@@ -58,7 +58,6 @@
         <button
           :class="classIs"
           :disabled="isDisabledAttribute"
-       
           @click="login()"
         >
           <span v-if="status == 'loading'"> Connexion en cours</span>
@@ -89,7 +88,7 @@ export default {
   },
 
   mounted() {
-    // this.$store.commit("logout");
+    console.log("this.$store :>> ", this.$store);
   },
   computed: {
     // Desactivation du bouton CONNEXION
@@ -111,15 +110,26 @@ export default {
       }
     },
 
-    ...mapState(["status"]),
-    ...mapState(["errors"]),
+    ...mapState("userStore", {
+      errors: (state) => state.errors,
+      status: (state) => state.status,
+    }),
+    // ...mapState({
+
+    // }),
   },
 
   methods: {
+    // ...mapActions("userStore/login", ["login"]),
+
+    // ...mapActions({
+    //   login: "userStore/login",
+    // }),
+
     // Connexion au compte
     login() {
       this.$store
-        .dispatch("login", {
+        .dispatch("userStore/login", {
           email: this.email,
           password: this.password,
         })
@@ -136,7 +146,6 @@ export default {
           }
         );
     },
-   
   },
 };
 </script>
