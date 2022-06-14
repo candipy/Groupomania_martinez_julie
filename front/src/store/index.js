@@ -9,28 +9,21 @@ const instance = axios.create({
   // headers: {'X-Custom-Header': 'foobar'}
 });
 
-let user = sessionStorage.getItem("user");
-if (sessionStorage.getItem("user") === null) {
-  user = {
-    userId: -1,
-    token: "",
-  };
-} else {
-  try{user = JSON.parse(user);
-    instance.defaults.headers.common["Authorization"] = user.token
-  } catch{
-    user = {
-      userId: -1,
-      token: "",
-    };
-  }
-  
+const token = sessionStorage.getItem("token");
+if (token) {
+  console.log("token :>> ", token);
+  instance.defaults.headers.common["Authorization"] = "Bearer " + token;
+  console.log(instance.defaults.headers.common["Authorization"]);
 }
 
 const store = createStore({
   state: {
     status: "",
-    user: user,
+    errors: "",
+    user: {
+      userId: "",
+      token: "",
+    },
     userInfos: {
       id: "",
       firstName: "",
@@ -43,8 +36,9 @@ const store = createStore({
       createdAt: "",
       updatedAt: "",
     },
-    errors: "",
   },
+
+ 
 
   mutations: {
     setStatus(state, { status, errors }) {
@@ -53,8 +47,6 @@ const store = createStore({
     },
 
     logUser(state, user) {
-      instance.defaults.headers.common["Authorization"] = user.token;
-      sessionStorage.setItem("user", JSON.stringify(user));
       state.user = user;
     },
     userInfos(state, userInfos) {
@@ -63,24 +55,30 @@ const store = createStore({
 
     logout(state) {
       state.user = {
-        userId: -1,
+        userId: "",
         token: "",
       };
-      sessionStorage.removeItem("user");
+      // delete instance.defaults.headers.common["Authorization"]
+      sessionStorage.removeItem("userId");
+      sessionStorage.removeItem("token");
     },
   },
 
   actions: {
-    login: ({ commit }, user) => {
+    login: ({ commit }, userLog) => {
+      commit("logout"); // Si il y avait un user connecté, déconnection
       commit("setStatus", { status: "loading", errors: "" });
       return new Promise((resolve, reject) => {
         instance
-          .post("/auth/login/", user)
+          .post("/auth/login/", userLog)
 
-          .then((user) => {
-            commit("setStatus", { status: "", errors: "" });
-            commit("logUser", user.data);
-            resolve(user);
+          .then((userLog) => {
+            commit("setStatus", { status: "success", errors: "" });
+            sessionStorage.setItem("token", userLog.data.token);
+            sessionStorage.setItem("userId", userLog.data.userId);
+            instance.defaults.headers.common["Authorization"] = "Bearer " + userLog.data.token;
+            commit("logUser", userLog.data);
+            resolve(userLog);
           })
           .catch((errorUserLogin) => {
             let message = errorUserLogin.response.data.Message;
@@ -141,10 +139,8 @@ const store = createStore({
     },
 
     getUserInfos: ({ commit }) => {
-      console.log("localstorage :>> ", sessionStorage.getItem("user"));
-      console.log("userLogSS :>> ", user);
       instance
-        .get("auth/user/" + user.userId + "/")
+        .get("auth/user/" + sessionStorage.getItem("userId") + "/")
         .then((response) => {
           commit("userInfos", response.data);
           console.log("response.getOneUSer :>> ", response.data);

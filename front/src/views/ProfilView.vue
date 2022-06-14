@@ -11,6 +11,9 @@
     <p>
       {{ userInfos.lastName }} {{ userInfos.firstName }} {{ userInfos.email }}
       {{ userInfos.description }}
+
+      {{ status }}
+        <p>{{ user }}</p>
     </p>
     <!-- <img :src="user.photo" /> -->
     <button class="btn-grad">
@@ -30,21 +33,18 @@ export default {
     Header,
   },
   mounted() {
-    console.log("localstorage 1 :>> ", sessionStorage.getItem("user"));
-    if (this.$store.state.user.userId == -1) {
+    if (sessionStorage.getItem("token") === null) {
       this.$router.push("/login");
       return;
     }
-
-   
-
-    // this.$store.commit("logUser", JSON.parse(sessionStorage.getItem("user")));
 
     this.$store.dispatch("getUserInfos");
   },
 
   computed: {
     ...mapState(["userInfos"]),
+    ...mapState(["status"]),
+    ...mapState(["user"]),
   },
   methods: {
     logout() {

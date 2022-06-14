@@ -58,6 +58,7 @@
         <button
           :class="classIs"
           :disabled="isDisabledAttribute"
+       
           @click="login()"
         >
           <span v-if="status == 'loading'"> Connexion en cours</span>
@@ -88,7 +89,7 @@ export default {
   },
 
   mounted() {
-    this.$store.commit("logout");
+    // this.$store.commit("logout");
   },
   computed: {
     // Desactivation du bouton CONNEXION
@@ -125,7 +126,7 @@ export default {
         .then(
           (userLog) => {
             console.log("userLog Vue login:>> ", userLog);
-            this.$router.push("feed"); // Penser à modifier quand page post OK
+            this.$router.push("profil"); // Penser à modifier
           },
           (errorUserLogin) => {
             console.log("errorUserLogin :>> ", errorUserLogin);
@@ -135,6 +136,7 @@ export default {
           }
         );
     },
+   
   },
 };
 </script>

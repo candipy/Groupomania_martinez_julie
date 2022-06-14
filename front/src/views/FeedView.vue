@@ -5,6 +5,9 @@
     <router-link to="/profil" class="btn-grad">Profil</router-link>
   </nav>
   <h1>Fil d'actualités</h1>
+  <p>{{ status }}</p>
+  <p>{{ errors }}</p>
+  <p>{{ user }}</p>
   <p>
     Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugit, ducimus
     quidem minima, ullam, modi distinctio odio excepturi error dolorum totam
@@ -20,10 +23,17 @@
 <script>
 import Header from "@/components/Header.vue";
 
+import { mapState } from "vuex";
+
 export default {
   name: "Feed",
   components: {
     Header,
+  },
+  computed: {
+    ...mapState(["status"]),
+    ...mapState(["errors"]),
+    ...mapState(["user"]),
   },
 };
 </script>

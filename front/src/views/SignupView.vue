@@ -222,7 +222,23 @@ export default {
         .then(
           (userCreate) => {
             console.log("UserCreate :>> ", userCreate);
-            this.$router.push("feed");
+            this.$store
+              .dispatch("login", {
+                email: this.email,
+                password: this.password,
+              })
+              .then(
+                (userLog) => {
+                  console.log("userLog Vue login:>> ", userLog);
+                  this.$router.push("profil"); // Penser à modifier
+                },
+                (errorUserLogin) => {
+                  console.log("errorUserLogin :>> ", errorUserLogin);
+                  if (this.status == "error_serveur") {
+                    this.$router.push("error500");
+                  }
+                }
+              );
           },
           (errorUserCreate) => {
             console.log("UserCreate-Error :>> ", errorUserCreate);
