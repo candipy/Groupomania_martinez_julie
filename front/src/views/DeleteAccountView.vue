@@ -3,8 +3,9 @@
   <nav>
     <router-link to="/" class="btn-grad">Home</router-link>
   </nav>
-  <h1>Erreur</h1>
+  <h1>Suppression de compte</h1>
   <p>
+    {{ status }}
     {{ errors }}
   </p>
 </template>
@@ -15,7 +16,7 @@ import Header from "@/components/Header.vue";
 import { mapState } from "vuex";
 
 export default {
-  name: "Error500",
+  name: "DeleteAccount",
   components: {
     Header,
   },
@@ -24,7 +25,6 @@ export default {
     ...mapState("userStore", {
       errors: (state) => state.errors,
       status: (state) => state.status,
-      userInfos: (state) => state.userInfos,
     }),
   },
 };

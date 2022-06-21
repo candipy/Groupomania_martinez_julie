@@ -9,15 +9,18 @@ module.exports = (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET); // Décoder le token
     const userId = decodedToken.userId; // Extrait de l'id utilsateur du token
     req.auth = { userId }; // Ajoute un objet auth à l'objet de requête qui contient le userId  extrait du token
-    console.log("userId :>> ", userId);
-    console.log("token :>> ", token);
+
+    // console.log("req.body.userId Auth:>> ", req.body.userId);
+    // console.log("req.auth.userId Auth:>> ", req.auth.userId);
     if (req.body.userId && req.body.userId !== userId) {
+      console.log("req.body.userId :>> ", req.body.userId);
+      console.log("userId :>> ", userId);
       // Si la requete contient un userId et qu'il est différent de l'userId contenu dans le token
-      res.status(403).json({ message: "Requete non authorisée" });
+      res.status(401).json({ Message: { error_auth: "Requete non authorisée ⛔️" } });
     } else {
       next(); // Sinon, requete suivant
     }
   } catch {
-    res.status(401).json({ Message: { error_auth: " problème" } });
+    res.status(401).json({ Message: { error_auth: " Requete non authorisée" } });
   }
 };

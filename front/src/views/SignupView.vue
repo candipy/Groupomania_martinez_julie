@@ -30,7 +30,10 @@
             placeholder="Indiquez votre nom"
             required
           />
-          <p v-if="errorLastName" class="form__error">
+          <p
+            v-if="errorLastName || status == 'error_vide_lastName'"
+            class="form__error"
+          >
             Merci d'entrer un nom conforme. Ex : Dupond, Du-Pond, Du Pond
           </p>
         </div>
@@ -47,7 +50,10 @@
             placeholder="Indiquez votre prénom"
             required
           />
-          <p v-if="errorFirstName" class="form__error">
+          <p
+            v-if="errorFirstName || status == 'error_vide_firstName'"
+            class="form__error"
+          >
             Merci d'entrer un prénom conforme. Ex : Jean, Jean-François, Jean
             François
           </p>
@@ -64,15 +70,12 @@
             placeholder="Sera votre identifiant"
             required
           />
-          <p v-if="status == 'error_email'" class="form__error">
-            {{ errors }}
-          </p>
-          <p v-if="errorEmail" class="form__error">
+          <p v-if="errorEmail || status == 'error_email'" class="form__error">
             Merci d'entrer un courriel conforme. Ex : contact@groupomania.com
           </p>
+
           <div v-if="status == 'error_unique'" class="form__error">
-            Vous avez déjà un compte avec cette adresse mail, retournez à la
-            page de connexion
+            {{ errors }}
           </div>
         </div>
         <div class="form__input">
@@ -90,16 +93,16 @@
         <div v-if="status == 'error_password'" class="form__input">
           {{ errors }}
         </div>
-        <div v-if="status == 'error_serveur'" class="form__input">
-          Une erreur inconnue s'est produite, veuillez reessayer plus tard ou
-          contactez votre administrateur
-        </div>
 
         <button
           :class="classIs"
           :disabled="isDisabledAttribute"
           @click="createAccount()"
         >
+          <span v-if="status == 'loading'"> Création en cours</span>
+          <span v-else>Valider</span>
+        </button>
+        <button @click="createAccount()">
           <span v-if="status == 'loading'"> Création en cours</span>
           <span v-else>Valider</span>
         </button>
@@ -122,8 +125,8 @@ export default {
   data: () => {
     return {
       // Saisie Utilisateur
-      lastName: "",
-      firstName: "",
+      lastName: null,
+      firstName: null,
       email: "",
       password: "",
       // Erreurs
@@ -165,7 +168,7 @@ export default {
       }
     },
 
-     ...mapState("userStore", {
+    ...mapState("userStore", {
       errors: (state) => state.errors,
       status: (state) => state.status,
     }),
@@ -184,7 +187,7 @@ export default {
 
     checkLastName() {
       // Si après le changement il y a un regex non conforme ou un champ
-      if (!this.regexAlpha(this.lastName) || this.lastName == "") {
+      if (!this.regexAlpha(this.lastName) || this.lastName == null) {
         this.errorLastName = true; // Il y a une erreur et le v-if de l'erreur s'affiche
         return false; // La vérification à échouée, il y a une erreur
       } else {
@@ -193,7 +196,7 @@ export default {
       }
     },
     checkFirstName() {
-      if (!this.regexAlpha(this.firstName) || this.firstName == "") {
+      if (!this.regexAlpha(this.firstName) || this.firstName == null) {
         this.errorFirstName = true;
         return false;
       } else {
@@ -243,7 +246,10 @@ export default {
               );
           },
           (errorUserCreate) => {
-            console.log("UserCreate-Error :>> ", errorUserCreate);
+            console.log("errorUserCreate :>> ", errorUserCreate);
+            if (this.status == "error_serveur") {
+              this.$router.push("error500");
+            }
           }
         );
     },

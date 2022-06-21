@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
+const path = require("path");
 // const sequelize = require("./models/index");
 
 const app = express();
@@ -21,13 +22,17 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
   next();
 });
-
 app.use(express.json());
-app.use(limiter);
-app.use(helmet());
-
 // UserRoutes
 const userRoutes = require("./routes/user");
 app.use("/api/auth", userRoutes);
+
+// PostRoutes
+const postRoutes = require("./routes/post");
+app.use("/api/posts", postRoutes);
+
+app.use("/images", express.static(path.join(__dirname, "images")));
+app.use(limiter);
+app.use(helmet());
 
 module.exports = app;

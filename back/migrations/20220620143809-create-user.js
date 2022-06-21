@@ -26,7 +26,7 @@ module.exports = {
         allowNull: false,
       },
 
-      url_avatar: {
+      urlAvatar: {
         type: Sequelize.STRING(500),
       },
 

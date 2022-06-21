@@ -1,6 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 
+import axios from "axios";
+
+const instance = axios.create({
+  baseURL: "http://localhost:3000/api/",
+  // timeout: 1000,
+  // headers: {'X-Custom-Header': 'foobar'}
+});
+
 const routes = [
   {
     path: "/",
@@ -36,11 +44,29 @@ const routes = [
     name: "error500",
     component: () => import(/* webpackChunkName: "about" */ "../views/Error500View.vue"),
   },
+  {
+    path: "/deleteAccount",
+    name: "deleteAccount",
+    component: () => import(/* webpackChunkName: "about" */ "../views/DeleteAccountView.vue"),
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
+
+// router.beforeEach((next) => {
+//   debugger;
+//   const token = sessionStorage.getItem("token");
+//   if (token) {
+//     console.log("token :>> ", token);
+//     instance.defaults.headers.common["Authorization"] = "Bearer " + token;
+//     console.log(instance.defaults.headers.common["Authorization"]);
+//   } 
+//   // else {
+//   //   next("./login");
+//   // }
+// });
 
 export default router;

@@ -86,7 +86,6 @@ nav .btn-grad, nav .btn-grad--disabled {
   color: black;
   -webkit-box-shadow: 0 0 20px #4e5166;
           box-shadow: 0 0 20px #4e5166;
-  border-radius: 10px;
   display: block;
   border: none;
 }

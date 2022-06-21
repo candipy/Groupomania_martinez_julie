@@ -120,11 +120,7 @@ export default {
   },
 
   methods: {
-    // ...mapActions("userStore/login", ["login"]),
 
-    // ...mapActions({
-    //   login: "userStore/login",
-    // }),
 
     // Connexion au compte
     login() {

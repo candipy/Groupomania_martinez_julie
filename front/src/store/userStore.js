@@ -1,5 +1,3 @@
-
-
 const axios = require("axios");
 
 const instance = axios.create({
@@ -14,6 +12,7 @@ if (token) {
   instance.defaults.headers.common["Authorization"] = "Bearer " + token;
   console.log(instance.defaults.headers.common["Authorization"]);
 }
+console.log("token :>> ", token);
 
 const userStore = {
   namespaced: true,
@@ -26,8 +25,8 @@ const userStore = {
     },
     userInfos: {
       id: "",
-      firstName: "",
-      lastName: "",
+      firstName: null,
+      lastName: null,
       email: "",
       password: "",
       url_avatar: "",
@@ -78,31 +77,32 @@ const userStore = {
             commit("logUser", userLog.data);
             resolve(userLog);
           })
-          .catch((errorUserLogin) => {
-            let message = errorUserLogin.response.data.Message;
 
-            if (message.error_user) {
-              console.log("errorUserLogin.response.data.Message.User :>> ", errorUserLogin.response.data.Message.error_user);
-              commit("setStatus", { status: "error_user", errors: message.error_user });
-              reject(errorUserLogin);
-            }
-            if (message.error_password) {
-              console.log("errorUserLogin.response.data.Message.User :>> ", errorUserLogin.response.data.Message.error_password);
-              commit("setStatus", { status: "error_password", errors: message.error_password });
-              reject(errorUserLogin);
-            }
-            if (message.error_serveur) {
-              console.log("errorUserLogin.response.data.Message.User :>> ", errorUserLogin.response.data.Message.error_serveur);
-              commit("setStatus", { status: "error_serveur", errors: message.error_serveur });
-              reject(errorUserLogin);
-            }
+          .catch((errorUserLogin) => {
+            let messages = errorUserLogin.response.data.Message;
+            Object.keys(messages).forEach((error) => {
+              let message = messages[error];
+              console.log("message :>> ", message);
+              if (error === "error_user") {
+                commit("setStatus", { status: "error_user", errors: message });
+                reject(errorUserLogin);
+              }
+              if (error === "error_password") {
+                commit("setStatus", { status: "error_password", errors: message });
+                reject(errorUserLogin);
+              }
+              if (error === "error_serveur") {
+                commit("setStatus", { status: "error_serveur", errors: message });
+                reject(errorUserLogin);
+              }
+            });
           });
       });
     },
+
     createAccount: ({ commit }, userInfos) => {
       commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
-        commit;
         instance
           .post("/auth/signup/", userInfos)
           .then((userCreate) => {
@@ -110,27 +110,42 @@ const userStore = {
             resolve(userCreate);
           })
           .catch((errorUserCreate) => {
-            let message = errorUserCreate.response.data.Message;
+            console.log("errorUserCreate :>> ", errorUserCreate);
+            if (errorUserCreate.response.data.errorUserCreate) {
+              let errorsSequelize = errorUserCreate.response.data.errorUserCreate.errors;
+              errorsSequelize.forEach((error) => {
+                console.log("error :>> ", error);
+                if (error.message === "email must be unique") {
+                  commit("setStatus", { status: "error_unique", errors: "Cet email est déjà utilisé" });
+                  reject(errorUserCreate);
+                } else if (error.message === "User.firstName cannot be null") {
+                  commit("setStatus", { status: "error_vide_firstName" });
+                  reject(errorUserCreate);
+                }
+                if (error.message === "User.lastName cannot be null") {
+                  commit("setStatus", { status: "error_vide_lastName" });
+                  reject(errorUserCreate);
+                }
+              });
+            }
 
-            if (message.error_email) {
-              console.log(" ", errorUserCreate.response.data.Message.error_email);
-              commit("setStatus", { status: "error_email", errors: message.error_email });
-              reject(errorUserCreate);
-            }
-            if (message.error_password) {
-              console.log(" ", errorUserCreate.response.data.Message.error_password);
-              commit("setStatus", { status: "error_password", errors: message.error_password });
-              reject(errorUserCreate);
-            }
-
-            if (message.error_unique) {
-              console.log(" ", errorUserCreate.response.data.Message.error_unique);
-              commit("setStatus", { status: "error_password", errors: message.error_unique });
-              reject(errorUserCreate);
-            }
-            if (message.error_serveur) {
-              commit("setStatus", { status: "error_serveur", errors: message.error_serveur });
-              reject(errorUserCreate);
+            if (errorUserCreate.response.data.Message) {
+              let messages = errorUserCreate.response.data.Message;
+              Object.keys(messages).forEach((error) => {
+                let message = messages[error];
+                if (error === "error_email") {
+                  commit("setStatus", { status: "error_email", errors: message });
+                  reject(errorUserCreate);
+                }
+                if (error === "error_password") {
+                  commit("setStatus", { status: "error_password", errors: message });
+                  reject(errorUserCreate);
+                }
+                if (message === "error_serveur") {
+                  commit("setStatus", { status: "error_serveur", errors: message });
+                  reject(errorUserCreate);
+                }
+              });
             }
           });
       });
@@ -139,14 +154,46 @@ const userStore = {
     getUserInfos: ({ commit }) => {
       instance
         .get("auth/user/" + sessionStorage.getItem("userId") + "/")
-        .then((response) => {
-          commit("userInfos", response.data);
-          console.log("response.getOneUSer :>> ", response.data);
+
+        .then((user) => {
+          commit("userInfos", user.data);
+          console.log("user.getOneUSer :>> ", user.data);
         })
         .catch((error) => {
           console.log("error.getOneUser :>> ", error);
         });
+      // });
+    },
+
+    deleteAccount: ({ commit }) => {
+      instance
+
+        .delete("auth/user/" + sessionStorage.getItem("userId") + "/")
+
+        .then((user) => {
+          console.log("req.p :>> ", req.p);
+          commit("logout");
+          commit("setStatus", { errors: user.data.Message.user_delete });
+        })
+        .catch((errorDeleteUser) => {
+          let messages = errorDeleteUser.response.data.Message;
+          Object.keys(messages).forEach((error) => {
+            let message = messages[error];
+
+            if (error === "error_user") {
+              commit("setStatus", { status: "error_user", errors: message[error] });
+            }
+            if (error === "error_auth") {
+              commit("setStatus", { status: "error_auth", errors: message });
+            }
+            if (error === "error_serveur") {
+            }
+          });
+        });
+      // });
     },
   },
 };
+
+// console.log(userStore);
 export default userStore;
