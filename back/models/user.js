@@ -5,20 +5,17 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       // define association here
-      models.User.hasMany(models.Post, {
-        onDelete: "CASCADE",
-        foreignKey: "userId",
-      });
+      models.User.hasMany(models.Post);
     }
   }
   User.init(
     {
-      firstName: { type: DataTypes.STRING(255), allowNull: false },
-      lastName: { type: DataTypes.STRING(255), allowNull: false },
-      email: { type: DataTypes.STRING(255), unique: true },
-      password: { type: DataTypes.STRING(500), allowNull: false },
-      urlAvatar: DataTypes.STRING(500),
-      description: DataTypes.STRING(2000),
+      firstName: { type: DataTypes.STRING, allowNull: false },
+      lastName: { type: DataTypes.STRING, allowNull: false },
+      email: { type: DataTypes.STRING, unique: true },
+      password: { type: DataTypes.STRING, allowNull: false },
+      urlAvatar: DataTypes.STRING,
+      description: DataTypes.STRING,
       admin: { type: DataTypes.BOOLEAN, defaultValue: false },
     },
     {
@@ -26,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "User",
     }
   );
-
+ 
   return User;
+ 
 };

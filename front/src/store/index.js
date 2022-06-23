@@ -1,6 +1,7 @@
 import { RouterLink } from "vue-router";
 import { createStore } from "vuex";
 import userStore from "./userStore";
+import postStore from "./postStore";
 
 const axios = require("axios");
 
@@ -17,14 +18,9 @@ const instance = axios.create({
 // }
 
 const store = createStore({
-  state() {
-    return {
-      instance: instance,
-    };
-  },
-
   modules: {
     userStore: userStore,
+    postStore: postStore,
   },
 });
 

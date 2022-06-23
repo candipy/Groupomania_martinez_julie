@@ -7,7 +7,7 @@
   <div class="card">
     <!-- Titre -->
 
-    <h1>Création de votre compte</h1>
+    <h1>Login</h1>
 
     <!--  LIen vers Signup -->
     <div class="card_subtitle">
@@ -120,8 +120,6 @@ export default {
   },
 
   methods: {
-
-
     // Connexion au compte
     login() {
       this.$store

@@ -137,7 +137,7 @@ nav .btn-grad, nav .btn-grad--disabled {
   pointer-events: none;
 }
 
-.form {
+.form, .post {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -161,7 +161,7 @@ nav .btn-grad, nav .btn-grad--disabled {
   padding: 2%;
 }
 
-.form form {
+.form form, .post form {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -201,6 +201,16 @@ nav .btn-grad, nav .btn-grad--disabled {
 .form__error {
   color: #ffd7d7;
   font-style: italic;
+}
+
+.post {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 
 #app {

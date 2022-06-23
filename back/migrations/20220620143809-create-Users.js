@@ -9,29 +9,29 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       firstName: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.STRING,
         allowNull: false,
       },
       lastName: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.STRING,
         allowNull: false,
       },
       email: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.STRING,
         allowNull: false,
         unique: true,
       },
       password: {
-        type: Sequelize.STRING(500),
+        type: Sequelize.STRING,
         allowNull: false,
       },
 
       urlAvatar: {
-        type: Sequelize.STRING(500),
+        type: Sequelize.STRING,
       },
 
       description: {
-        type: Sequelize.STRING(2000),
+        type: Sequelize.STRING,
       },
 
       admin: {

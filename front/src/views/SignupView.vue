@@ -139,6 +139,11 @@ export default {
   },
 
   computed: {
+
+    uppercase(){
+      this.lastName.toUpperCase()
+
+    },
     // Desactivation du bouton CONNEXION
     classIs() {
       if (

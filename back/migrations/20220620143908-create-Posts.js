@@ -9,21 +9,21 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       title: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.STRING,
       },
       userId: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
-        références: {
-          model: "User",
+        references: {
+          model: "Users",
           key: "id",
         },
       },
       urlImage: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.STRING,
       },
       description: {
-        type: Sequelize.STRING(1000),
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,

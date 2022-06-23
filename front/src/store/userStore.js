@@ -55,7 +55,7 @@ const userStore = {
         userId: "",
         token: "",
       };
-      // delete instance.defaults.headers.common["Authorization"]
+      delete instance.defaults.headers.common["Authorization"]
       sessionStorage.removeItem("userId");
       sessionStorage.removeItem("token");
     },
@@ -167,7 +167,6 @@ const userStore = {
 
     deleteAccount: ({ commit }) => {
       instance
-
         .delete("auth/user/" + sessionStorage.getItem("userId") + "/")
 
         .then((user) => {

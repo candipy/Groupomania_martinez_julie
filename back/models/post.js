@@ -9,18 +9,20 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       models.Post.belongsTo(models.User, {
-        onDelete: "CASCADE",
-        foreignKey: "userId",
-      });
+        // foreignKey: {
+        //   allowNull: false
+        // }, 
+        onDelete: 'CASCADE'
+      })
       // models.Post.hasMany(models.Comment);
     }
   }
   Post.init(
     {
-      title: DataTypes.STRING(255),
+      title: DataTypes.STRING,
       userId: DataTypes.INTEGER,
-      urlImage: DataTypes.STRING(255),
-      description: DataTypes.STRING(1000),
+      urlImage: DataTypes.STRING,
+      description: DataTypes.STRING,
     },
     {
       sequelize,
