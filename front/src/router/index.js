@@ -35,7 +35,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ "../views/FeedView.vue"),
   },
   {
-    path: "/profil",
+    path: "/user/:id",
     name: "profil",
     component: () => import(/* webpackChunkName: "about" */ "../views/ProfilView.vue"),
   },
@@ -48,6 +48,11 @@ const routes = [
     path: "/deleteAccount",
     name: "deleteAccount",
     component: () => import(/* webpackChunkName: "about" */ "../views/DeleteAccountView.vue"),
+  },
+  {
+    path: "/posts/:id",
+    name: "OnePost",
+    component: () => import(/* webpackChunkName: "about" */ "../views/OnePost.vue"),
   },
 ];
 
@@ -63,7 +68,7 @@ const router = createRouter({
 //     console.log("token :>> ", token);
 //     instance.defaults.headers.common["Authorization"] = "Bearer " + token;
 //     console.log(instance.defaults.headers.common["Authorization"]);
-//   } 
+//   }
 //   // else {
 //   //   next("./login");
 //   // }

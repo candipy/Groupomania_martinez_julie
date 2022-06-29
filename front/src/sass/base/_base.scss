@@ -7,7 +7,7 @@
 
 body {
   margin: auto;
-  height: 100vh;
+  min-height: 100% ;
  
 
 }
@@ -59,4 +59,34 @@ nav {
   
     }
   }
+}
+
+i{
+  margin-left: 5px;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+
+}
+
+.whatsNew{
+display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+
+  width: 100%;
+  border-radius: 10px;
+  border:#ffd7d7;
+  // border-top-style: dotted;
+  // border-bottom-style: dotted;
+  // border-style: dotted;
+  box-shadow: 0 0 20px #4e5166;
+  background-color: #4e5166;
+  color: #ffd7d7;
+  padding: 2%;
 }

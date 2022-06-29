@@ -22,8 +22,9 @@ module.exports = {
       urlImage: {
         type: Sequelize.STRING,
       },
-      description: {
+      message: {
         type: Sequelize.STRING,
+        
       },
       createdAt: {
         allowNull: false,

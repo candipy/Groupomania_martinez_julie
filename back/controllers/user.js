@@ -114,13 +114,6 @@ exports.deleteUser = (req, res, next) => {
       if (user.id !== req.auth.userId) {
         res.status(401).json({ Message: { error_auth: "Requete non authorisée par cet utilisateur !" } });
       } else {
-        // // Extraire le nom du fichier à supprimer
-        // const filename = user.url_avatar.split("/images/")[1]; // On sait qu'on a l'URL du fichier retrouné par la base, cette image aura une partie ('/images/'),
-        // //plit (divise) en 2 tableaux, ce qui vient avant et ce qui vient après, ce qui vient après [index1] est le nom du fichier
-        // fs.unlink(
-        //   `images/${filename}`, //unlink = supprimmer un fichier, argument 1 chemin du fichier,
-        //   () => {
-        //     //2ème callback = ce qu'il faut faire une fois le fichier supprimé, soit supprimer le user
         db.User.destroy({ where: { id: req.params.id } })
           .then(() => res.status(200).json({ Message: { user_delete: "Nous vous confirmons la suppression de votre compte!" } }))
           .catch((error) => res.status(500).json({ Message: { error_serveur: "Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));

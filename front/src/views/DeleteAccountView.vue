@@ -5,7 +5,6 @@
   </nav>
   <h1>Suppression de compte</h1>
   <p>
-    {{ status }}
     {{ errors }}
   </p>
 </template>

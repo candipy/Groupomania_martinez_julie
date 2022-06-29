@@ -65,45 +65,90 @@ exports.modifyPost = (req, res, next) => {
         }
       }
     })
-    .catch((error) => res.status(500).json({ Message: { error_serveur: "Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
+    .catch((error) => res.status(500).json({ Message: { error_serveur: "qshifhsiq Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
 };
 
 exports.createPost = (req, res, next) => {
-  console.log(req.body);
-  const postObject = req.body;
-
-  if (postObject.userId !== req.auth.userId) {
+  if (JSON.parse(req.body.userId) !== req.auth.userId) {
     res.status(401).json({ Message: { error_auth: "Requete non authorisée par cet utilisateur !" } });
-  } else if (req.file) {
+  }
+  if (req.file) {
+    // else
+    console.log("req.file :>> ", req.file);
     const post = {
-      ...postObject,
+      title: req.body.title,
+      message: req.body.message,
       userId: req.auth.userId,
       urlImage: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
     };
 
     db.Post.create(post)
       .then((postCreate) => res.status(201).json({ postCreate }))
-      .catch((errorPostCreate) => res.status(500).json({ errorPostCreate }));
+      .catch((errorPostCreate) => res.status(500).json({ Message: { error_serveur: " Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
   } else if (!req.file) {
     const post = {
-      ...postObject,
+      title: req.body.title,
+      message: req.body.message,
       userId: req.auth.userId,
     };
-
     db.Post.create(post)
       .then((postCreate) => res.status(201).json({ postCreate }))
-      .catch((errorPostCreate) => res.status(500).json({ errorPostCreate }));
+      .catch((errorPostCreate) => res.status(500).json({ Message: { error_serveur: "Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
   }
 };
 
+exports.getPostsByUser = (req, res, next) => {
+  db.Post.findAll({
+    where: { userId: req.params.id },
+    order: [["createdAt", "DESC"]],
+    include: [
+      {
+        model: db.User,
+        attributes: ["firstName"],
+      },
+      {
+        model: db.User,
+        attributes: ["lastName"],
+      },
+    ],
+  })
+    .then((postsByUsers) => res.status(200).json(postsByUsers))
+    .catch((error) => res.status(500).json({ error }));
+};
+
 exports.getAllPost = (req, res, next) => {
-  db.Post.findAll()
+  db.Post.findAll({
+    order: [["createdAt", "DESC"]],
+    include: [
+      {
+        model: db.User,
+        attributes: ["firstName"],
+      },
+      {
+        model: db.User,
+        attributes: ["lastName"],
+      },
+    ],
+  })
     .then((posts) => res.status(200).json(posts))
     .catch((error) => res.status(500).json({ error }));
 };
 
 exports.getOnePost = (req, res, next) => {
-  db.Post.findOne({ where: { id: req.params.id } })
+  db.Post.findOne({
+    where: { id: req.params.id },
+    order: [["createdAt", "DESC"]],
+    include: [
+      {
+        model: db.User,
+        attributes: ["firstName"],
+      },
+      {
+        model: db.User,
+        attributes: ["lastName"],
+      },
+    ],
+  })
     .then((post) => res.status(200).json(post))
     .catch((error) => res.status(404).json({ error }));
 };

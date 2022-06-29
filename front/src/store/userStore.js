@@ -55,7 +55,7 @@ const userStore = {
         userId: "",
         token: "",
       };
-      delete instance.defaults.headers.common["Authorization"]
+      delete instance.defaults.headers.common["Authorization"];
       sessionStorage.removeItem("userId");
       sessionStorage.removeItem("token");
     },
@@ -170,22 +170,24 @@ const userStore = {
         .delete("auth/user/" + sessionStorage.getItem("userId") + "/")
 
         .then((user) => {
-          console.log("req.p :>> ", req.p);
           commit("logout");
           commit("setStatus", { errors: user.data.Message.user_delete });
         })
         .catch((errorDeleteUser) => {
+          console.log("errorDeleteUser :>> ", errorDeleteUser);
           let messages = errorDeleteUser.response.data.Message;
           Object.keys(messages).forEach((error) => {
             let message = messages[error];
 
             if (error === "error_user") {
-              commit("setStatus", { status: "error_user", errors: message[error] });
+              commit("setStatus", { status: "error_user", errors: message });
             }
             if (error === "error_auth") {
               commit("setStatus", { status: "error_auth", errors: message });
             }
             if (error === "error_serveur") {
+              commit("setStatus", { status: "error_serveur", errors: message });
+              reject(errorUserCreate);
             }
           });
         });

@@ -1,3 +1,5 @@
+import store from ".";
+
 const axios = require("axios");
 
 const instance = axios.create({
@@ -8,17 +10,18 @@ const instance = axios.create({
 
 const token = sessionStorage.getItem("token");
 if (token) {
-  console.log("token :>> ", token);
   instance.defaults.headers.common["Authorization"] = "Bearer " + token;
-  console.log(instance.defaults.headers.common["Authorization"]);
 }
-console.log("token :>> ", token);
 
 const postStore = {
   namespaced: true,
   state: {
     etat: "",
     probleme: "",
+    mode: "",
+
+    post: { id: "", title: "", message: "", urlImage: "", userId: "" },
+    posts: [],
   },
 
   mutations: {
@@ -26,33 +29,58 @@ const postStore = {
       state.etat = etat;
       state.probleme = probleme;
     },
+    setMode(state, mode) {
+      state.mode = mode;
+    },
+
+    setPostInfos(state, posts) {
+      state.posts = posts;
+    },
   },
 
   actions: {
-
-
-    checkToken :()=>{ const token = sessionStorage.getItem("token");
-    if (token) {
-      console.log("token :>> ", token);
-      instance.defaults.headers.common["Authorization"] = "Bearer " + token;
-      console.log(instance.defaults.headers.common["Authorization"]);
-    }},
-
-  
-    createPost:  ({ commit }, postCreate) => {
-      
+    createPost: ({ commit }, postCreate) => {
       commit("setEtat", { etat: "loading", probleme: "" });
-
       return new Promise((resolve, reject) => {
         instance
           .post("/posts/newpost/", postCreate)
           .then((postCreate) => {
+            commit("setEtat", { etat: "success", probleme: "" });
             resolve(postCreate);
           })
-          .catch((error) => {
-            reject(error);
+          .catch((errorPostCreate) => {
+            if (errorPostCreate.response.data.Message) {
+              let messages = errorPostCreate.response.data.Message;
+              Object.keys(messages).forEach((error) => {
+                let message = messages[error];
+
+                if (error === "error_auth") {
+                  commit("setEtat", { etat: "error_auth", probleme: message });
+                  reject(errorPostCreate);
+                } else if (error === "error_serveur") {
+                  commit("setEtat", { etat: "error_serveur", probleme: message });
+                  reject(errorPostCreate);
+                }
+              });
+            }
           });
       });
+    },
+
+    getAllPost: ({ commit, state }, posts) => {
+      instance
+        .get("/posts/", posts)
+
+        .then((posts) => {
+          return posts.data;
+        })
+        .then((data) => {
+          commit("setPostInfos", data);
+          console.log("data :>> ", data);
+        })
+        .catch((errorPosts) => {
+          console.log("errorPosts :>> ", errorPosts);
+        });
     },
   },
 };

@@ -1,14 +1,25 @@
 <template>
   <Header />
   <nav>
-    <router-link to="/" class="btn-grad">Home</router-link>
+    <!-- <router-link to="/" class="btn-grad">Home</router-link> -->
     <router-link to="/feed" class="btn-grad">Fil d'actualités</router-link>
   </nav>
 
   <h1>Profil</h1>
-  <div class="card">
-    <div class="card_subtitle">Hello {{ userInfos.firstName }} !</div>
 
+  <div class="" v-if="this.$route.params.id == userIdSS">
+    <button class="">
+      <span @click="deleteAccount">Supprimer le compte</span>
+    </button>
+    <btnLogout />
+  </div>
+  <div class="" v-else>
+    <button><router-link :to="{ path: '/user/' + this.userIdSS }" class="">Votre Profil</router-link></button>
+
+    <btnLogout />
+  </div>
+
+  <div class="card">
     <div>
       <p>Nom : {{ userInfos.lastName }}</p>
     </div>
@@ -19,19 +30,18 @@
       <p>Email du compte : {{ userInfos.email }}</p>
     </div>
 
-    <button class="btn-grad-light">
-      <span @click="deleteAccount">Supprimer le compte</span>
-    </button>
-
-    <!-- <img :src="user.photo" /> -->
-    <button class="btn-grad">
-      <span @click="logout"> Deconnexion</span>
-    </button>
+    <whatsNew v-if="this.$route.params.id == userIdSS" />
+    <addPost v-if="this.$route.params.id == userIdSS" />
+    <AllPostsByUser />
   </div>
 </template>
 
 <script>
 import Header from "@/components/Header.vue";
+import btnLogout from "@/components/BtnLogout.vue";
+import whatsNew from "@/components/WhatsNew.vue";
+import addPost from "@/components/AddPost.vue";
+import AllPostsByUser from "@/components/AllPostsByUser.vue";
 
 import { mapState } from "vuex";
 
@@ -39,6 +49,19 @@ export default {
   name: "Profil",
   components: {
     Header,
+    btnLogout,
+    whatsNew,
+    addPost,
+    AllPostsByUser,
+  },
+
+  data: () => {
+    return {
+      userInfos: [],
+      userIdSS: JSON.parse(sessionStorage.getItem("userId")),
+      token: sessionStorage.getItem("token"),
+      axios: require("axios"),
+    };
   },
   mounted() {
     if (sessionStorage.getItem("token") === null) {
@@ -46,23 +69,38 @@ export default {
       return;
     }
 
-    this.$store.dispatch("userStore/getUserInfos");
+    this.axios.defaults.headers.common["Authorization"] = "Bearer " + this.token;
+
+    this.axios
+      .get("http://localhost:3000/api/auth/user/" + this.$route.params.id)
+
+      .then((response) => {
+        this.userInfos = response.data;
+      })
+
+      .catch((error) => console.log("error :>> ", error));
   },
 
-  computed: {
-    ...mapState("userStore", {
-      errors: (state) => state.errors,
-      status: (state) => state.status,
-      userInfos: (state) => state.userInfos,
-      user: (state) => state.user,
-    }),
-  },
+  // updated() {
+  //   if (sessionStorage.getItem("token") === null) {
+  //     this.$router.push("/login");
+  //     return;
+  //   }
+
+  //   this.axios.defaults.headers.common["Authorization"] = "Bearer " + this.token;
+
+  //   this.axios
+  //     .get("http://localhost:3000/api/auth/user/" + this.$route.params.id)
+
+  //     .then((response) => {
+  //       this.userInfos = response.data;
+
+  //     })
+
+  //     .catch((error) => console.log("error :>> ", error));
+  // },
+
   methods: {
-    logout() {
-      this.$store.commit("userStore/logout");
-      this.$router.push("/");
-    },
-
     deleteAccount() {
       this.$store.dispatch("userStore/deleteAccount").then(
         () => {
@@ -80,5 +118,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

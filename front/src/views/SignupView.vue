@@ -20,59 +20,19 @@
       <form @submit.prevent method="post" class="form">
         <div class="form__input">
           <label for="lastName">Nom</label>
-          <input
-            type="text"
-            v-model="lastName"
-            @change="checkLastName"
-            name="lastName"
-            id="lastName"
-            aria-label="last_name"
-            placeholder="Indiquez votre nom"
-            required
-          />
-          <p
-            v-if="errorLastName || status == 'error_vide_lastName'"
-            class="form__error"
-          >
-            Merci d'entrer un nom conforme. Ex : Dupond, Du-Pond, Du Pond
-          </p>
+          <input type="text" v-model="lastName" @change="checkLastName" name="lastName" id="lastName" aria-label="last_name" placeholder="Indiquez votre nom" required />
+          <p v-if="errorLastName || status == 'error_vide_lastName'" class="form__error">Merci d'entrer un nom conforme. Ex : Dupond, Du-Pond, Du Pond</p>
         </div>
 
         <div class="form__input">
           <label for="firstName">Prénom</label>
-          <input
-            type="text"
-            v-model="firstName"
-            @change="checkFirstName"
-            name="firstName"
-            id="fistName"
-            aria-label="first_name"
-            placeholder="Indiquez votre prénom"
-            required
-          />
-          <p
-            v-if="errorFirstName || status == 'error_vide_firstName'"
-            class="form__error"
-          >
-            Merci d'entrer un prénom conforme. Ex : Jean, Jean-François, Jean
-            François
-          </p>
+          <input type="text" v-model="firstName" @change="checkFirstName" name="firstName" id="fistName" aria-label="first_name" placeholder="Indiquez votre prénom" required />
+          <p v-if="errorFirstName || status == 'error_vide_firstName'" class="form__error">Merci d'entrer un prénom conforme. Ex : Jean, Jean-François, Jean François</p>
         </div>
         <div class="form__input">
           <label for="email">Email</label>
-          <input
-            type="email"
-            v-model="email"
-            @change="checkEmail"
-            name="email"
-            id="email"
-            aria-label="email_signup"
-            placeholder="Sera votre identifiant"
-            required
-          />
-          <p v-if="errorEmail || status == 'error_email'" class="form__error">
-            Merci d'entrer un courriel conforme. Ex : contact@groupomania.com
-          </p>
+          <input type="email" v-model="email" @change="checkEmail" name="email" id="email" aria-label="email_signup" placeholder="Sera votre identifiant" required />
+          <p v-if="errorEmail || status == 'error_email'" class="form__error">Merci d'entrer un courriel conforme. Ex : contact@groupomania.com</p>
 
           <div v-if="status == 'error_unique'" class="form__error">
             {{ errors }}
@@ -80,25 +40,13 @@
         </div>
         <div class="form__input">
           <label for="passwordSignup">Mot de passe</label>
-          <input
-            type="password"
-            v-model="password"
-            name="password"
-            id="passwordSignup"
-            aria-label="password_signup"
-            placeholder="Indiquez un mot de passe"
-            required
-          />
+          <input type="password" v-model="password" name="password" id="passwordSignup" aria-label="password_signup" placeholder="Indiquez un mot de passe" required />
         </div>
         <div v-if="status == 'error_password'" class="form__input">
           {{ errors }}
         </div>
 
-        <button
-          :class="classIs"
-          :disabled="isDisabledAttribute"
-          @click="createAccount()"
-        >
+        <button :class="classIs" :disabled="isDisabledAttribute" @click="createAccount()">
           <span v-if="status == 'loading'"> Création en cours</span>
           <span v-else>Valider</span>
         </button>
@@ -139,10 +87,8 @@ export default {
   },
 
   computed: {
-
-    uppercase(){
-      this.lastName.toUpperCase()
-
+    uppercase() {
+      this.lastName.toUpperCase();
     },
     // Desactivation du bouton CONNEXION
     classIs() {
@@ -161,12 +107,7 @@ export default {
 
     isDisabledAttribute() {
       // Si il y a une erreur, le bouton est désactivé
-      if (
-        this.errorLastName ||
-        this.errorFirstName ||
-        this.errorEmail ||
-        this.password == ""
-      ) {
+      if (this.errorLastName || this.errorFirstName || this.errorEmail || this.password == "") {
         return true;
       } else {
         return false;
@@ -240,7 +181,7 @@ export default {
               .then(
                 (userLog) => {
                   console.log("userLog Vue login:>> ", userLog);
-                  this.$router.push("profil"); // Penser à modifier
+                  this.$router.push("feed");
                 },
                 (errorUserLogin) => {
                   console.log("errorUserLogin :>> ", errorUserLogin);
@@ -262,5 +203,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>

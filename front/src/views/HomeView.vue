@@ -26,9 +26,14 @@ export default {
     // HelloWorld,
     Header,
   },
+
+  mounted() {
+    if (sessionStorage.getItem("token") !== null) {
+      this.$router.push("/feed");
+      return;
+    }
+  },
 };
 </script>
 
-
-<style lang="scss">
-</style>
+<style lang="scss"></style>

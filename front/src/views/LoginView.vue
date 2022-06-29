@@ -20,16 +20,7 @@
       <form @submit.prevent method="post" class="form">
         <div class="form__input">
           <label for="email">Email</label>
-          <input
-            type="email"
-            v-model="email"
-            @change="checkEmail"
-            name="email"
-            id="email"
-            aria-label="email_signup"
-            placeholder="Entrez votre adresse mail"
-            required
-          />
+          <input type="email" v-model="email" @change="checkEmail" name="email" id="email" aria-label="email_signup" placeholder="Entrez votre adresse mail" required />
 
           <div v-if="status == 'error_user'" class="form__error">
             {{ errors }}
@@ -37,15 +28,7 @@
         </div>
         <div class="form__input">
           <label for="passwordLogin">Mot de passe</label>
-          <input
-            type="password"
-            v-model="password"
-            name="password"
-            id="passwordLogin"
-            aria-label="password_login"
-            placeholder="Entrez votre mot de passe"
-            required
-          />
+          <input type="password" v-model="password" name="password" id="passwordLogin" aria-label="password_login" placeholder="Entrez votre mot de passe" required />
           <div v-if="status == 'error_password'" class="form__input">
             {{ errors }}
           </div>
@@ -55,11 +38,7 @@
           contactez votre administrateur
         </div> -->
 
-        <button
-          :class="classIs"
-          :disabled="isDisabledAttribute"
-          @click="login()"
-        >
+        <button :class="classIs" :disabled="isDisabledAttribute" @click="login()">
           <span v-if="status == 'loading'"> Connexion en cours</span>
           <span v-else>Connexion</span>
         </button>
@@ -130,7 +109,7 @@ export default {
         .then(
           (userLog) => {
             console.log("userLog Vue login:>> ", userLog);
-            this.$router.push("profil"); // Penser à modifier
+            this.$router.push("feed");
           },
           (errorUserLogin) => {
             console.log("errorUserLogin :>> ", errorUserLogin);
@@ -144,5 +123,4 @@ export default {
 };
 </script>
 
-<style lang="scss">
-</style>
+<style lang="scss"></style>
