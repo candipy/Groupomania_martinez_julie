@@ -17,9 +17,9 @@ export default {
   components: {},
 
   computed: {
-    ...mapState("userStore", {
-      userInfos: (state) => state.userInfos,
-    }),
+    // ...mapState("userStore", {
+    //   userInfos: (state) => state.userInfos,
+    // }),
     ...mapState("postStore", {
       mode: (state) => state.mode,
     }),

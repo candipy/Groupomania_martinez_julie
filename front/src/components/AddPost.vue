@@ -54,18 +54,12 @@ export default {
     },
 
     createPost() {
-      let newPost =
-        // {
-        new FormData();
+      let newPost = new FormData();
       newPost.append("title", this.title);
       newPost.append("message", this.message);
       newPost.append("userId", JSON.parse(sessionStorage.getItem("userId")));
       newPost.append("image", this.image);
-      // title: this.title,
-      // message: this.message,
-      // userId: JSON.parse(sessionStorage.getItem("userId")),
-      // urlImage: this.image,
-      // };
+
       console.log("newPost :>> ", newPost);
       this.$store
         .dispatch("postStore/createPost", newPost, {

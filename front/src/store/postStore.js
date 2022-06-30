@@ -2,15 +2,9 @@ import store from ".";
 
 const axios = require("axios");
 
-const instance = axios.create({
-  baseURL: "http://localhost:3000/api/",
-  // timeout: 1000,
-  // headers: {'X-Custom-Header': 'foobar'}
-});
-
 const token = sessionStorage.getItem("token");
 if (token) {
-  instance.defaults.headers.common["Authorization"] = "Bearer " + token;
+  axios.defaults.headers.common["Authorization"] = "Bearer " + token;
 }
 
 const postStore = {
@@ -42,8 +36,8 @@ const postStore = {
     createPost: ({ commit }, postCreate) => {
       commit("setEtat", { etat: "loading", probleme: "" });
       return new Promise((resolve, reject) => {
-        instance
-          .post("/posts/newpost/", postCreate)
+        axios
+          .post("http://localhost:3000/api/posts/newpost/", postCreate)
           .then((postCreate) => {
             commit("setEtat", { etat: "success", probleme: "" });
             resolve(postCreate);
@@ -67,21 +61,21 @@ const postStore = {
       });
     },
 
-    getAllPost: ({ commit, state }, posts) => {
-      instance
-        .get("/posts/", posts)
+    // getAllPost: ({ commit, state }, posts) => {
+    //   instance
+    //     .get("/posts/", posts)
 
-        .then((posts) => {
-          return posts.data;
-        })
-        .then((data) => {
-          commit("setPostInfos", data);
-          console.log("data :>> ", data);
-        })
-        .catch((errorPosts) => {
-          console.log("errorPosts :>> ", errorPosts);
-        });
-    },
+    //     .then((posts) => {
+    //       return posts.data;
+    //     })
+    //     .then((data) => {
+    //       commit("setPostInfos", data);
+    //       console.log("data :>> ", data);
+    //     })
+    //     .catch((errorPosts) => {
+    //       console.log("errorPosts :>> ", errorPosts);
+    //     });
+    // },
   },
 };
 

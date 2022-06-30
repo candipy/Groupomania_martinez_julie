@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div>
     <h1>Mon super compteur</h1>
     <p @click="increment">Vous avez cliqué {{ total }} fois</p>
@@ -38,4 +38,4 @@ export default {
 h1 {
   color: green;
 }
-</style>
+</style> -->

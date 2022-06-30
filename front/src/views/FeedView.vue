@@ -1,16 +1,14 @@
 <template>
   <Header />
   <nav>
-    <!-- <router-link to="/" class="btn-grad">Home</router-link> -->
-    <router-link :to="{ path: '/user/' +this.userIdSS }" class="btn-grad">Votre Profil</router-link>
+    <router-link to="/" class="btn-grad">Home</router-link>
+    <router-link :to="{ path: '/user/' + this.userIdSS }" class="btn-grad">Votre Profil</router-link>
     <btnLogout />
   </nav>
   <h1>Fil d'actualités</h1>
-  <router-link :to="{ path: '/user/' +this.userIdSS }" class="whatsNew">  <whatsNew /> </router-link>
-  
 
-  
-  
+  <whatsNew />
+  <addPost />
 
   <!-- <addPost /> -->
 
@@ -25,7 +23,7 @@ import btnLogout from "@/components/BtnLogout.vue";
 import allPost from "@/components/AllPost.vue";
 import whatsNew from "@/components/WhatsNew.vue";
 
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 
 export default {
   name: "Feed",
@@ -39,11 +37,10 @@ export default {
 
   data: () => {
     return {
-      // Saisie Utilisateur:
 
       title: null,
       message: null,
-     userIdSS: JSON.parse(sessionStorage.getItem("userId")),
+      userIdSS: JSON.parse(sessionStorage.getItem("userId")),
       token: sessionStorage.getItem("token"),
       axios: require("axios"),
     };
@@ -57,17 +54,17 @@ export default {
 
     this.$store.dispatch("userStore/getUserInfos");
   },
-  computed: {
-    ...mapState("userStore", {
-      userInfos: (state) => state.userInfos,
-    }),
-    ...mapState("postStore", {
-      etat: (state) => state.etat,
-      probleme: (state) => state.probleme,
-      mode: (state) => state.mode,
-      posts: (state) => state.posts,
-    }),
-  },
+  // computed: {
+  //   ...mapState("userStore", {
+  //     userInfos: (state) => state.userInfos,
+  //   }),
+  //   ...mapState("postStore", {
+  //     etat: (state) => state.etat,
+  //     probleme: (state) => state.probleme,
+  //     mode: (state) => state.mode,
+  //     posts: (state) => state.posts,
+  //   }),
+  // },
 
   methods: {},
 };

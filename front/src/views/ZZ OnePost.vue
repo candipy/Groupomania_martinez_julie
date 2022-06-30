@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <Header />
 
   <nav>
@@ -7,16 +7,16 @@
   </nav>
 
   <div class="post">
-    <!-- <div>Publié par {{ post.User.lastName }}</div> -->
+
 
     <div v-if="post.userId == userIdSS" @click="modifyPost()"><i class="fa fa-pen"></i></div>
     <h4>{{ post.title }}</h4>
     <div>{{ post.message }}</div>
     <img v-if="post.urlImage !== null" :src="post.urlImage" alt="illustration_post" />
   </div>
-</template>
+</template> -->
 
-<script>
+<!-- <script>
 import Header from "@/components/Header.vue";
 // import { mapState } from "vuex";
 export default {
@@ -73,4 +73,4 @@ export default {
 };
 </script>
 
-<style></style>
+<style></style> -->

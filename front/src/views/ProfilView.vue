@@ -1,7 +1,7 @@
 <template>
   <Header />
   <nav>
-    <!-- <router-link to="/" class="btn-grad">Home</router-link> -->
+    <router-link to="/" class="btn-grad">Home</router-link>
     <router-link to="/feed" class="btn-grad">Fil d'actualités</router-link>
   </nav>
 
@@ -30,18 +30,14 @@
       <p>Email du compte : {{ userInfos.email }}</p>
     </div>
 
-    <whatsNew v-if="this.$route.params.id == userIdSS" />
-    <addPost v-if="this.$route.params.id == userIdSS" />
-    <AllPostsByUser />
+    <!-- <AllPostsByUser /> -->
   </div>
 </template>
 
 <script>
 import Header from "@/components/Header.vue";
 import btnLogout from "@/components/BtnLogout.vue";
-import whatsNew from "@/components/WhatsNew.vue";
-import addPost from "@/components/AddPost.vue";
-import AllPostsByUser from "@/components/AllPostsByUser.vue";
+// import AllPostsByUser from "@/components/AllPostsByUser.vue";
 
 import { mapState } from "vuex";
 
@@ -50,9 +46,7 @@ export default {
   components: {
     Header,
     btnLogout,
-    whatsNew,
-    addPost,
-    AllPostsByUser,
+    // AllPostsByUser,
   },
 
   data: () => {
@@ -80,25 +74,6 @@ export default {
 
       .catch((error) => console.log("error :>> ", error));
   },
-
-  // updated() {
-  //   if (sessionStorage.getItem("token") === null) {
-  //     this.$router.push("/login");
-  //     return;
-  //   }
-
-  //   this.axios.defaults.headers.common["Authorization"] = "Bearer " + this.token;
-
-  //   this.axios
-  //     .get("http://localhost:3000/api/auth/user/" + this.$route.params.id)
-
-  //     .then((response) => {
-  //       this.userInfos = response.data;
-
-  //     })
-
-  //     .catch((error) => console.log("error :>> ", error));
-  // },
 
   methods: {
     deleteAccount() {

@@ -9,8 +9,8 @@ const instance = axios.create({
 const token = sessionStorage.getItem("token");
 if (token) {
   console.log("token :>> ", token);
-  instance.defaults.headers.common["Authorization"] = "Bearer " + token;
-  console.log(instance.defaults.headers.common["Authorization"]);
+  axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+  console.log(axios.defaults.headers.common["Authorization"]);
 }
 console.log("token :>> ", token);
 
@@ -55,9 +55,8 @@ const userStore = {
         userId: "",
         token: "",
       };
-      delete instance.defaults.headers.common["Authorization"];
-      sessionStorage.removeItem("userId");
-      sessionStorage.removeItem("token");
+      delete axios.defaults.headers.common["Authorization"];
+      sessionStorage.clear();
     },
   },
 
@@ -66,14 +65,14 @@ const userStore = {
       commit("logout"); // Si il y avait un user connecté, déconnection
       commit("setStatus", { status: "loading", errors: "" });
       return new Promise((resolve, reject) => {
-        instance
-          .post("/auth/login/", userLog)
+        axios
+          .post("http://localhost:3000/api/auth/login/", userLog)
 
           .then((userLog) => {
             commit("setStatus", { status: "success", errors: "" });
             sessionStorage.setItem("token", userLog.data.token);
             sessionStorage.setItem("userId", userLog.data.userId);
-            instance.defaults.headers.common["Authorization"] = "Bearer " + userLog.data.token;
+            axios.defaults.headers.common["Authorization"] = "Bearer " + userLog.data.token;
             commit("logUser", userLog.data);
             resolve(userLog);
           })
@@ -103,8 +102,8 @@ const userStore = {
     createAccount: ({ commit }, userInfos) => {
       commit("setStatus", "loading");
       return new Promise((resolve, reject) => {
-        instance
-          .post("/auth/signup/", userInfos)
+        axios
+          .post("http://localhost:3000/api/auth/signup/", userInfos)
           .then((userCreate) => {
             commit("setStatus", "");
             resolve(userCreate);
@@ -152,8 +151,8 @@ const userStore = {
     },
 
     getUserInfos: ({ commit }) => {
-      instance
-        .get("auth/user/" + sessionStorage.getItem("userId") + "/")
+      axios
+        .get("http://localhost:3000/api/auth/user/" + sessionStorage.getItem("userId") + "/")
 
         .then((user) => {
           commit("userInfos", user.data);
@@ -166,8 +165,8 @@ const userStore = {
     },
 
     deleteAccount: ({ commit }) => {
-      instance
-        .delete("auth/user/" + sessionStorage.getItem("userId") + "/")
+      axios
+        .delete("http://localhost:3000/api/auth/user/" + sessionStorage.getItem("userId") + "/")
 
         .then((user) => {
           commit("logout");

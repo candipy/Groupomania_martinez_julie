@@ -3,9 +3,9 @@
     <div>
       Publié par <router-link :to="{ path: '/user/' + post.userId }">{{ post.User.firstName }} {{ post.User.lastName }}</router-link>
     </div>
-    <div>Créé le {{ post.createdAt }}</div>
+    <div>Créé le {{ cleanDate(post.createdAt) }}</div>
 
-    <router-link :to="{ path: '/user/' + this.userIdSS }" class="" v-if="post.userId == userIdSS"><i class="fa fa-pen"></i></router-link>
+    <div @click="modifyAFaire" class="" v-if="post.userId == userIdSS"><i class="fa fa-pen"></i></div>
 
     <h4 v-if="post.title.length > 0">{{ post.title }}</h4>
     <div>{{ post.message }}</div>
@@ -15,6 +15,7 @@
 
 <script>
 import { mapState } from "vuex";
+import moment from "moment";
 
 export default {
   name: "AllPost",
@@ -41,6 +42,7 @@ export default {
 
       .catch((error) => console.log("error :>> ", error));
   },
+
   // computed: {
   //   ...mapState("postStore", {
   //     etat: (state) => state.etat,
@@ -49,7 +51,11 @@ export default {
   //   }),
   // },
 
-  methods: {},
+  methods: {
+    cleanDate(date) {
+      return moment(date).format("DD/MM/YYYY à h:mm");
+    },
+  },
 };
 </script>
 

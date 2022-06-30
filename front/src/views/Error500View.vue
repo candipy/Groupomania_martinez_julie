@@ -23,8 +23,8 @@ export default {
   computed: {
     ...mapState("userStore", {
       errors: (state) => state.errors,
-      status: (state) => state.status,
-      userInfos: (state) => state.userInfos,
+      // status: (state) => state.status,
+      // userInfos: (state) => state.userInfos,
     }),
   },
 };

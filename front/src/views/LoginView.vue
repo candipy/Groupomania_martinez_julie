@@ -9,7 +9,7 @@
 
     <h1>Login</h1>
 
-    <!--  LIen vers Signup -->
+    <!--  Lien vers Signup -->
     <div class="card_subtitle">
       <p>Pas encore de compte ?</p>
       <router-link to="/signup">Créer un compte</router-link>

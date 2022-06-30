@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="post" v-for="post in posts" :key="post.id">
     <div>Publié par {{ post.User.firstName }} {{ post.User.lastName }}</div>
     <router-link :to="{ path: '/posts/' + post.id }" v-if="post.userId == userIdSS"><i class="fa fa-pen"></i></router-link>
@@ -51,4 +51,4 @@ export default {
 };
 </script>
 
-<style></style>
+<style></style> -->
