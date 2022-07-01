@@ -1,4 +1,5 @@
 import store from ".";
+import userStore from "./userStore";
 
 const axios = require("axios");
 
@@ -14,7 +15,8 @@ const postStore = {
     probleme: "",
     mode: "",
 
-    post: { id: "", title: "", message: "", urlImage: "", userId: "" },
+    post: [],
+
     posts: [],
   },
 
@@ -27,7 +29,10 @@ const postStore = {
       state.mode = mode;
     },
 
-    setPostInfos(state, posts) {
+    setOnePost(state, post) {
+      state.post = post;
+    },
+    setPosts(state, posts) {
       state.posts = posts;
     },
   },
@@ -39,7 +44,10 @@ const postStore = {
         axios
           .post("http://localhost:3000/api/posts/newpost/", postCreate)
           .then((postCreate) => {
-            commit("setEtat", { etat: "success", probleme: "" });
+            console.log("postCreate :>> ", postCreate.data.postCreate);
+
+            commit("setOnePost", postCreate.data.postCreate);
+
             resolve(postCreate);
           })
           .catch((errorPostCreate) => {
@@ -61,21 +69,37 @@ const postStore = {
       });
     },
 
-    // getAllPost: ({ commit, state }, posts) => {
-    //   instance
-    //     .get("/posts/", posts)
+    getAllPost: ({ commit, state }, posts) => {
+      axios
+        .get("http://localhost:3000/api/posts/", posts)
 
-    //     .then((posts) => {
-    //       return posts.data;
-    //     })
-    //     .then((data) => {
-    //       commit("setPostInfos", data);
-    //       console.log("data :>> ", data);
-    //     })
-    //     .catch((errorPosts) => {
-    //       console.log("errorPosts :>> ", errorPosts);
-    //     });
-    // },
+        .then((posts) => {
+          return posts.data;
+        })
+        .then((data) => {
+          commit("setPosts", data);
+          //   console.log("data :>> ", data);
+        })
+        .catch((errorPosts) => {
+          console.log("errorPosts :>> ", errorPosts);
+        });
+    },
+
+    getOnePost: ({ commit, state }, post) => {
+      axios
+
+        .get("http://localhost:3000/api/posts/" + state.post.id + "/")
+        .then((post) => {
+          return post.data;
+        })
+        .then((data) => {
+          commit("setOnePost", data);
+          console.log("data :>> ", data);
+        })
+        .catch((errorPost) => {
+          console.log("errorPosts :>> ", errorPost);
+        });
+    },
   },
 };
 

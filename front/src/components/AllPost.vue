@@ -1,11 +1,13 @@
 <template>
   <div class="post" v-for="post in posts" :key="post.id">
+    <!-- <onePost /> -->
+
     <div>
       Publié par <router-link :to="{ path: '/user/' + post.userId }">{{ post.User.firstName }} {{ post.User.lastName }}</router-link>
     </div>
     <div>Créé le {{ cleanDate(post.createdAt) }}</div>
 
-    <div @click="modifyAFaire" class="" v-if="post.userId == userIdSS"><i class="fa fa-pen"></i></div>
+    <div class="" v-if="post.userId == userIdSS"><i class="fa fa-pen"></i></div>
 
     <h4 v-if="post.title.length > 0">{{ post.title }}</h4>
     <div>{{ post.message }}</div>
@@ -16,14 +18,15 @@
 <script>
 import { mapState } from "vuex";
 import moment from "moment";
+import onePost from "@/components/OnePost.vue";
 
 export default {
   name: "AllPost",
-  components: {},
+  components: { onePost },
 
   data: () => {
     return {
-      posts: [],
+      // posts: [],
       userIdSS: JSON.parse(sessionStorage.getItem("userId")),
       token: sessionStorage.getItem("token"),
       axios: require("axios"),
@@ -31,25 +34,41 @@ export default {
   },
 
   mounted() {
-    this.axios.defaults.headers.common["Authorization"] = "Bearer " + this.token;
-
-    this.axios
-      .get("http://localhost:3000/api/posts/")
-
-      .then((response) => {
-        this.posts = response.data;
-      })
-
-      .catch((error) => console.log("error :>> ", error));
+    this.$store.dispatch("postStore/getAllPost");
+    // .then(
+    //   (posts) => {
+    //     console.log("posts :>> ", posts);
+    //   },
+    //   (errorPosts) => {
+    //     console.log("errorPosts :>> ", errorPosts);
+    //     if (this.status == "error_serveur") {
+    //       this.$router.push("error500");
+    //     }
+    //   }
+    // )
+    // );
   },
 
-  // computed: {
-  //   ...mapState("postStore", {
-  //     etat: (state) => state.etat,
-  //     mode: (state) => state.mode,
-  //     posts: (state) => state.posts,
-  //   }),
+  // mounted() {
+  //   this.axios.defaults.headers.common["Authorization"] = "Bearer " + this.token;
+
+  //   this.axios
+  //     .get("http://localhost:3000/api/posts/")
+
+  //     .then((response) => {
+  //       this.posts = response.data;
+  //     })
+
+  //     .catch((error) => console.log("error :>> ", error));
   // },
+
+  computed: {
+    ...mapState("postStore", {
+      etat: (state) => state.etat,
+      mode: (state) => state.mode,
+      posts: (state) => state.posts,
+    }),
+  },
 
   methods: {
     cleanDate(date) {

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="mode == 'create'" class="form">
+  <div v-if="mode === 'create'" class="form">
     <div class="form__input">
       <label for="titre">Titre</label>
       <input type="text" v-model="title" name="titre" id="titre" aria-label="titre_post" required maxlength="250" />
@@ -19,14 +19,17 @@
     </button>
     <p v-if="etat == 'error_auth'" class="form__error">Vous n'êtes pas authorisé à faire cela</p>
   </div>
+
+  <onePost v-if="mode === 'success'" />
 </template>
 
 <script>
 import { mapState } from "vuex";
+import onePost from "@/components/OnePost.vue";
 
 export default {
   name: "AddPost",
-  components: {},
+  components: { onePost },
 
   data: () => {
     return {
@@ -50,7 +53,6 @@ export default {
     onFileChange(e) {
       let file = e.target.files[0];
       this.image = file;
-      console.log("this.file :>> ", this.image);
     },
 
     createPost() {
@@ -60,7 +62,6 @@ export default {
       newPost.append("userId", JSON.parse(sessionStorage.getItem("userId")));
       newPost.append("image", this.image);
 
-      console.log("newPost :>> ", newPost);
       this.$store
         .dispatch("postStore/createPost", newPost, {
           headers: {
@@ -69,7 +70,8 @@ export default {
         })
         .then(
           (postCreate) => {
-            this.$store.commit("postStore/setMode", "publish"), console.log("postCreate :>> ", postCreate);
+            // console.log("store", this.$store._state.data.postStore);
+            this.$store.commit("postStore/setMode", "success"), console.log("postCreate :>> ", postCreate);
           },
           (errorCreatePost) => {
             console.log("errorCreatePost :>> ", errorCreatePost);

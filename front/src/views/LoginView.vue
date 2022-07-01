@@ -93,9 +93,6 @@ export default {
       errors: (state) => state.errors,
       status: (state) => state.status,
     }),
-    // ...mapState({
-
-    // }),
   },
 
   methods: {
