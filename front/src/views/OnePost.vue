@@ -26,9 +26,10 @@
 import { mapState } from "vuex";
 import moment from "moment";
 import Header from "@/components/Header.vue";
+import btnLogout from "@/components/BtnLogout.vue";
 export default {
   name: "OnePost",
-  components: { Header },
+  components: { Header, btnLogout },
 
   data: () => {
     return {
@@ -63,9 +64,9 @@ export default {
     //     .catch((error) => console.log("error :>> ", error));
     // },
 
-    deletePost(){
-      this.$store.dispatch("postStore/deletePost")
-    }
+    deletePost() {
+      this.$store.dispatch("postStore/deletePost");
+    },
   },
 };
 </script>
