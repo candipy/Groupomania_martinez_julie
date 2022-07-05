@@ -14,7 +14,7 @@
     <btnLogout />
   </div>
   <div class="" v-else>
-    <button><router-link :to="{ path: '/user/' + this.userIdSS }" class="">Votre Profil</router-link></button>
+    <!-- <button><router-link :to="{ path: '/user/' + this.userIdSS }" class="">Votre Profil</router-link></button> -->
 
     <btnLogout />
   </div>

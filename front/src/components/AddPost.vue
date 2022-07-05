@@ -20,16 +20,16 @@
     <p v-if="etat == 'error_auth'" class="form__error">Vous n'êtes pas authorisé à faire cela</p>
   </div>
 
-  <onePost v-if="mode === 'success'" />
+  <!-- <onePost v-if="mode === 'success'" /> -->
 </template>
 
 <script>
 import { mapState } from "vuex";
-import onePost from "@/components/OnePost.vue";
+// import onePost from "@/components/OnePost.vue";
 
 export default {
   name: "AddPost",
-  components: { onePost },
+  // components: { onePost },
 
   data: () => {
     return {
@@ -70,8 +70,7 @@ export default {
         })
         .then(
           (postCreate) => {
-            // console.log("store", this.$store._state.data.postStore);
-            this.$store.commit("postStore/setMode", "success"), console.log("postCreate :>> ", postCreate);
+            this.$store.commit("postStore/setMode", "success");
           },
           (errorCreatePost) => {
             console.log("errorCreatePost :>> ", errorCreatePost);

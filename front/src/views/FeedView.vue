@@ -9,7 +9,6 @@
 
   <whatsNew />
   <addPost />
-  <!-- <onePost /> -->
 
   <allPost />
 </template>
@@ -21,9 +20,6 @@ import AddPost from "@/components/AddPost.vue";
 import btnLogout from "@/components/BtnLogout.vue";
 import allPost from "@/components/AllPost.vue";
 import whatsNew from "@/components/WhatsNew.vue";
-// import onePost from "@/components/OnePost.vue";
-
-// import { mapState } from "vuex";
 
 export default {
   name: "Feed",
@@ -33,7 +29,6 @@ export default {
     btnLogout,
     allPost,
     whatsNew,
-    // onePost,
   },
 
   data: () => {
@@ -47,8 +42,7 @@ export default {
   },
 
   mounted() {
-    // console.log("this.$commit.state :>> ", this.$commit.state);
-    console.log("store", this.$store._state.data.postStore);
+    // console.log("store", this.$store._state.data.postStore);
 
     if (sessionStorage.getItem("token") === null) {
       this.$router.push("/");

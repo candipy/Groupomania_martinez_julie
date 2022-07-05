@@ -122,11 +122,6 @@ exports.getAllPost = (req, res, next) => {
     include: [
       {
         model: db.User,
-        attributes: ["firstName"],
-      },
-      {
-        model: db.User,
-        attributes: ["lastName"],
       },
     ],
   })
@@ -141,11 +136,6 @@ exports.getOnePost = (req, res, next) => {
     include: [
       {
         model: db.User,
-        attributes: ["firstName"],
-      },
-      {
-        model: db.User,
-        attributes: ["lastName"],
       },
     ],
   })

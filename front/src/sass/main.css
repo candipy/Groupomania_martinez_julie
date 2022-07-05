@@ -82,32 +82,6 @@ i:hover {
   cursor: pointer;
 }
 
-.whatsNew {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  width: 100%;
-  border-radius: 10px;
-  border: #ffd7d7;
-  -webkit-box-shadow: 0 0 20px #4e5166;
-          box-shadow: 0 0 20px #4e5166;
-  background-color: #4e5166;
-  color: #ffd7d7;
-  padding: 2%;
-}
-
 .btn-grad-light {
   background-image: -webkit-gradient(linear, left top, right top, from(#ffd7d7), color-stop(51%, white), to(#ffd6d7));
   background-image: linear-gradient(to right, #ffd7d7 0%, white 51%, #ffd6d7 100%);
@@ -259,8 +233,71 @@ i:hover {
           box-shadow: 0 0 20px #4e5166;
   color: #4e5166;
   padding: 2%;
+  margin: 5px;
+}
+
+.post a {
+  font-weight: normal;
+  width: 100%;
+}
+
+.post_title {
+  font-weight: bold;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.post_message {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.post_img {
+  max-width: 100%;
+  width: 600px;
+  max-height: 300px;
+  margin: 0 auto;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.post_img_little {
+  max-width: 100%;
+  width: 300px;
+  max-height: 150px;
+  margin: 0 auto;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.whatsNew {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin-top: 5px;
   margin-bottom: 5px;
+  width: 100%;
+  border-radius: 10px;
+  border: #ffd7d7;
+  -webkit-box-shadow: 0 0 20px #4e5166;
+          box-shadow: 0 0 20px #4e5166;
+  background-color: #4e5166;
+  color: #ffd7d7;
+  padding: 2%;
 }
 
 #app {
@@ -298,7 +335,11 @@ header .logo-header {
 
 header .logo-header img {
   width: 100%;
-  margin-top: -27%;
-  margin-bottom: -27%;
+}
+
+@media screen and (min-width: 992px) {
+  header .logo-header img {
+    width: 40%;
+  }
 }
 /*# sourceMappingURL=main.css.map */

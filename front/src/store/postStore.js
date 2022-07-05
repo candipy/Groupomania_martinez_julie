@@ -15,9 +15,11 @@ const postStore = {
     probleme: "",
     mode: "",
 
+    postId: "",
+
     post: [],
 
-    posts: [],
+    posts: {},
   },
 
   mutations: {
@@ -27,6 +29,9 @@ const postStore = {
     },
     setMode(state, mode) {
       state.mode = mode;
+    },
+    setPostId(state, postId) {
+      state.postId = postId;
     },
 
     setOnePost(state, post) {
@@ -44,13 +49,12 @@ const postStore = {
         axios
           .post("http://localhost:3000/api/posts/newpost/", postCreate)
           .then((postCreate) => {
-            console.log("postCreate :>> ", postCreate.data.postCreate);
-
             commit("setOnePost", postCreate.data.postCreate);
-
+            console.log("postCreate.data.postCreate :>> ", postCreate.data.postCreate);
             resolve(postCreate);
           })
           .catch((errorPostCreate) => {
+            console.log("errorPostCreate :>> ", errorPostCreate);
             if (errorPostCreate.response.data.Message) {
               let messages = errorPostCreate.response.data.Message;
               Object.keys(messages).forEach((error) => {
@@ -78,17 +82,31 @@ const postStore = {
         })
         .then((data) => {
           commit("setPosts", data);
-          //   console.log("data :>> ", data);
         })
         .catch((errorPosts) => {
           console.log("errorPosts :>> ", errorPosts);
         });
     },
 
-    getOnePost: ({ commit, state }, post) => {
+    getOnePost: ({ commit, state }) => {
+      axios
+        .get("http://localhost:3000/api/posts/" + state.postId + "/")
+        .then((post) => {
+          return post.data;
+        })
+        .then((data) => {
+          commit("setOnePost", data);
+          console.log("state.post :>> ", state.post);
+        })
+        .catch((errorPost) => {
+          console.log("errorPosts :>> ", errorPost);
+        });
+    },
+
+    modifyPost: ({ commit, state }, post) => {
       axios
 
-        .get("http://localhost:3000/api/posts/" + state.post.id + "/")
+        .get("http://localhost:3000/api/posts/" + state.postId + "/")
         .then((post) => {
           return post.data;
         })
@@ -100,6 +118,8 @@ const postStore = {
           console.log("errorPosts :>> ", errorPost);
         });
     },
+
+    // deletePost: ({commit, state}, )
   },
 };
 

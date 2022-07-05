@@ -49,11 +49,11 @@ const routes = [
     name: "deleteAccount",
     component: () => import(/* webpackChunkName: "about" */ "../views/DeleteAccountView.vue"),
   },
-  // {
-  //   path: "/posts/:id",
-  //   name: "OnePost",
-  //   component: () => import(/* webpackChunkName: "about" */ "../views/OnePost.vue"),
-  // },
+  {
+    path: "/posts/:id",
+    name: "OnePost",
+    component: () => import(/* webpackChunkName: "about" */ "../views/OnePost.vue"),
+  },
 ];
 
 const router = createRouter({
