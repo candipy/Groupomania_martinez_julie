@@ -44,7 +44,7 @@ export default {
   computed: {
     ...mapState("postStore", {
       etat: (state) => state.etat,
-      //   probleme: (state) => state.probleme,
+
       mode: (state) => state.mode,
     }),
   },

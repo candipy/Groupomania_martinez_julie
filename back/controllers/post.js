@@ -5,22 +5,27 @@ const auth = require("../middelware/auth");
 
 exports.deletePost = (req, res, next) => {
   db.Post.findOne({ where: { id: req.params.id } })
+
     .then((post) => {
       if (!post || post == null) {
         res.status(404).json({ Message: { error_post: "Publication non trouvée !" } });
       }
       if (post.userId !== req.auth.userId) {
         res.status(401).json({ Message: { error_auth: "Requete non authorisée par cet utilisateur !" } });
-      } else {
+      } else if (post.urlImage !== null) {
         const filename = post.urlImage.split("/images/")[1];
         fs.unlink(`images/${filename}`, () => {
           db.Post.destroy({ where: { id: req.params.id } })
-            .then(() => res.status(200).json({ Message: { post_delete: "Nous vous confirmons la suppression de votre post!" } }))
+            .then(() => res.status(200).json({ Message: "Nous vous confirmons la suppression de votre post!" }))
             .catch((error) => res.status(500).json({ Message: { error_serveur: "Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
         });
+      } else {
+        db.Post.destroy({ where: { id: req.params.id } })
+          .then(() => res.status(200).json({ Message: "Nous vous confirmons la suppression de votre post!" }))
+          .catch((error) => res.status(500).json({ Message: { error_serveur: "Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
       }
     })
-    .catch((error) => res.status(500).json({ Message: { error_serveur: " Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
+    .catch((error) => res.status(500).json({ Message: { error_serveur: " gg Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
 };
 
 exports.modifyPost = (req, res, next) => {

@@ -3,9 +3,10 @@
   <nav>
     <router-link to="/" class="btn-grad">Home</router-link>
     <router-link :to="{ path: '/user/' + this.userIdSS }" class="btn-grad">Votre Profil</router-link>
+    <router-link to="/feed" class="btn-grad">Fil d'actualités</router-link>
     <btnLogout />
   </nav>
-  <div class="post">
+  <div class="post" v-if="etat !== 'delete'">
     <div>
       Publié par
       <router-link :to="{ path: '/user/' + post.userId }">
@@ -15,11 +16,13 @@
     </div>
     <div>Créé le {{ post.createdAt }}</div>
     <!-- <div>Créé le {{ cleanDate(post.createdAt) }}</div>   Fonctionne pas, is not a fonction, mais ok sur AllPost.vue -->
-    <div class="" v-if="post.userId == userIdSS"><i class="fa fa-pen"> </i><i class="fa fa-trash"> </i></div>
+    <div class="" v-if="post.userId == userIdSS"><i class="fa fa-pen"> </i><i class="fa fa-trash" @click="deletePost()"> </i></div>
     <h4 v-if="post.title !== null">{{ post.title }}</h4>
     <div>{{ post.message }}</div>
     <img class="post_img" v-if="post.urlImage !== null" :src="post.urlImage" alt="illustration_post" />
   </div>
+
+  <div v-else>{{ info }}</div>
 </template>
 
 <script>
@@ -45,6 +48,8 @@ export default {
   computed: {
     ...mapState("postStore", {
       post: (state) => state.post,
+      etat: (state) => state.etat,
+      info: (state) => state.info,
     }),
   },
 
