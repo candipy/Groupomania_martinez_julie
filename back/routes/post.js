@@ -11,7 +11,7 @@ const postCtrl = require("../controllers/post");
 
 router.delete("/:id", auth, multer, postCtrl.deletePost);
 router.patch("/:id", auth, multer, postCtrl.modifyPost);
-router.post("/newpost", auth, multer, postCtrl.createPost);
+router.post("/", auth, multer, postCtrl.createPost);
 router.get("/user/:id", auth, postCtrl.getPostsByUser);
 router.get("/:id", auth, postCtrl.getOnePost);
 router.get("/", auth, postCtrl.getAllPost);

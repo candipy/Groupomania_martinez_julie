@@ -1,8 +1,8 @@
 <template>
-  <div v-if="mode !== 'create'" class="whatsNew">
+  <div v-if="mode !== 'create'" class="whatsNew" @click="createNewPost()">
     <p>Exprimes toi !</p>
 
-    <p><i @click="createNewPost()" class="fa fa-pen"></i></p>
+    <p><i class="fa fa-pen"></i></p>
   </div>
   <!-- <div v-else class="whatsNew">
     <p>Nouvelle publication</p>

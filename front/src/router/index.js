@@ -44,16 +44,16 @@ const routes = [
     name: "error500",
     component: () => import(/* webpackChunkName: "about" */ "../views/Error500View.vue"),
   },
-  {
-    path: "/deleteAccount",
-    name: "deleteAccount",
-    component: () => import(/* webpackChunkName: "about" */ "../views/DeleteAccountView.vue"),
-  },
-  {
-    path: "/posts/:id",
-    name: "OnePost",
-    component: () => import(/* webpackChunkName: "about" */ "../views/OnePost.vue"),
-  },
+  // {
+  //   path: "/deleteAccount",
+  //   name: "deleteAccount",
+  //   component: () => import(/* webpackChunkName: "about" */ "../views/DeleteAccountView.vue"),
+  // },
+  // {
+  //   path: "/posts/:id",
+  //   name: "OnePost",
+  //   component: () => import(/* webpackChunkName: "about" */ "../views/OnePost.vue"),
+  // },
 ];
 
 const router = createRouter({

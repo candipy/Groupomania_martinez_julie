@@ -40,37 +40,46 @@ const postStore = {
     setPosts(state, posts) {
       state.posts = posts;
     },
+
+    // addPost(state, post) {
+    //   state.posts.push(post);
+    // },
   },
+
+  // getters: {
+  //   feed: (state) => state.posts,
+  // },
 
   actions: {
     createPost: ({ commit }, postCreate) => {
       commit("setEtat", { etat: "loading", info: "" });
-      return new Promise((resolve, reject) => {
-        axios
-          .post("http://localhost:3000/api/posts/newpost/", postCreate)
-          .then((postCreate) => {
-            commit("setOnePost", postCreate.data.postCreate);
-            console.log("postCreate.data.postCreate :>> ", postCreate.data.postCreate);
-            resolve(postCreate);
-          })
-          .catch((errorPostCreate) => {
-            console.log("errorPostCreate :>> ", errorPostCreate);
-            // if (errorPostCreate.response.data.Message) {
-            //   let messages = errorPostCreate.response.data.Message;
-            //   Object.keys(messages).forEach((error) => {
-            //     let message = messages[error];
+      // return new Promise((resolve, reject) => {
+      axios
+        .post("http://localhost:3000/api/posts/", postCreate)
+        .then((postCreate) => {
+          console.log("postCreate :>> ", postCreate);
+          // commit("addPost", postCreate.data.postCreate);
+          // commit("setPosts", postCreate.data.postCreate);
+          // resolve(postCreate);
+        })
+        .catch((errorPostCreate) => {
+          console.log("errorPostCreate :>> ", errorPostCreate);
+          // if (errorPostCreate.response.data.Message) {
+          //   let messages = errorPostCreate.response.data.Message;
+          //   Object.keys(messages).forEach((error) => {
+          //     let message = messages[error];
 
-            //     if (error === "error_auth") {
-            //       commit("setEtat", { etat: "error_auth", info: message });
-            //       reject(errorPostCreate);
-            //     } else if (error === "error_serveur") {
-            //       commit("setEtat", { etat: "error_serveur", info: message });
-            reject(errorPostCreate);
-            //     }
-            //   });
-            // }
-          });
-      });
+          //     if (error === "error_auth") {
+          //       commit("setEtat", { etat: "error_auth", info: message });
+          //       reject(errorPostCreate);
+          //     } else if (error === "error_serveur") {
+          //       commit("setEtat", { etat: "error_serveur", info: message });
+          // reject(errorPostCreate);
+          //     }
+          //   });
+          // }
+        });
+      // });
     },
 
     getAllPost: ({ commit }) => {
@@ -78,10 +87,7 @@ const postStore = {
         .get("http://localhost:3000/api/posts/")
 
         .then((posts) => {
-          return posts.data;
-        })
-        .then((data) => {
-          commit("setPosts", data);
+          commit("setPosts", posts.data);
         })
         .catch((errorPosts) => {
           console.log("errorPosts :>> ", errorPosts);
@@ -93,30 +99,27 @@ const postStore = {
       axios
         .get("http://localhost:3000/api/posts/" + state.postId + "/")
         .then((post) => {
-          return post.data;
-        })
-        .then((data) => {
-          commit("setOnePost", data);
-          console.log("state.post :>> ", state.post);
+          commit("setOnePost", post.data);
         })
         .catch((errorPost) => {
           console.log("errorPosts :>> ", errorPost);
         });
     },
 
-    modifyPost: ({ commit, state }) => {
-      axios
-        .get("http://localhost:3000/api/posts/" + state.postId + "/")
-        .then((post) => {
-          return post.data;
-        })
-        .then((data) => {
-          commit("setOnePost", data);
-          console.log("data :>> ", data);
-        })
-        .catch((errorPost) => {
-          console.log("errorPosts :>> ", errorPost);
-        });
+    modifyPost: ({ commit, state }, postUpdate) => {
+      return new Promise((resolve, reject) => {
+        axios
+          .patch("http://localhost:3000/api/posts/" + state.postId + "/", postUpdate)
+          .then((postUpdate) => {
+            console.log("postUpdate :>> ", postUpdate);
+            resolve(postUpdate);
+          })
+
+          .catch((errorPostUpdate) => {
+            console.log("errorPosts :>> ", errorPostUpdate);
+            reject(errorPostUpdate);
+          });
+      });
     },
 
     deletePost: ({ commit, state }) => {
@@ -124,7 +127,7 @@ const postStore = {
         .delete("http://localhost:3000/api/posts/" + state.postId + "/")
 
         .then((postDelete) => {
-          commit("setEtat", { etat: "delete", info: postDelete.data.Message });
+          commit("setEtat", { etat: "", info: postDelete.data.Message });
         })
         .catch((errorDelete) => {
           console.log("errorPosts :>> ", errorDelete);

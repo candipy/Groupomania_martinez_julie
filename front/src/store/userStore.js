@@ -1,3 +1,5 @@
+import { CLOSED } from "ws";
+
 const axios = require("axios");
 
 const instance = axios.create({
@@ -17,7 +19,7 @@ console.log("token :>> ", token);
 const userStore = {
   namespaced: true,
   state: {
-    status: "",
+    status: null,
     errors: "",
     user: {
       userId: "",
@@ -150,9 +152,9 @@ const userStore = {
       });
     },
 
-    getUserInfos: ({ commit }) => {
+    getUserInfos: ({ commit, state }) => {
       axios
-        .get("http://localhost:3000/api/auth/user/" + sessionStorage.getItem("userId") + "/")
+        .get("http://localhost:3000/api/auth/user/" + state.user + "/")
 
         .then((user) => {
           commit("userInfos", user.data);
@@ -161,36 +163,46 @@ const userStore = {
         .catch((error) => {
           console.log("error.getOneUser :>> ", error);
         });
-      // });
     },
 
     deleteAccount: ({ commit }) => {
-      axios
-        .delete("http://localhost:3000/api/auth/user/" + sessionStorage.getItem("userId") + "/")
+      return new Promise((resolve, reject) => {
+        axios
+          .delete("http://localhost:3000/api/auth/user/" + sessionStorage.getItem("userId") + "/")
 
-        .then((user) => {
-          commit("logout");
-          commit("setStatus", { errors: user.data.Message.user_delete });
-        })
-        .catch((errorDeleteUser) => {
-          console.log("errorDeleteUser :>> ", errorDeleteUser);
-          let messages = errorDeleteUser.response.data.Message;
-          Object.keys(messages).forEach((error) => {
-            let message = messages[error];
+          .then((user) => {
+            commit("logout");
 
-            if (error === "error_user") {
-              commit("setStatus", { status: "error_user", errors: message });
-            }
-            if (error === "error_auth") {
-              commit("setStatus", { status: "error_auth", errors: message });
-            }
-            if (error === "error_serveur") {
-              commit("setStatus", { status: "error_serveur", errors: message });
-              reject(errorUserCreate);
+            commit("setStatus", { status: "accountDelete", errors: user.data.Message.user_delete });
+            resolve(user);
+          })
+
+          .catch((errorDeleteUser) => {
+            console.log("errorDeleteUser :>> ", errorDeleteUser);
+            if ((messages = errorDeleteUser.response.data.Message)) {
+              let messages = errorDeleteUser.response.data.Message;
+              Object.keys(messages).forEach((error) => {
+                let message = messages[error];
+
+                if (error === "error_user") {
+                  commit("setStatus", { status: "error_user", errors: message });
+                  reject(errorDeleteUser);
+                }
+                if (error === "error_auth") {
+                  commit("setStatus", { status: "error_auth", errors: message });
+                  reject(errorDeleteUser);
+                }
+                if (error === "error_serveur") {
+                  commit("setStatus", { status: "error_serveur", errors: message });
+                  reject(errorDeleteUser);
+                } else {
+                  commit("setStatus", { status: "error_serveur", errors: message });
+                  reject(errorDeleteUser);
+                }
+              });
             }
           });
-        });
-      // });
+      });
     },
   },
 };

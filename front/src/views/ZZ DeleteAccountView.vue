@@ -6,6 +6,8 @@
   <h1>Suppression de compte</h1>
   <p>
     {{ errors }}
+
+    {{ infos }}
   </p>
 </template>
 
@@ -23,11 +25,10 @@ export default {
   computed: {
     ...mapState("userStore", {
       errors: (state) => state.errors,
-      // status: (state) => state.status,
+      infos: (state) => state.infos,
     }),
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>

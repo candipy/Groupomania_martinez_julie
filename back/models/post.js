@@ -11,17 +11,17 @@ module.exports = (sequelize, DataTypes) => {
       models.Post.belongsTo(models.User, {
         // foreignKey: {
         //   allowNull: false
-        // }, 
-        onDelete: 'CASCADE'
-      })
+        // },
+        onDelete: "CASCADE",
+      });
       // models.Post.hasMany(models.Comment);
     }
   }
   Post.init(
     {
       title: DataTypes.STRING,
-      userId: DataTypes.INTEGER,
-      urlImage: DataTypes.STRING,
+      // userId: DataTypes.INTEGER,
+      image: DataTypes.STRING,
       message: DataTypes.STRING,
     },
     {

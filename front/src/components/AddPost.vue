@@ -19,8 +19,6 @@
     </button>
     <p v-if="etat == 'error_auth'" class="form__error">Vous n'êtes pas authorisé à faire cela</p>
   </div>
-
-  <!-- <onePost v-if="mode === 'success'" /> -->
 </template>
 
 <script>
@@ -55,6 +53,11 @@ export default {
       this.image = file;
     },
 
+    updatePostList() {
+      this.$store.dispatch("postStore/getAllPost");
+      console.log("update", this.$store.getters);
+    },
+
     createPost() {
       let newPost = new FormData();
       newPost.append("title", this.title);
@@ -70,7 +73,9 @@ export default {
         })
         .then(
           (postCreate) => {
+            console.log("store add", this.$store._state.data.postStore);
             this.$store.commit("postStore/setMode", "success");
+            this.$store.commit("postStore/setEtat", { etat: "", info: "" });
           },
           (errorCreatePost) => {
             console.log("errorCreatePost :>> ", errorCreatePost);

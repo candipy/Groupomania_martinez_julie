@@ -236,11 +236,6 @@ i:hover {
   margin: 5px;
 }
 
-.post a {
-  font-weight: normal;
-  width: 100%;
-}
-
 .post_title {
   font-weight: bold;
   padding-top: 2%;
@@ -298,6 +293,24 @@ i:hover {
   background-color: #4e5166;
   color: #ffd7d7;
   padding: 2%;
+}
+
+.whatsNew:hover {
+  cursor: pointer;
+}
+
+.dialogue p {
+  font-size: 12px;
+  margin: 0%;
+}
+
+.dialogue_btn {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.dialogue_btn:hover {
+  color: #fd2d01;
 }
 
 #app {

@@ -1,29 +1,30 @@
 <template>
+  <whatsNew />
+  <addPost @keyup="updatePostList" @click="updatePostList" />
   <div class="post" v-for="post in posts" v-bind:key="post.id">
-    <router-link :to="{ name: 'OnePost', params: { id: post.id } }">
-      <div>
-        Publié par
-        <!-- {{ post.User }} -->
-        <!-- {{ post.User.firstName }} {{ post.User.lastName }}  Fonctionne pas alors que post.User est OK-->
-        <div>Créé le {{ cleanDate(post.createdAt) }}</div>
-      </div>
-
-      <div class="post_title" v-if="post.title !== ''">{{ post.title }}</div>
-      <div class="post_message">{{ post.message }}</div>
-      <img class="post_img_little" v-if="post.urlImage !== null" :src="post.urlImage" alt="illustration_post" />
-    </router-link>
+    <OnePost v-bind:message="post.message" v-bind:image="post.image" v-bind:title="post.title" v-bind:date="post.createdAt" v-bind:userId="post.UserId" v-bind:postId="post.id" v-bind:firstName="post.User.firstName" v-bind:lastName="post.User.lastName" />
+    <deletePost @click="updatePostList" v-if="(etat == 'delete') & (post.id == this.$store._state.data.postStore.postId)" />
   </div>
-
-  <!-- <onePost /> -->
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
+import AddPost from "@/components/AddPost.vue";
+import OnePost from "@/components/OnePost.vue";
 import moment from "moment";
+import whatsNew from "./WhatsNew.vue";
+import DeletePost from "./DeletePost.vue";
 
 export default {
   name: "AllPost",
+
+  components: {
+    AddPost,
+    whatsNew,
+    OnePost,
+    DeletePost,
+  },
 
   data: () => {
     return {
@@ -35,19 +36,18 @@ export default {
 
   mounted() {
     this.$store.dispatch("postStore/getAllPost");
-    console.log("store all", this.$store._state.data.postStore);
   },
 
   computed: {
     ...mapState("postStore", {
       etat: (state) => state.etat,
-      mode: (state) => state.mode,
       posts: (state) => state.posts,
     }),
   },
   methods: {
-    cleanDate(date) {
-      return moment(date).format("DD/MM/YYYY à h:mm");
+    updatePostList() {
+      alert("update");
+      this.$store.dispatch("postStore/getAllPost");
     },
   },
 };

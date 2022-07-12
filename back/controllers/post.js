@@ -8,12 +8,13 @@ exports.deletePost = (req, res, next) => {
 
     .then((post) => {
       if (!post || post == null) {
+        alert("1");
         res.status(404).json({ Message: { error_post: "Publication non trouvée !" } });
       }
-      if (post.userId !== req.auth.userId) {
+      if (post.UserId !== req.auth.userId) {
         res.status(401).json({ Message: { error_auth: "Requete non authorisée par cet utilisateur !" } });
-      } else if (post.urlImage !== null) {
-        const filename = post.urlImage.split("/images/")[1];
+      } else if (post.image !== null) {
+        const filename = post.image.split("/images/")[1];
         fs.unlink(`images/${filename}`, () => {
           db.Post.destroy({ where: { id: req.params.id } })
             .then(() => res.status(200).json({ Message: "Nous vous confirmons la suppression de votre post!" }))
@@ -44,33 +45,34 @@ exports.modifyPost = (req, res, next) => {
 
         fs.unlink(`images/${filename}`, () => {
           const postUpdate = {
-            ...JSON.parse(req.body.post),
+            title: req.body.title,
+            message: req.body.message,
             userId: req.auth.userId,
             urlImage: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
           };
+
           if (postUpdate.likes || postUpdate.dislikes || postUpdate.usersLiked || postUpdate.usersDisliked) {
             res.status(401).json({ Message: { error_likes: "Interdiction de modifier ces champs par ici" } });
           } else {
             post
               .update(postUpdate, { where: { id: req.params.id } })
               .then((postUpdate) => res.status(200).json({ postUpdate: postUpdate }))
-              .catch((errorPostUpdate) => res.status(500).json({ Message: { error_serveur: "Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
+              .catch((errorPostUpdate) => res.status(500).json({ Message: { error_serveur: "A Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
           }
         });
       } else if (!req.file) {
         const postUpdate = { ...req.body };
-        console.log("postUpdate :>> ", postUpdate);
         if (postUpdate.likes || postUpdate.dislikes || postUpdate.usersLiked || postUpdate.usersDisliked) {
           res.status(401).json({ Message: { error_likes: "Interdiction de modifier ces champs par ici" } });
         } else {
           post
             .update(postUpdate, { where: { id: req.params.id } })
             .then((postUpdate) => res.status(200).json({ postUpdate: postUpdate }))
-            .catch((errorPostUpdate) => res.status(500).json({ Message: { error_serveur: "Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
+            .catch((errorPostUpdate) => res.status(500).json({ Message: { error_serveur: " B Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
         }
       }
     })
-    .catch((error) => res.status(500).json({ Message: { error_serveur: "qshifhsiq Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
+    .catch((error) => console.log(req.body), res.status(500).json({ Message: { error_serveur: "all Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
 };
 
 exports.createPost = (req, res, next) => {
@@ -78,26 +80,31 @@ exports.createPost = (req, res, next) => {
     res.status(401).json({ Message: { error_auth: "Requete non authorisée par cet utilisateur !" } });
   }
   if (req.file) {
-    // else
-    console.log("req.file :>> ", req.file);
     const post = {
       title: req.body.title,
       message: req.body.message,
-      userId: req.auth.userId,
-      urlImage: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+      UserId: req.auth.userId,
+      image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
     };
 
     db.Post.create(post)
-      .then((postCreate) => res.status(201).json({ postCreate }))
+      .then((postCreate) =>
+        // console.log('postCreate :>> ', postCreate)
+        res.status(201).json({ postCreate })
+      )
       .catch((errorPostCreate) => res.status(500).json({ Message: { error_serveur: " Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
   } else if (!req.file) {
     const post = {
       title: req.body.title,
       message: req.body.message,
-      userId: req.auth.userId,
+      UserId: req.auth.userId,
     };
     db.Post.create(post)
-      .then((postCreate) => res.status(201).json({ postCreate }))
+      .then((postCreate) =>
+        // console.log("postCreate :>> ", postCreate)
+
+        res.status(201).json({ postCreate })
+      )
       .catch((errorPostCreate) => res.status(500).json({ Message: { error_serveur: "Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
   }
 };
@@ -127,6 +134,11 @@ exports.getAllPost = (req, res, next) => {
     include: [
       {
         model: db.User,
+        attributes: ["firstName"],
+      },
+      {
+        model: db.User,
+        attributes: ["lastName"],
       },
     ],
   })
@@ -141,6 +153,11 @@ exports.getOnePost = (req, res, next) => {
     include: [
       {
         model: db.User,
+        attributes: ["firstName"],
+      },
+      {
+        model: db.User,
+        attributes: ["lastName"],
       },
     ],
   })

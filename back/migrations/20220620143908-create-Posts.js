@@ -11,7 +11,7 @@ module.exports = {
       title: {
         type: Sequelize.STRING,
       },
-      userId: {
+      UserId: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         references: {
@@ -19,12 +19,11 @@ module.exports = {
           key: "id",
         },
       },
-      urlImage: {
+      image: {
         type: Sequelize.STRING,
       },
       message: {
         type: Sequelize.STRING,
-        
       },
       createdAt: {
         allowNull: false,

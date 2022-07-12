@@ -7,18 +7,6 @@
 
   <h1>Profil</h1>
 
-  <div class="" v-if="this.$route.params.id == userIdSS">
-    <button class="">
-      <span @click="deleteAccount">Supprimer le compte</span>
-    </button>
-    <btnLogout />
-  </div>
-  <div class="" v-else>
-    <!-- <button><router-link :to="{ path: '/user/' + this.userIdSS }" class="">Votre Profil</router-link></button> -->
-
-    <btnLogout />
-  </div>
-
   <div class="card">
     <div>
       <p>Nom : {{ userInfos.lastName }}</p>
@@ -29,15 +17,30 @@
     <div>
       <p>Email du compte : {{ userInfos.email }}</p>
     </div>
+  </div>
 
-    <!-- <AllPostsByUser /> -->
+  <div class="" v-if="(this.$route.params.id == userIdSS) & (status !== 'accountDelete')">
+    <button class="">
+      <span @click="deleteStatus">Supprimer le compte</span>
+    </button>
+    <btnLogout />
+  </div>
+  <div class="" v-else>
+    <btnLogout />
+  </div>
+  <div class="dialogue" v-if="status == 'accountDelete'">
+    <h3>Êtes-vous sûr de vouloir supprimer votre compte ?</h3>
+    <p>Cette opération supprimera également toutes vos publication et cela est irréversible</p>
+    <div class="dialogue_btn" @click="noStatus">ANNULER</div>
+    <div class="dialogue_btn" @click="deleteAccount()">CONFIRMER</div>
+
+    {{ errors }}
   </div>
 </template>
 
 <script>
 import Header from "@/components/Header.vue";
 import btnLogout from "@/components/BtnLogout.vue";
-// import AllPostsByUser from "@/components/AllPostsByUser.vue";
 
 import { mapState } from "vuex";
 
@@ -46,16 +49,26 @@ export default {
   components: {
     Header,
     btnLogout,
-    // AllPostsByUser,
   },
 
   data: () => {
     return {
-      userInfos: [],
       userIdSS: JSON.parse(sessionStorage.getItem("userId")),
       token: sessionStorage.getItem("token"),
       axios: require("axios"),
     };
+  },
+
+  computed: {
+    ...mapState("userStore", {
+      userInfos: (state) => state.userInfos,
+      status: (state) => state.status,
+      errors: (state) => state.errors,
+    }),
+  },
+
+  beforeMount() {
+    this.$store.commit("userStore/logUser", this.$route.params.id);
   },
   mounted() {
     if (sessionStorage.getItem("token") === null) {
@@ -63,31 +76,20 @@ export default {
       return;
     }
 
-    this.axios.defaults.headers.common["Authorization"] = "Bearer " + this.token;
-
-    this.axios
-      .get("http://localhost:3000/api/auth/user/" + this.$route.params.id)
-
-      .then((response) => {
-        this.userInfos = response.data;
-      })
-
-      .catch((error) => console.log("error :>> ", error));
+    this.$store.dispatch("userStore/getUserInfos");
+    this.$store.commit("userStore/setStatus", { status: "" });
   },
 
   methods: {
+    noStatus() {
+      this.$store.commit("userStore/setStatus", { status: "" });
+    },
+    deleteStatus() {
+      this.$store.commit("userStore/setStatus", { status: "accountDelete" });
+    },
     deleteAccount() {
-      this.$store.dispatch("userStore/deleteAccount").then(
-        () => {
-          this.$router.push("deleteAccount");
-        },
-        (error) => {
-          console.log("error :>> ", error);
-          if (this.status == "error_serveur") {
-            this.$router.push("error500");
-          }
-        }
-      );
+      this.$store.dispatch("userStore/deleteAccount");
+      this.$router.push("/login");
     },
   },
 };

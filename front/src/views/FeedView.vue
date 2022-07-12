@@ -7,8 +7,7 @@
   </nav>
   <h1>Fil d'actualités</h1>
 
-  <whatsNew />
-  <addPost />
+
 
   <allPost />
 </template>
@@ -19,7 +18,7 @@ import Header from "@/components/Header.vue";
 import AddPost from "@/components/AddPost.vue";
 import btnLogout from "@/components/BtnLogout.vue";
 import allPost from "@/components/AllPost.vue";
-import whatsNew from "@/components/WhatsNew.vue";
+
 
 export default {
   name: "Feed",
@@ -28,7 +27,7 @@ export default {
     AddPost,
     btnLogout,
     allPost,
-    whatsNew,
+
   },
 
   data: () => {
@@ -63,7 +62,7 @@ export default {
   //   }),
   // },
 
-  methods: {},
+ 
 };
 </script>
 

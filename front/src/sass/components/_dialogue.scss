@@ -1,0 +1,14 @@
+.dialogue {
+  p {
+    font-size: 12px;
+    margin: 0%;
+  }
+
+  &_btn {
+    font-weight: bold;
+    cursor: pointer;
+    &:hover {
+      color: #fd2d01;
+    }
+  }
+}
