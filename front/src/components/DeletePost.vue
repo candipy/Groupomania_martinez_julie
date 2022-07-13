@@ -1,7 +1,7 @@
 <template>
   <div class="dialogue">
     <h3>Êtes-vous sûr ?</h3>
-    <div class="dialogue_btn" @click="noEtat">ANNULER</div>
+    <div class="dialogue_btn" @click="noEtat()">ANNULER</div>
     <div class="dialogue_btn" @click="deletePost()">CONFIRMER</div>
   </div>
 </template>
@@ -26,7 +26,6 @@ export default {
 
     deletePost() {
       this.$store.dispatch("postStore/deletePost");
-      alert("post delete");
     },
   },
 };

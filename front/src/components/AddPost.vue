@@ -73,7 +73,7 @@ export default {
         })
         .then(
           (postCreate) => {
-            console.log("store add", this.$store._state.data.postStore);
+            console.log("store add view", this.$store._state.data.postStore);
             this.$store.commit("postStore/setMode", "success");
             this.$store.commit("postStore/setEtat", { etat: "", info: "" });
           },

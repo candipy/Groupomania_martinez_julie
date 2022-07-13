@@ -26,53 +26,104 @@ exports.deletePost = (req, res, next) => {
           .catch((error) => res.status(500).json({ Message: { error_serveur: "Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
       }
     })
-    .catch((error) => res.status(500).json({ Message: { error_serveur: " gg Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
+    .catch((error) => res.status(500).json({ Message: { error_serveur: "Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
 };
 
 exports.modifyPost = (req, res, next) => {
   db.Post.findOne({ where: { id: req.params.id } })
 
     .then((post) => {
-      const postObject = JSON.parse(req.body.post);
-      console.log("postObject :>> ", postObject);
+      console.log("req.body :>> ", req.body);
       if (!post) {
         return res.status(404).json({ Message: { error_post: "Publication non trouvée !" } });
       }
-      if (postObject.userId !== req.auth.userId) {
-        res.status(401).json({ Message: { error_auth: "Requete non authorisée par cet utilisateur !" } });
-      } else if (req.file) {
-        const filename = post.urlImage.split("/images/")[1];
+      if (post.UserId !== req.auth.userId) {
+        console.log("post.userId :>> ", post.userId);
+        res.status(401).json({ Message: { error_auth: "Ce post ne vous appartient pas !" } });
 
-        fs.unlink(`images/${filename}`, () => {
+        // <<<<<< Si le post initial n'a pas d'image >>>>>>
+      } else if (post.image == null) {
+        // Si le post initial n'a pas d'image et qu'on en ajoute pas
+        if (!req.file) {
           const postUpdate = {
             title: req.body.title,
             message: req.body.message,
-            userId: req.auth.userId,
-            urlImage: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+            UserId: req.auth.UserId,
           };
+          // if (postUpdate.likes || postUpdate.dislikes || postUpdate.usersLiked || postUpdate.usersDisliked) {
+          //   res.status(401).json({ Message: { error_likes: "Interdiction de modifier ces champs par ici" } });
+          // }
+          console.log("postUpdate :>> ", postUpdate);
 
-          if (postUpdate.likes || postUpdate.dislikes || postUpdate.usersLiked || postUpdate.usersDisliked) {
-            res.status(401).json({ Message: { error_likes: "Interdiction de modifier ces champs par ici" } });
-          } else {
+          post
+            .update({ ...postUpdate, id: req.params.id }, { where: { id: req.params.id } })
+            .then((post) => res.status(200).json({ post: post }))
+            .catch((errorPostUpdate) => res.status(500).json({ Message: { error_serveur: " B Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
+        } else {
+          // Si le post initial n'a pas d'image et qu'on en ajoute une
+
+          const postUpdate = {
+            title: req.body.title,
+            message: req.body.message,
+            UserId: req.auth.UserId,
+            image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+          };
+          // if (postUpdate.likes || postUpdate.dislikes || postUpdate.usersLiked || postUpdate.usersDisliked) {
+          //   res.status(401).json({ Message: { error_likes: "Interdiction de modifier ces champs par ici" } });
+          // } else {
+          post
+            .update({ ...postUpdate, id: req.params.id }, { where: { id: req.params.id } })
+            .then((postUpdate) => res.status(200).json({ postUpdate: postUpdate }))
+            .catch((errorPostUpdate) => res.status(500).json({ Message: { error_serveur: "A Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
+        }
+
+        // <<<<<< Si le post initial à un image >>>>>>
+      } else if (post.image !== null) {
+        if (req.file) {
+          // Si le post intital à une image et que l'utilisateur en ajoute une, on supprime l'ancienne, on remplace par la nouvelle
+          const filename = post.image.split("/images/")[1];
+
+          fs.unlink(`images/${filename}`, () => {
+            const postUpdate = {
+              title: req.body.title,
+              message: req.body.message,
+              UserId: req.auth.UserId,
+              image: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`,
+            };
+            console.log("postUpdate :>> ", postUpdate);
+
+            // if (postUpdate.likes || postUpdate.dislikes || postUpdate.usersLiked || postUpdate.usersDisliked) {
+            //   res.status(401).json({ Message: { error_likes: "Interdiction de modifier ces champs par ici" } });
+            // } else {
             post
-              .update(postUpdate, { where: { id: req.params.id } })
+              .update({ ...postUpdate, id: req.params.id }, { where: { id: req.params.id } })
               .then((postUpdate) => res.status(200).json({ postUpdate: postUpdate }))
               .catch((errorPostUpdate) => res.status(500).json({ Message: { error_serveur: "A Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
-          }
-        });
-      } else if (!req.file) {
-        const postUpdate = { ...req.body };
-        if (postUpdate.likes || postUpdate.dislikes || postUpdate.usersLiked || postUpdate.usersDisliked) {
-          res.status(401).json({ Message: { error_likes: "Interdiction de modifier ces champs par ici" } });
+            // }
+          });
         } else {
+          // Si le post initial à un image et que l'utilisateur n'en ajoute pas, on garde l'image initiale
+          const filename = post.image.split("/images/")[1];
+
+          const postUpdate = {
+            title: req.body.title,
+            message: req.body.message,
+            UserId: req.auth.UserId,
+          };
+          console.log("postUpdate :>> ", postUpdate);
+
+          // if (postUpdate.likes || postUpdate.dislikes || postUpdate.usersLiked || postUpdate.usersDisliked) {
+          //   res.status(401).json({ Message: { error_likes: "Interdiction de modifier ces champs par ici" } });
+          // } else {
           post
-            .update(postUpdate, { where: { id: req.params.id } })
+            .update({ ...postUpdate, id: req.params.id }, { where: { id: req.params.id } })
             .then((postUpdate) => res.status(200).json({ postUpdate: postUpdate }))
-            .catch((errorPostUpdate) => res.status(500).json({ Message: { error_serveur: " B Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
+            .catch((errorPostUpdate) => res.status(500).json({ Message: { error_serveur: "A Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
+          // }
         }
       }
     })
-    .catch((error) => console.log(req.body), res.status(500).json({ Message: { error_serveur: "all Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
+    .catch((error) => res.status(500).json({ Message: { error_serveur: "all Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
 };
 
 exports.createPost = (req, res, next) => {

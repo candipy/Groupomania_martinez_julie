@@ -7,8 +7,6 @@
   </nav>
   <h1>Fil d'actualités</h1>
 
-
-
   <allPost />
 </template>
 
@@ -19,7 +17,6 @@ import AddPost from "@/components/AddPost.vue";
 import btnLogout from "@/components/BtnLogout.vue";
 import allPost from "@/components/AllPost.vue";
 
-
 export default {
   name: "Feed",
   components: {
@@ -27,16 +24,11 @@ export default {
     AddPost,
     btnLogout,
     allPost,
-
   },
 
   data: () => {
     return {
-      // title: null,
-      // message: null,
       userIdSS: JSON.parse(sessionStorage.getItem("userId")),
-      token: sessionStorage.getItem("token"),
-      axios: require("axios"),
     };
   },
 
@@ -48,7 +40,7 @@ export default {
       return;
     }
 
-    this.$store.dispatch("userStore/getUserInfos");
+    // this.$store.dispatch("userStore/getUserInfos");
   },
   // computed: {
   //   ...mapState("userStore", {
@@ -61,8 +53,6 @@ export default {
   //     posts: (state) => state.posts,
   //   }),
   // },
-
- 
 };
 </script>
 
