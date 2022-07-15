@@ -7,7 +7,11 @@
       <div>Créé le {{ cleanDate(post.createdAt) }}</div>
     </div>
 
-    <div class="" v-if="post.UserId == userIdSS"><i class="fa fa-pen" @click="etatModify()"> </i><i class="fa fa-trash" @click="etatDelete()"> </i></div>
+    <div class="" v-if="post.UserId == userIdSS">
+      <i class="fa fa-pen" @click="etatModify()"> </i>
+      <div @click="etatModify()">modifier </div>
+      <i class="fa fa-trash" @click="etatDelete()"> </i>
+    </div>
     <div class="post_title" v-if="post.title !== null">{{ post.title }}</div>
     <div class="post_message">{{ post.message }}</div>
     <img class="post_img" v-if="post.image !== null" :src="post.image" alt="illustration_post" />

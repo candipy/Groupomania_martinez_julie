@@ -38,16 +38,15 @@ const postStore = {
   },
 
   actions: {
-    createPost: ({ commit }, postCreate) => {
-      commit("setEtat", { etat: "loading", info: "" });
-
+    getAllPost: ({ commit }) => {
       axios
-        .post("http://localhost:3000/api/posts/", postCreate)
-        .then((postCreate) => {
-          console.log("postCreate store :>> ", postCreate);
+        .get("http://localhost:3000/api/posts/")
+
+        .then((posts) => {
+          commit("setPosts", posts.data);
         })
-        .catch((errorPostCreate) => {
-          console.log("errorPostCreate :>> ", errorPostCreate);
+        .catch((errorPosts) => {
+          console.log("errorPosts :>> ", errorPosts);
         });
     },
 
@@ -62,9 +61,23 @@ const postStore = {
           console.log("errorPosts :>> ", errorPosts);
         });
     },
+    createPost: ({ dispatch, commit }, postCreate) => {
+      commit("setEtat", { etat: "loading", info: "" });
+
+      axios
+        .post("http://localhost:3000/api/posts/", postCreate)
+        .then((postCreate) => {
+          console.log("postCreate store :>> ", postCreate);
+          dispatch("getAllPost");
+        })
+        .catch((errorPostCreate) => {
+          console.log("errorPostCreate :>> ", errorPostCreate);
+        });
+    },
 
     getOnePost: ({ commit, state }) => {
       commit("setEtat", { etat: "", info: "" });
+
       axios
         .get("http://localhost:3000/api/posts/" + state.postId + "/")
         .then((post) => {
@@ -75,13 +88,15 @@ const postStore = {
         });
     },
 
-    modifyPost: ({ commit, state }, postUpdate) => {
+    modifyPost: ({ dispatch, commit, state }, postUpdate) => {
       console.log("postUpdate :>> ", postUpdate);
+
       axios
         .patch("http://localhost:3000/api/posts/" + state.post.id + "/", postUpdate)
 
         .then((postUpdate) => {
           console.log("postUpdate :>> ", postUpdate);
+          dispatch("getAllPost");
         })
 
         .catch((errorPostUpdate) => {
@@ -89,12 +104,22 @@ const postStore = {
         });
     },
 
-    deletePost: ({ commit, state }) => {
+    deletePost: ({ dispatch, commit, state }) => {
       axios
         .delete("http://localhost:3000/api/posts/" + state.post.id + "/")
 
         .then((postDelete) => {
           commit("setEtat", { etat: "", info: postDelete.data.Message });
+          dispatch("getAllPost");
+          // axios
+          //   .get("http://localhost:3000/api/posts/")
+
+          //   .then((posts) => {
+          //     commit("setPosts", posts.data);
+          //   })
+          //   .catch((errorPosts) => {
+          //     console.log("errorPosts :>> ", errorPosts);
+          //   });
         })
         .catch((errorDelete) => {
           console.log("errorPosts :>> ", errorDelete);

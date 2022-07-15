@@ -1,10 +1,11 @@
 <template>
   <whatsNew />
-  <addPost @keyup="updatePostList" @click="updatePostList" />
-  <div class="post" v-for="post in posts" v-bind:key="post.id">
+  <addPost />
+
+  <div class="post" v-for="(post, index) in posts" v-bind:key="index">
     <OnePost v-bind:post="post" />
-    <deletePost @keyup="updatePostList" @click="updatePostList" v-if="(etat == 'delete') & (post.id == this.$store._state.data.postStore.post.id)" />
-    <ModifyPost @keyup="updatePostList" @click="updatePostList" v-if="(etat == 'modify') & (post.id == this.$store._state.data.postStore.post.id)" />
+    <deletePost v-if="(etat == 'delete') & (post.id == this.$store._state.data.postStore.post.id)" />
+    <ModifyPost v-if="(etat == 'modify') & (post.id == this.$store._state.data.postStore.post.id)" />
   </div>
 </template>
 
@@ -27,20 +28,15 @@ export default {
     ModifyPost,
   },
 
-  // data: () => {
-  //   return {
-  //     userIdSS: JSON.parse(sessionStorage.getItem("userId")),
-  //   };
-  // },
+  data: () => {
+    return {
+      userIdSS: JSON.parse(sessionStorage.getItem("userId")),
+    };
+  },
 
   mounted() {
     this.$store.dispatch("postStore/getAllPost");
   },
-
-  // beforeUpdate() {
-  //   this.$store.dispatch("postStore/getAllPost");
-  //   console.log("update");
-  // },
 
   computed: {
     ...mapState("postStore", {
@@ -50,11 +46,29 @@ export default {
     }),
   },
   methods: {
-    updatePostList() {
-      alert("update");
-      // console.log("update");
-      this.$store.dispatch("postStore/getAllPost");
-    },
+    // updatePostList() {
+    //   //   this.axios.defaults.headers.common["Authorization"] = "Bearer " + this.token;
+    //   //   this.axios
+    //   //     .get("http://localhost:3000/api/posts/")
+    //   //     .then((response) => {
+    //   //       console.log("response.data :>> ", response.data);
+    //   //     })
+    //   //     .catch((error) => console.log("error :>> ", error));
+    //   // },
+    //   // alert("update");
+    //   console.log("update");
+    //   this.$store.dispatch("postStore/getAllPost");
+    // },
+    // getAllPost: ({ commit }) => {
+    //   axios
+    //     .get("http://localhost:3000/api/posts/")
+    //     .then((posts) => {
+    //       commit("setPosts", posts.data);
+    //     })
+    //     .catch((errorPosts) => {
+    //       console.log("errorPosts :>> ", errorPosts);
+    //     });
+    // },
   },
 };
 </script>

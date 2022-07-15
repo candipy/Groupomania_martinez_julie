@@ -65,24 +65,13 @@ export default {
       postUpdate.append("image", this.image);
       console.log(this.image);
 
-      this.$store
-        .dispatch("postStore/modifyPost", postUpdate, {
-          headers: {
-            "Content-type": "multipart/form-data",
-          },
-        })
-        // .then(
-        //   (post) => {
-        //     console.log("then de view");
-            this.$store.commit("postStore/setEtat", { etat: "", info: "" });
-          // },
-        //   (error) => {
-        //     console.log("error :>> ", error);
-        //     if (this.etat == "error_serveur") {
-        //       this.$router.push("error500");
-        //     }
-        //   }
-        // );
+      this.$store.dispatch("postStore/modifyPost", postUpdate, {
+        headers: {
+          "Content-type": "multipart/form-data",
+        },
+      });
+
+      this.$store.commit("postStore/setEtat", { etat: "", info: "" });
     },
   },
 };
