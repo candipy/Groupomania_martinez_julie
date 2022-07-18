@@ -34,8 +34,15 @@ export default {
     };
   },
 
+  beforeMount() {
+    this.$store.commit("userStore/logUser", this.userIdSS);
+  },
+
   mounted() {
     this.$store.dispatch("postStore/getAllPost");
+
+    this.$store.dispatch("userStore/getUserInfos");
+ 
   },
 
   computed: {

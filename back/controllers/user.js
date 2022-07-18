@@ -15,6 +15,7 @@ exports.signup = (req, res, next) => {
         lastName: req.body.lastName,
         email: req.body.email,
         password: hash,
+        // admin: req.body.admin,
       })
         .then((userCreate) => res.status(201).json({ userCreate }))
         .catch((errorUserCreate) => {
@@ -39,7 +40,7 @@ exports.login = (req, res, next) => {
           }
           res.status(200).json({
             userId: userLog.id,
-            token: jwt.sign({ userId: userLog.id }, process.env.TOKEN_SECRET, { expiresIn: "1h" }), // Penser à faire plus tard, une supp du token si pas activité
+            token: jwt.sign({ userId: userLog.id, admin: userLog.admin }, process.env.TOKEN_SECRET, { expiresIn: "1h" }), // Penser à faire plus tard, une supp du token si pas activité
           });
         })
         .catch((errorUserLogin) => res.status(500).json({ Message: { error_serveur: " Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));

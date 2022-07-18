@@ -2,14 +2,14 @@
   <div class="post">
     <div>
       Publié par
-      <router-link :to="{ name: 'profil', params: { id: post.UserId } }"> {{ post.User.firstName }} {{ post.User.lastName }} </router-link>
+      <router-link :to="{ name: 'profil', params: { id: post.UserId } }"> {{ post.User.firstName }} {{ post.User.lastName }} {{ post.User.admin }} </router-link>
 
       <div>Créé le {{ cleanDate(post.createdAt) }}</div>
     </div>
 
-    <div class="" v-if="post.UserId == userIdSS">
+    <div class="" v-if="post.UserId == userIdSS || this.$store._state.data.userStore.userInfos.admin == true">
       <i class="fa fa-pen" @click="etatModify()"> </i>
-      <div @click="etatModify()">modifier </div>
+      <div @click="etatModify()">modifier</div>
       <i class="fa fa-trash" @click="etatDelete()"> </i>
     </div>
     <div class="post_title" v-if="post.title !== null">{{ post.title }}</div>
@@ -25,15 +25,12 @@ import moment from "moment";
 export default {
   name: "OnePost",
 
-  props: [
-    "post",
-
-    // , "postId", "userId", "title", "message", "image", "firstName", "lastName", "date"
-  ],
+  props: ["post"],
 
   data: () => {
     return {
       userIdSS: JSON.parse(sessionStorage.getItem("userId")),
+
     };
   },
 
@@ -46,7 +43,7 @@ export default {
     // console.log("post :>> ", this.post);
     // this.$store.commit("postStore/setPostId", this.postId);
     // this.$store.dispatch("postStore/getOnePost");
-    // console.log("store", this.$store._state.data.postStore);
+    console.log(this.$store._state.data.userStore.userInfos.admin);
   },
   computed: {
     ...mapState("postStore", {

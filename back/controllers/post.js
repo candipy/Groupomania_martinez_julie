@@ -3,6 +3,85 @@ const db = require("../models");
 const fs = require("fs");
 const auth = require("../middelware/auth");
 
+exports.likesPosts = (req, res) => {
+  db.Post.findOne({ where: { id: req.params.id } })
+    .then((post) => {
+      // L'utilisateur n'a pas encore donné d'avis et il like
+      if (!post.usersLiked.includes(req.body.userId) && !post.usersDisliked.includes(req.body.userId) && req.body.like === 1) {
+        Sauce.updateOne(
+          //Chercher l'objet dans la bdd
+          { _id: req.params.id },
+          // Mettre à jour la bdd
+          { $inc: { likes: 1 }, $push: { usersLiked: req.body.userId } }
+        )
+          .then(() => res.status(201).json({ message: "Tu aimes cette sauce :) +1 !" }))
+          .catch((error) => res.status(500).json({ error }));
+
+        // L'utilisateur à déjà donné un like et l'enlève
+      } else if (sauce.usersLiked.includes(req.body.userId) && req.body.like === 0) {
+        Sauce.updateOne(
+          { _id: req.params.id },
+
+          { $inc: { likes: -1 }, $pull: { usersLiked: req.body.userId } }
+        )
+          .then(() => res.status(201).json({ message: "Tu aimais cette sauce, tu ne donnes plus ton avis sur cette sauce" }))
+
+          .catch((error) => res.status(500).json({ error }));
+
+        // L'utilisateur à déjà donné un like et il essaye d'en redonné un => conflit
+      } else if (sauce.usersLiked.includes(req.body.userId) && req.body.like === 1) {
+        res.status(409).json({ message: "Même si tu aimes beacoup, tu ne peux le faire qu'une fois" });
+
+        // L'utilisateur à déjà donné un like et maintenant il dislike
+      } else if (sauce.usersLiked.includes(req.body.userId) && req.body.like === -1) {
+        Sauce.updateOne(
+          { _id: req.params.id },
+
+          { $inc: { likes: -1, dislikes: 1 }, $pull: { usersLiked: req.body.userId }, $push: { usersDisliked: req.body.userId } }
+        )
+          .then(() => res.status(201).json({ message: "Tu aimais cette sauce, tu n'aimes plus'" }))
+
+          .catch((error) => res.status(500).json({ error }));
+
+        // L'utilisateur n'a pas encore donné d'avis et il n'aime pas
+      } else if (!sauce.usersDisliked.includes(req.body.userId) && !sauce.usersLiked.includes(req.body.userId) && req.body.like === -1) {
+        Sauce.updateOne(
+          { _id: req.params.id },
+
+          { $inc: { dislikes: 1 }, $push: { usersDisliked: req.body.userId } }
+        )
+          .then(() => res.status(201).json({ message: "Tu n'aimes pas cette sauce :(" }))
+
+          .catch((error) => res.status(500).json({ error }));
+
+        // L'utilisateur a déjà donné un dislike et l'enlève
+      } else if (sauce.usersDisliked.includes(req.body.userId) && req.body.like === 0) {
+        Sauce.updateOne(
+          { _id: req.params.id },
+
+          { $inc: { dislikes: -1 }, $pull: { usersDisliked: req.body.userId } }
+        )
+          .then(() => res.status(201).json({ message: "Tu n'aimais pas cette sauce, tu ne donnes plus ton avis sur cette sauce" }))
+          .catch((error) => res.status(500).json({ error }));
+
+        // L'utilisateur a déjà donné un dislike et maintenant il like
+      } else if (sauce.usersDisliked.includes(req.body.userId) && req.body.like === 1) {
+        Sauce.updateOne(
+          { _id: req.params.id },
+
+          { $inc: { dislikes: -1, likes: 1 }, $pull: { usersDisliked: req.body.userId }, $push: { usersLiked: req.body.userId } }
+        )
+          .then(() => res.status(201).json({ message: "Tu n'aimais pas cette sauce, maintenant tu aimes" }))
+          .catch((error) => res.status(500).json({ error }));
+
+        // L'utilisateur à déjà dislike mais essaye encore une fois
+      } else if (sauce.usersDisliked.includes(req.body.userId) && req.body.like === -1) {
+        res.status(409).json({ message: "Même si tu n'aimes pas, tu ne peux le faire qu'une fois" });
+      }
+    })
+    .catch((error) => res.status(500).json({ error }));
+};
+
 exports.deletePost = (req, res, next) => {
   db.Post.findOne({ where: { id: req.params.id } })
 
@@ -11,7 +90,8 @@ exports.deletePost = (req, res, next) => {
         alert("1");
         res.status(404).json({ Message: { error_post: "Publication non trouvée !" } });
       }
-      if (post.UserId !== req.auth.userId) {
+      if (post.UserId !== req.auth.userId && req.auth.userAdmin == false) {
+        console.log("post :>> ", req.auth.userAdmin);
         res.status(401).json({ Message: { error_auth: "Requete non authorisée par cet utilisateur !" } });
       } else if (post.image !== null) {
         const filename = post.image.split("/images/")[1];
@@ -37,7 +117,7 @@ exports.modifyPost = (req, res, next) => {
       if (!post) {
         return res.status(404).json({ Message: { error_post: "Publication non trouvée !" } });
       }
-      if (post.UserId !== req.auth.userId) {
+      if (post.UserId !== req.auth.userId && req.auth.userAdmin == false) {
         console.log("post.userId :>> ", post.userId);
         res.status(401).json({ Message: { error_auth: "Ce post ne vous appartient pas !" } });
 
@@ -173,6 +253,10 @@ exports.getPostsByUser = (req, res, next) => {
         model: db.User,
         attributes: ["lastName"],
       },
+      {
+        model: db.User,
+        attributes: ["admin"],
+      },
     ],
   })
     .then((postsByUsers) => res.status(200).json(postsByUsers))
@@ -190,6 +274,10 @@ exports.getAllPost = (req, res, next) => {
       {
         model: db.User,
         attributes: ["lastName"],
+      },
+      {
+        model: db.User,
+        attributes: ["admin"],
       },
     ],
   })
@@ -209,6 +297,10 @@ exports.getOnePost = (req, res, next) => {
       {
         model: db.User,
         attributes: ["lastName"],
+      },
+      {
+        model: db.User,
+        attributes: ["admin"],
       },
     ],
   })

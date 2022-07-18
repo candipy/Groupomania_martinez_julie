@@ -8,10 +8,10 @@ module.exports = (req, res, next) => {
     // Extrait le token du header Authorization de la requete entrante, en prenant tout ce qui suit l'espace (bearer )
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET); // Décoder le token
     const userId = decodedToken.userId; // Extrait de l'id utilsateur du token
-    req.auth = { userId }; // Ajoute un objet auth à l'objet de requête qui contient le userId  extrait du token
+    const userAdmin = decodedToken.admin;
+    req.auth = { userId, userAdmin }; // Ajoute un objet auth à l'objet de requête qui contient le userId  extrait du token
 
     if (req.body.userId && req.body.userId !== userId) {
-
       // Si la requete contient un userId et qu'il est différent de l'userId contenu dans le token
       res.status(401).json({ Message: { error_auth: "Requete non authorisée ⛔️" } });
     } else {
