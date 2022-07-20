@@ -40,7 +40,7 @@ exports.login = (req, res, next) => {
           }
           res.status(200).json({
             userId: userLog.id,
-            token: jwt.sign({ userId: userLog.id, admin: userLog.admin }, process.env.TOKEN_SECRET, { expiresIn: "1h" }), // Penser à faire plus tard, une supp du token si pas activité
+            token: jwt.sign({ userId: userLog.id, admin: userLog.admin }, process.env.TOKEN_SECRET, { expiresIn: "24h" }), // Penser à faire plus tard, une supp du token si pas activité
           });
         })
         .catch((errorUserLogin) => res.status(500).json({ Message: { error_serveur: " Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));

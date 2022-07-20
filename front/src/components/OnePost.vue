@@ -2,19 +2,23 @@
   <div class="post">
     <div>
       Publié par
-      <router-link :to="{ name: 'profil', params: { id: post.UserId } }"> {{ post.User.firstName }} {{ post.User.lastName }} {{ post.User.admin }} </router-link>
+      <router-link :to="{ name: 'profil', params: { id: post.UserId } }"> {{ post.User.firstName }} {{ post.User.lastName }} </router-link>
 
       <div>Créé le {{ cleanDate(post.createdAt) }}</div>
     </div>
 
     <div class="" v-if="post.UserId == userIdSS || this.$store._state.data.userStore.userInfos.admin == true">
       <i class="fa fa-pen" @click="etatModify()"> </i>
-      <div @click="etatModify()">modifier</div>
+      <div @click="etatModify()"></div>
       <i class="fa fa-trash" @click="etatDelete()"> </i>
     </div>
     <div class="post_title" v-if="post.title !== null">{{ post.title }}</div>
     <div class="post_message">{{ post.message }}</div>
     <img class="post_img" v-if="post.image !== null" :src="post.image" alt="illustration_post" />
+    <div>
+      <i :class="classIs" class="fa fa-thumbs-up" @click="like()"></i>
+      <div>({{ post.Likes.length }})</div>
+    </div>
   </div>
 </template>
 
@@ -30,7 +34,7 @@ export default {
   data: () => {
     return {
       userIdSS: JSON.parse(sessionStorage.getItem("userId")),
-
+      postLiked: null,
     };
   },
 
@@ -42,13 +46,25 @@ export default {
     // console.log("postId :>> ", postId);
     // console.log("post :>> ", this.post);
     // this.$store.commit("postStore/setPostId", this.postId);
-    // this.$store.dispatch("postStore/getOnePost");
-    console.log(this.$store._state.data.userStore.userInfos.admin);
   },
   computed: {
-    ...mapState("postStore", {
-      // etat: (state) => state.etat,
-    }),
+    classIs() {
+      let arrayLikes = this.post.Likes;
+
+      let postLikeByCurrentUser = arrayLikes.find((e) => e.UserId == this.userIdSS);
+
+      if (postLikeByCurrentUser == undefined) {
+        this.postLiked = false;
+      } else {
+        this.postLiked = true;
+      }
+
+      if (this.postLiked == true) {
+        return "post_like";
+      } else {
+        // return "btn-grad-light";
+      }
+    },
   },
 
   methods: {
@@ -69,6 +85,16 @@ export default {
     etatDelete() {
       this.$store.commit("postStore/setEtat", { etat: "delete", info: "" });
       this.$store.commit("postStore/setOnePost", this.post);
+    },
+
+    like() {
+      this.$store.commit("postStore/setOnePost", this.post);
+      console.log("this.post.id :>> ", this.post.id);
+      console.log("this.post.UserId :>> ", this.post.UserId);
+      this.$store.dispatch("postStore/like", {
+        PostId: this.post.id,
+        UserId: this.userIdSS,
+      });
     },
   },
 };

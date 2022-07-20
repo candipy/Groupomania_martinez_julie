@@ -269,6 +269,10 @@ i:hover {
      object-fit: contain;
 }
 
+.post_like {
+  color: #fd2d01;
+}
+
 .whatsNew {
   display: -webkit-box;
   display: -ms-flexbox;

@@ -10,7 +10,10 @@
     </div>
     <div class="form__input">
       <label for="image"></label>
+
       <input type="file" name="image" @change="onFileChange" id="image" aria-label="image_post" />
+      <button v-if="this.post.image !== null || this.image !== null" @click="deleteImage">Supprimer l'image</button>
+      <div v-if="this.image == 'delete'">Image supprimée !</div>
     </div>
     <button class="btn-grad" @click="modifyPost()">
       <span>Publier la modification</span>
@@ -38,6 +41,7 @@ export default {
       post: (state) => state.post,
     }),
   },
+
   mounted() {
     console.log(this.post);
   },
@@ -52,8 +56,7 @@ export default {
     },
 
     deleteImage() {
-      console.log("this.image :>> ", this.image);
-      this.image = null;
+      this.image = "delete";
       console.log("this.image :>> ", this.image);
     },
 

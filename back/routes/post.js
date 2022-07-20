@@ -9,6 +9,7 @@ const multer = require("../middelware/multer-config");
 const postCtrl = require("../controllers/post");
 // Routes :
 
+router.post("/:id/like", auth, postCtrl.likesPost);
 router.delete("/:id", auth, multer, postCtrl.deletePost);
 router.patch("/:id", auth, multer, postCtrl.modifyPost);
 router.post("/", auth, multer, postCtrl.createPost);

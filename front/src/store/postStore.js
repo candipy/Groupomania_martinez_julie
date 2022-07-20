@@ -111,18 +111,21 @@ const postStore = {
         .then((postDelete) => {
           commit("setEtat", { etat: "", info: postDelete.data.Message });
           dispatch("getAllPost");
-          // axios
-          //   .get("http://localhost:3000/api/posts/")
-
-          //   .then((posts) => {
-          //     commit("setPosts", posts.data);
-          //   })
-          //   .catch((errorPosts) => {
-          //     console.log("errorPosts :>> ", errorPosts);
-          //   });
         })
         .catch((errorDelete) => {
           console.log("errorPosts :>> ", errorDelete);
+        });
+    },
+
+    like: ({ dispatch, commit, state }, like) => {
+      axios
+        .post("http://localhost:3000/api/posts/" + state.post.id + "/like/", like)
+        .then((like) => {
+          console.log("like :>> ", like);
+          dispatch("getAllPost");
+        })
+        .catch((error) => {
+          console.log("errorPosts :>> ", error);
         });
     },
   },

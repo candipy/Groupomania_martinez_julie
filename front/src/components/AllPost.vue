@@ -40,9 +40,7 @@ export default {
 
   mounted() {
     this.$store.dispatch("postStore/getAllPost");
-
     this.$store.dispatch("userStore/getUserInfos");
- 
   },
 
   computed: {
@@ -52,31 +50,7 @@ export default {
       post: (state) => state.post,
     }),
   },
-  methods: {
-    // updatePostList() {
-    //   //   this.axios.defaults.headers.common["Authorization"] = "Bearer " + this.token;
-    //   //   this.axios
-    //   //     .get("http://localhost:3000/api/posts/")
-    //   //     .then((response) => {
-    //   //       console.log("response.data :>> ", response.data);
-    //   //     })
-    //   //     .catch((error) => console.log("error :>> ", error));
-    //   // },
-    //   // alert("update");
-    //   console.log("update");
-    //   this.$store.dispatch("postStore/getAllPost");
-    // },
-    // getAllPost: ({ commit }) => {
-    //   axios
-    //     .get("http://localhost:3000/api/posts/")
-    //     .then((posts) => {
-    //       commit("setPosts", posts.data);
-    //     })
-    //     .catch((errorPosts) => {
-    //       console.log("errorPosts :>> ", errorPosts);
-    //     });
-    // },
-  },
+  methods: {},
 };
 </script>
 
