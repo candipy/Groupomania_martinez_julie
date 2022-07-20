@@ -33,6 +33,21 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+
+      // likes:
+        
+      // {
+      //   type: Sequelize.INTEGER,
+      // },
+      // dislikes: {
+      //   type: Sequelize.INTEGER,
+      // },
+      // usersLiked : {
+      //   type: Sequelize.arra,
+      // },
+      // usersDisliked : {
+      //   type: Sequelize.STRING,
+      // },
     });
   },
   async down(queryInterface, Sequelize) {
