@@ -19,16 +19,18 @@ export default {
   components: {
     Header,
   },
-
+  mounted() {
+    if (sessionStorage.getItem("token") === null) {
+      this.$router.push("/");
+      return;
+    }
+  },
   computed: {
     ...mapState("userStore", {
       errors: (state) => state.errors,
-      // status: (state) => state.status,
-      // userInfos: (state) => state.userInfos,
     }),
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>

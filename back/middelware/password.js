@@ -4,16 +4,16 @@ const passwordSchema = new passwordValidator();
 
 passwordSchema
   .is()
-  .min(8, "minimum 8 ") // Minimum length 8
+  .min(8, "minimum 8 ") // Longueur Mini 8
   .is()
-  .max(200, "max 200") // Maximum length 20
+  .max(200, "max 200") // Longueur Maxi 200
   .has()
-  .uppercase("1", "Majuscule") // Must have uppercase letters
+  .uppercase("1", "Majuscule") // Doit contenir une majuscule
   .has()
-  .lowercase("1", "Minuscule") // Must have lowercase letters
+  .lowercase("1", "Minuscule") // Doit contenir une minuscule
   .has()
   .not()
-  .spaces(); // Should not have spaces
+  .spaces(); // Ne doit pas contenir d'espace
 
 // Vérification de la qualité du password par rapport au schéma
 

@@ -1,63 +1,29 @@
-.btn-grad-light {
-    background-image: linear-gradient(
-      to right,
-      #ffd7d7 0%,
-      white 51%,
-      #ffd6d7 100%
-    );
-    margin: 10px;
-    padding: 5px 45px;
-    text-align: center;
-    transition: 0.5s;
-    background-size: 200% auto;
-    color: black;
-    box-shadow: 0 0 20px #4e5166;
-    display: block;
-    border: none;
-    &:hover {
-      background-position: right center; /* change the direction of the change here */
-      color: black;
-      text-decoration: none;
-      cursor: pointer;
-    }
-  }
-  
+.btn-grad {
+  background-image: linear-gradient(to right, #fd2d01 0%, #4e5166 51%, #fd2d01 100%);
+  margin-top: 10px;
 
+  padding: 15px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: #d8dfe3;
+  box-shadow: 0 0 20px #4e5166;
 
-  .btn-grad {
-    background-image: linear-gradient(
-      to right,
-      #fd2d01 0%,
-      #4e5166 51%,
-      #fd2d01 100%
-    );
-    margin-top: 10px;
-  
-    padding: 15px;
-    text-align: center;
-    text-transform: uppercase;
-    transition: 0.5s;
-    background-size: 200% auto;
-    color: white;
-    box-shadow: 0 0 20px #4e5166;
-    
-   
-    width: inherit;
-    border: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    &:hover {
-      background-position: right center; /* change the direction of the change here */
-      color: #fff;
-      text-decoration: none;
-      cursor: pointer;
-    }
-    &--disabled{
-      @extend .btn-grad;
-      opacity: 0.6;
-      pointer-events: none;
-    }
-    
+  width: inherit;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
   }
-  
+  &--disabled {
+    @extend .btn-grad;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}

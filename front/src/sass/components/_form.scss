@@ -1,43 +1,62 @@
 .form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  border: #ffd7d7;
+  // border-top-style: dotted;
+  // border-bottom-style: dotted;
+  // border-style: dotted;
+  box-shadow: 0 0 20px #4e5166;
+  background-color: #4e5166;
+  color: #ffd7d7;
+  padding: 2%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  form {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
     width: 100%;
-    border-radius: 10px;
-    border:#ffd7d7;
-    // border-top-style: dotted;
-    // border-bottom-style: dotted;
-    // border-style: dotted;
-    box-shadow: 0 0 20px #4e5166;
-    background-color: #4e5166;
-    color: #ffd7d7;
-    padding: 2%;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    form {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      width: 100%;
-    }
-    &__input {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      // justify-content: center;
-      align-items: center;
-  
-      input {
-        width: 100%;
-        border: #4e5166 1px;
-        border-style: solid;
-      }
-    }
-    &__error{
-      color:#ffd7d7;
-      font-style: italic;
+  }
+
+  &__row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    .fa {
+      font-size: 24;
     }
   }
-  
+  &__input {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    align-items: center;
+
+    input {
+      width: 100%;
+      // border: #ffd7d7 1px;
+      border-style: solid;
+      background-color: #4e5166;
+      box-shadow: 0 0px 5px #ffd7d7;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      padding: 5px;
+      color: #ffd7d7;
+    }
+    ::placeholder {
+      color: #ffd7d7;
+    }
+  }
+  &__error {
+    color: #ffd7d7;
+    font-style: italic;
+  }
+}

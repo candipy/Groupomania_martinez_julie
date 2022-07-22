@@ -1,40 +1,42 @@
 <template>
   <div v-if="mode === 'create'" class="form">
+    <div class="form__row">
+      <h2>Créer un post</h2>
+      <div><i @click="noEtat()" class="fa fa-x"></i></div>
+    </div>
+
     <div class="form__input">
-      <label for="titre">Titre</label>
-      <input type="text" v-model="title" name="titre" id="titre" aria-label="titre_post" required maxlength="250" />
+      <label for="titre"></label>
+      <input type="text" v-model="title" name="titre" id="titre" aria-label="titre_post" required maxlength="250" placeholder="Titre (Requis)" />
     </div>
     <div class="form__input">
-      <label for="titre">Message</label>
-      <input type="text" v-model="message" name="message" id="message" aria-label="message_post" required />
+      <label for="titre"> </label>
+      <input type="text" v-model="message" name="message" id="message" aria-label="message_post" placeholder="Message (Requis)" required />
     </div>
 
     <div class="form__input">
       <label for="image"></label>
       <input type="file" name="image" @change="onFileChange" id="image" aria-label="image_post" required />
     </div>
-    <button class="btn-grad" @click="createPost()">
+    <button class="btn-grad" :class="classIs" :disabled="isDisabledAttribute" @click="createPost()">
       <span v-if="etat == 'loading'"> Publication en cours</span>
       <span v-else>Publier</span>
     </button>
+
     <p v-if="etat == 'error_auth'" class="form__error">Vous n'êtes pas authorisé à faire cela</p>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-// import onePost from "@/components/OnePost.vue";
 
 export default {
   name: "AddPost",
-  // components: { onePost },
 
   data: () => {
     return {
-      // Saisie Utilisateur:
-
-      title: "",
-      message: "",
+      title: null,
+      message: null,
       image: null,
     };
   },
@@ -45,17 +47,36 @@ export default {
 
       mode: (state) => state.mode,
     }),
+
+    classIs() {
+      if (
+        // Si il y a une erreur, la classe est "btn-grad-disabled"
+        this.title == null ||
+        this.message == null
+      ) {
+        return "btn-grad--disabled";
+      } else {
+        return "btn-grad";
+      }
+    },
+
+    isDisabledAttribute() {
+      // Si il y a une erreur, le bouton est désactivé
+      if (this.title == null || this.message == null) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
 
   methods: {
+    noEtat() {
+      this.$store.commit("postStore/setMode", "");
+    },
     onFileChange(e) {
       let file = e.target.files[0];
       this.image = file;
-    },
-
-    updatePostList() {
-      this.$store.dispatch("postStore/getAllPost");
-      console.log("update", this.$store.getters);
     },
 
     createPost() {
@@ -76,8 +97,9 @@ export default {
             console.log("store add view", this.$store._state.data.postStore);
             this.$store.commit("postStore/setMode", "success");
             this.$store.commit("postStore/setEtat", { etat: "", info: "" });
-            this.title = "";
-            this.message = "";
+            this.title = null;
+            this.message = null;
+            this.image = null;
           },
           (errorCreatePost) => {
             console.log("errorCreatePost :>> ", errorCreatePost);

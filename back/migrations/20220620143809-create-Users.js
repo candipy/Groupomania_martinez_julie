@@ -26,13 +26,13 @@ module.exports = {
         allowNull: false,
       },
 
-      urlAvatar: {
-        type: Sequelize.STRING,
-      },
+      // urlAvatar: {
+      //   type: Sequelize.STRING,
+      // },
 
-      description: {
-        type: Sequelize.STRING,
-      },
+      // description: {
+      //   type: Sequelize.STRING,
+      // },
 
       admin: {
         type: Sequelize.BOOLEAN,

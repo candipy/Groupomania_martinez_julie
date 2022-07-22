@@ -4,19 +4,24 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-
   border: #ffd7d7;
-
   box-shadow: 0 0 20px #4e5166;
-
+  background-color: #d8dfe3;
   color: #4e5166;
   padding: 2%;
-  margin: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   // a {
   //   font-weight: normal;
   //   width: 100%;
   // }
 
+  &_userDate {
+    width: 100%;
+    text-align: left;
+    // display: flex;
+    // justify-content: space-between;
+  }
   &_title {
     font-weight: bold;
     padding-top: 2%;
@@ -24,6 +29,12 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+  }
+  &_icons {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
   }
   &_message {
     overflow: hidden;

@@ -1,10 +1,8 @@
 <template>
   <Header />
-  <nav>
-    <router-link to="/" class="btn-grad">Home</router-link>
-  </nav>
-  <!-- <router-link to="/login">Login</router-link> -->
+
   <div class="card">
+ 
     <!-- Titre -->
 
     <h1>Login</h1>
@@ -16,10 +14,10 @@
     </div>
 
     <!-- Formulaire de connexion  -->
-    <div class="card">
+    <div class="form">
       <form @submit.prevent method="post" class="form">
         <div class="form__input">
-          <label for="email">Email</label>
+          <label for="email"></label>
           <input type="email" v-model="email" @change="checkEmail" name="email" id="email" aria-label="email_signup" placeholder="Entrez votre adresse mail" required />
 
           <div v-if="status == 'error_user'" class="form__error">
@@ -27,16 +25,12 @@
           </div>
         </div>
         <div class="form__input">
-          <label for="passwordLogin">Mot de passe</label>
+          <label for="passwordLogin"></label>
           <input type="password" v-model="password" name="password" id="passwordLogin" aria-label="password_login" placeholder="Entrez votre mot de passe" required />
           <div v-if="status == 'error_password'" class="form__input">
             {{ errors }}
           </div>
         </div>
-        <!-- <div v-if="status == 'error_serveur'" class="form__input">
-          Une erreur inconnue s'est produite, veuillez reessayer plus tard ou
-          contactez votre administrateur
-        </div> -->
 
         <button :class="classIs" :disabled="isDisabledAttribute" @click="login()">
           <span v-if="status == 'loading'"> Connexion en cours</span>

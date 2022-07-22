@@ -1,14 +1,45 @@
 header {
   width: 100%;
-  background-color: #fef6e5;
+  background-color: #d8dfe3;
+  border-bottom: 2px solid #fd2d01;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   .logo-header {
-    overflow: hidden;
-    // text-align: left;
-    //   height: 200px;
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+
     img {
-      //   overflow: hidden;
       width: 100%;
-      //   height: 50%;
+    }
+  }
+
+  .icons-header {
+    display: flex;
+
+    &__one {
+      // width: 50%;
+      padding: 10px;
+    }
+  }
+}
+
+nav {
+  width: 100%;
+  justify-content: space-around;
+  flex-direction: column;
+  display: none;
+  border-bottom: 2px solid #fd2d01;
+  .links-header {
+    &__one {
+      padding: 3px;
+      border: none;
+      color: #d8dfe3;
+      background-image: linear-gradient(to right, #fd2d01 0%, #4e5166 51%, #fd2d01 100%);
     }
   }
 }
@@ -16,8 +47,24 @@ header {
 @media screen and (min-width: 992px) {
   header {
     .logo-header {
-      img {
-        width: 40%;
+      padding: 20px;
+
+      i {
+        align-items: center;
+      }
+    }
+  }
+
+  nav {
+    flex-direction: row;
+
+    .links-header {
+      &__one {
+        padding: 10px;
+        border: none;
+        width: 30%;
+        color: #d8dfe3;
+        background-image: linear-gradient(to right, #fd2d01 0%, #4e5166 51%, #fd2d01 100%);
       }
     }
   }

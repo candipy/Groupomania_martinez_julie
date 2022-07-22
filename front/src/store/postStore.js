@@ -61,6 +61,7 @@ const postStore = {
           console.log("errorPosts :>> ", errorPosts);
         });
     },
+
     createPost: ({ dispatch, commit }, postCreate) => {
       commit("setEtat", { etat: "loading", info: "" });
 
@@ -71,6 +72,7 @@ const postStore = {
           dispatch("getAllPost");
         })
         .catch((errorPostCreate) => {
+          console.log("plop");
           console.log("errorPostCreate :>> ", errorPostCreate);
         });
     },

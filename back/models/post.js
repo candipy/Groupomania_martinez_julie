@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-
       // Un post ne peut avoir qu'un utilisateur
       models.Post.belongsTo(models.User, {
         onDelete: "CASCADE",
@@ -18,18 +17,13 @@ module.exports = (sequelize, DataTypes) => {
       models.Post.hasMany(models.Like, {
         onDelete: "CASCADE",
       });
- 
     }
   }
   Post.init(
     {
-      title: DataTypes.STRING,
+      title: { type: DataTypes.STRING, allowNull: false },
       image: DataTypes.STRING,
-      message: DataTypes.STRING,
-      // likes: DataTypes.INTEGER,
-      // dislikes: DataTypes.INTEGER,
-      // usersLiked: DataTypes.STRING,
-      // usersDisliked: DataTypes.STRING,
+      message: { type: DataTypes.STRING, allowNull: false },
     },
     {
       sequelize,

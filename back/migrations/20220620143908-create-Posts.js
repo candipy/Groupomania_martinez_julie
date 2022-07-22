@@ -10,6 +10,7 @@ module.exports = {
       },
       title: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       UserId: {
         type: Sequelize.INTEGER,
@@ -24,6 +25,7 @@ module.exports = {
       },
       message: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -33,21 +35,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-
-      // likes:
-        
-      // {
-      //   type: Sequelize.INTEGER,
-      // },
-      // dislikes: {
-      //   type: Sequelize.INTEGER,
-      // },
-      // usersLiked : {
-      //   type: Sequelize.arra,
-      // },
-      // usersDisliked : {
-      //   type: Sequelize.STRING,
-      // },
     });
   },
   async down(queryInterface, Sequelize) {

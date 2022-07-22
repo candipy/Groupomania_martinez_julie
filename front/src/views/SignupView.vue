@@ -1,10 +1,10 @@
 <template>
   <Header />
-  <nav>
-    <router-link to="/" class="btn-grad">Home</router-link>
-  </nav>
 
   <div class="card">
+    <nav>
+      <router-link to="/" class="btn-grad">Home</router-link>
+    </nav>
     <!-- Titre -->
 
     <h1>Création de votre compte</h1>
@@ -16,22 +16,22 @@
     </div>
 
     <!-- Formulaire de connexion / création de compte -->
-    <div class="card">
+    <div class="form">
       <form @submit.prevent method="post" class="form">
         <div class="form__input">
-          <label for="lastName">Nom</label>
+          <label for="lastName"></label>
           <input type="text" v-model="lastName" @change="checkLastName" name="lastName" id="lastName" aria-label="last_name" placeholder="Indiquez votre nom" required />
           <p v-if="errorLastName || status == 'error_vide_lastName'" class="form__error">Merci d'entrer un nom conforme. Ex : Dupond, Du-Pond, Du Pond</p>
         </div>
 
         <div class="form__input">
-          <label for="firstName">Prénom</label>
+          <label for="firstName"></label>
           <input type="text" v-model="firstName" @change="checkFirstName" name="firstName" id="fistName" aria-label="first_name" placeholder="Indiquez votre prénom" required />
           <p v-if="errorFirstName || status == 'error_vide_firstName'" class="form__error">Merci d'entrer un prénom conforme. Ex : Jean, Jean-François, Jean François</p>
         </div>
         <div class="form__input">
-          <label for="email">Email</label>
-          <input type="email" v-model="email" @change="checkEmail" name="email" id="email" aria-label="email_signup" placeholder="Sera votre identifiant" required />
+          <label for="email"></label>
+          <input type="email" v-model="email" @change="checkEmail" name="email" id="email" aria-label="email_signup" placeholder="Indiquez votre email" required />
           <p v-if="errorEmail || status == 'error_email'" class="form__error">Merci d'entrer un courriel conforme. Ex : contact@groupomania.com</p>
 
           <div v-if="status == 'error_unique'" class="form__error">
@@ -39,7 +39,7 @@
           </div>
         </div>
         <div class="form__input">
-          <label for="passwordSignup">Mot de passe</label>
+          <label for="passwordSignup"></label>
           <input type="password" v-model="password" name="password" id="passwordSignup" aria-label="password_signup" placeholder="Indiquez un mot de passe" required />
         </div>
         <div v-if="status == 'error_password'" class="form__input">
@@ -47,10 +47,6 @@
         </div>
 
         <button :class="classIs" :disabled="isDisabledAttribute" @click="createAccount()">
-          <span v-if="status == 'loading'"> Création en cours</span>
-          <span v-else>Valider</span>
-        </button>
-        <button @click="createAccount()">
           <span v-if="status == 'loading'"> Création en cours</span>
           <span v-else>Valider</span>
         </button>
@@ -87,9 +83,6 @@ export default {
   },
 
   computed: {
-    uppercase() {
-      this.lastName.toUpperCase();
-    },
     // Desactivation du bouton CONNEXION
     classIs() {
       if (

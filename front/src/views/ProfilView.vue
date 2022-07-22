@@ -1,32 +1,26 @@
 <template>
   <Header />
-  <nav>
-    <router-link to="/" class="btn-grad">Home</router-link>
-    <router-link to="/feed" class="btn-grad">Fil d'actualités</router-link>
-  </nav>
 
   <h1>Profil</h1>
 
   <div class="card">
-    <div>
-      <p>Nom : {{ userInfos.lastName }}</p>
+    <div class="form">
+      <div>
+        <p>Nom : {{ userInfos.lastName }}</p>
+      </div>
+      <div>
+        <p>Prénom : {{ userInfos.firstName }}</p>
+      </div>
+      <div>
+        <p>Email du compte : {{ userInfos.email }}</p>
+      </div>
     </div>
-    <div>
-      <p>Prénom : {{ userInfos.firstName }}</p>
-    </div>
-    <div>
-      <p>Email du compte : {{ userInfos.email }}</p>
-    </div>
-  </div>
 
-  <div class="" v-if="(this.$route.params.id == userIdSS) & (status !== 'accountDelete')">
-    <button class="">
-      <span @click="deleteStatus">Supprimer le compte</span>
-    </button>
-    <btnLogout />
-  </div>
-  <div class="" v-else>
-    <btnLogout />
+    <div class="" v-if="(this.$route.params.id == userIdSS) & (status !== 'accountDelete')">
+      <button class="btn-grad">
+        <span @click="deleteStatus">Supprimer le compte</span>
+      </button>
+    </div>
   </div>
   <div class="dialogue" v-if="status == 'accountDelete'">
     <h3>Êtes-vous sûr de vouloir supprimer votre compte ?</h3>
@@ -72,7 +66,7 @@ export default {
   },
   mounted() {
     if (sessionStorage.getItem("token") === null) {
-      this.$router.push("/login");
+      this.$router.push("/");
       return;
     }
 
