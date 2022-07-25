@@ -1,4 +1,5 @@
 "use strict";
+
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Post extends Model {
@@ -21,9 +22,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   Post.init(
     {
-      title: { type: DataTypes.STRING, allowNull: false },
+      title: { type: DataTypes.STRING(500), allowNull: false },
       image: DataTypes.STRING,
-      message: { type: DataTypes.STRING, allowNull: false },
+      message: { type: DataTypes.STRING(900), allowNull: false },
     },
     {
       sequelize,

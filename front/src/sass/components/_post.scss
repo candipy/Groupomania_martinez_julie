@@ -27,7 +27,6 @@
     padding-top: 2%;
     padding-bottom: 2%;
     overflow: hidden;
-    white-space: nowrap;
     text-overflow: ellipsis;
   }
   &_icons {
@@ -38,7 +37,6 @@
   }
   &_message {
     overflow: hidden;
-    white-space: nowrap;
     text-overflow: ellipsis;
   }
   &_img {

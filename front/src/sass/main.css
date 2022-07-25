@@ -91,7 +91,7 @@ i:hover {
   background-image: -webkit-gradient(linear, left top, right top, from(#fd2d01), color-stop(51%, #4e5166), to(#fd2d01));
   background-image: linear-gradient(to right, #fd2d01 0%, #4e5166 51%, #fd2d01 100%);
   margin-top: 10px;
-  padding: 15px;
+  padding: 10px;
   text-align: center;
   text-transform: uppercase;
   -webkit-transition: 0.5s;
@@ -271,7 +271,6 @@ i:hover {
   padding-top: 2%;
   padding-bottom: 2%;
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
 }
 
@@ -290,7 +289,6 @@ i:hover {
 
 .post_message {
   overflow: hidden;
-  white-space: nowrap;
   text-overflow: ellipsis;
 }
 
@@ -450,11 +448,17 @@ nav .links-header__one {
         -ms-flex-align: center;
             align-items: center;
   }
+  header .icons-header__one__bars {
+    display: none;
+  }
   nav {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
         -ms-flex-direction: row;
             flex-direction: row;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
   }
   nav .links-header__one {
     padding: 10px;

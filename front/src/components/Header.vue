@@ -6,8 +6,8 @@
       </div>
     </router-link>
     <div class="icons-header">
-      <div class="icons-header__one" v-if="userIdSS >= 1"><i @click="displayLinks" class="fa-solid fa-bars fa-xl"></i></div>
-      <div class="icons-header__one"><i @click="logout" class="fa fa-right-from-bracket fa-xl"></i></div>
+      <div class="icons-header__one__bars" v-if="userIdSS >= 1"><i @click="displayLinks" class="fa-solid fa-bars fa-xl"></i></div>
+      <div class="icons-header__one__door"><i @click="logout" class="fa fa-right-from-bracket fa-xl"></i></div>
     </div>
   </header>
   <nav class="links-header">
@@ -35,7 +35,6 @@ export default {
 
     displayLinks() {
       var nav = document.querySelector(".links-header");
-      console.log("nav :>> ", nav);
       if (nav.style.display === "flex") {
         nav.style.display = "none";
       } else {

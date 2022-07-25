@@ -12,14 +12,14 @@
       <label for="image"></label>
 
       <input type="file" name="image" @change="onFileChange" id="image" aria-label="image_post" />
-      <button v-if="this.post.image !== null || this.image !== null" @click="deleteImage">Supprimer l'image</button>
-      <div v-if="this.image == 'delete'">Image supprimée !</div>
+    </div>
+    <div class="dialogue_btn" v-if="this.post.image !== null || this.image !== null" @click="deleteImage">SUPPRIMER L'IMAGE</div>
+    <div v-if="this.image == 'delete'">Image supprimée !</div>
+    <div class="dialogue_btn" @click="noEtat()">
+      <span>ANNULER</span>
     </div>
     <button class="btn-grad" @click="modifyPost()">
       <span>Publier la modification</span>
-    </button>
-    <button class="btn-grad" @click="noEtat()">
-      <span>Annuler</span>
     </button>
   </div>
 </template>

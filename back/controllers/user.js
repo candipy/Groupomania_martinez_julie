@@ -12,7 +12,6 @@ exports.signup = (req, res, next) => {
         lastName: req.body.lastName,
         email: req.body.email,
         password: hash,
-        // admin: req.body.admin,
       })
         .then((userCreate) => res.status(201).json({ userCreate }))
         .catch((errorUserCreate) => {

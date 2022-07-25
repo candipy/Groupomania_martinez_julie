@@ -1,4 +1,5 @@
 "use strict";
+
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("Posts", {
@@ -9,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER,
       },
       title: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(500),
         allowNull: false,
       },
       UserId: {
@@ -24,7 +25,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       message: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(900),
         allowNull: false,
       },
       createdAt: {

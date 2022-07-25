@@ -53,11 +53,17 @@ nav {
         align-items: center;
       }
     }
+
+    .icons-header {
+      &__one__bars {
+        display: none;
+      }
+    }
   }
 
   nav {
     flex-direction: row;
-
+    display: flex;
     .links-header {
       &__one {
         padding: 10px;

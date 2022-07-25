@@ -163,8 +163,7 @@ exports.createPost = (req, res, next) => {
 
     db.Post.create(post)
       .then((postCreate) => res.status(201).json({ postCreate }))
-      .catch((errorPostCreate) => res.status(500).json({ Message: { error_serveur: " Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
-  } else if (!req.file) {
+      .catch((err) => res.status(500).json(`${err}`));  } else if (!req.file) {
     const post = {
       title: req.body.title,
       message: req.body.message,
@@ -172,8 +171,7 @@ exports.createPost = (req, res, next) => {
     };
     db.Post.create(post)
       .then((postCreate) => res.status(201).json({ postCreate }))
-      .catch((errorPostCreate) => res.status(500).json({ Message: { error_serveur: "Une erreur inconnue s'est produite, veuillez reessayer plus tard ou contactez votre administrateur" } }));
-  }
+      .catch((err) => res.status(500).json(`${err}`));  }
 };
 
 // exports.getPostsByUser = (req, res, next) => {
