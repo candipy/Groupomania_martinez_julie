@@ -4,11 +4,11 @@
       <router-link :to="{ name: 'profil', params: { id: post.UserId } }"> {{ post.User.firstName }} {{ post.User.lastName }} </router-link>
       <div>{{ cleanDate(post.createdAt) }}</div>
     </div>
-    <div class="post_icons" v-if="post.UserId == userIdSS || this.$store._state.data.userStore.userInfos.admin == true"></div>
+    <div class="post_icons"></div>
 
-    <i class="fa fa-pen" @click="etatModify()"> </i>
-    <div @click="etatModify()"></div>
-    <i class="fa fa-trash" @click="etatDelete()"> </i>
+    <i v-if="post.UserId == userIdSS || this.$store._state.data.userStore.userInfos.admin == true" class="fa fa-pen" @click="etatModify()"> </i>
+    <div  @click="etatModify()"></div>
+    <i v-if="post.UserId == userIdSS || this.$store._state.data.userStore.userInfos.admin == true" class="fa fa-trash" @click="etatDelete()"> </i>
   </div>
   <div class="post_title">{{ post.title }}</div>
   <div class="post_message">{{ post.message }}</div>
