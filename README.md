@@ -8,7 +8,11 @@ Groupomania est un réseau social d'entreprise interne pour les employés. Le bu
 DATABASE
 
 Créer la base de données appelée group_dev
-Importer les données présentes dans le dossier Database_group_dev
+
+Pour la présentation importez les données présentes dans le dossier Database_group_dev (fourni en externe à GitHub)
+
+( Pour un projet vierge, Lancez la commande npx sequelize-cli db:migrate depuis le terminal dans le dossier Front )
+
 
 BACKEND
 
