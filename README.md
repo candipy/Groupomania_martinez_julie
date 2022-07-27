@@ -16,7 +16,7 @@ MySQL
 
 ### DataBase 
 
-Créer la base de données appelée group_dev
+Créez la base de données appelée group_dev
 
 Pour un projet exemple, importez les données présentes dans le dossier Database_group_dev (fourni en externe)
 Pour un projet vierge, Lancez la commande npx sequelize-cli db:migrate depuis le terminal dans le dossier Back
@@ -30,6 +30,10 @@ A partir d'un terminal, ouvrir le dossier Back :
 ```bash
   npm install
   npm start
+```
+
+```sh
+npm install
 ```
 
 Le serveur fonctionne sur http://localhost:3000/
