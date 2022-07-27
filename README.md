@@ -1,6 +1,8 @@
 # Groupomania_martinez_julie
 
 
+![Logo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png)
+
 Projet 7 du parcours "Développeur Web" avec OPENCLASSROOMS
 Groupomania est un réseau social d'entreprise interne pour les employés. Le but de cet outil est de faciliter les interactions entre collègues.
 
@@ -22,7 +24,7 @@ Pour un projet exemple, importez les données présentes dans le dossier Databas
 Pour un projet vierge, Lancez la commande npx sequelize-cli db:migrate depuis le terminal dans le dossier Back
 
 
-## Variables Environnement
+### Variables Environnement
 
 Pour lancer ce projet, vous devez ajouter vos variables d'environnement au fichier.env 
 
