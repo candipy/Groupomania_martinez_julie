@@ -31,7 +31,6 @@ A partir d'un terminal, ouvrir le dossier Back :
   npm install
   npm start
 ```
-Tapez les commandes suivantes : cd back, npm install, nodemon.
 
 Le serveur fonctionne sur http://localhost:3000/
 
