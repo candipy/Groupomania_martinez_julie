@@ -1,7 +1,6 @@
 # Groupomania_martinez_julie
 
-
-![Logo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png)
+![Logo](/Users/julie/Documents/P7/Groupomania_martinez_julie_code/front/src/assets/icon-left-font-monochrome-red.png)
 
 Projet 7 du parcours "Développeur Web" avec OPENCLASSROOMS
 Groupomania est un réseau social d'entreprise interne pour les employés. Le but de cet outil est de faciliter les interactions entre collègues.
@@ -15,18 +14,16 @@ Pour lancer le projet, vous devez avoir les programmes suivants installés sur v
 Node.js
 MySQL
 
-
-### DataBase 
+### DataBase
 
 Créez la base de données appelée group_dev
 
 Pour un projet exemple, importez les données présentes dans le dossier Database_group_dev (fourni en externe)
 Pour un projet vierge, Lancez la commande npx sequelize-cli db:migrate depuis le terminal dans le dossier Back
 
-
 ### Variables Environnement
 
-Pour lancer ce projet, vous devez ajouter vos variables d'environnement au fichier.env 
+Pour lancer ce projet, vous devez ajouter vos variables d'environnement au fichier.env
 
 `PORT`
 
@@ -34,8 +31,8 @@ Pour lancer ce projet, vous devez ajouter vos variables d'environnement au fichi
 
 ### Backend
 
+A partir d'un terminal, ouvrir le dossier Back :
 
-A partir d'un terminal, ouvrir le dossier Back : 
 ```bash
 npm install
 npm start
@@ -49,15 +46,11 @@ A partir d'un terminal, ouvrir le dossier Front :
 
 ```bash
 npm install
-npm run serve 
+npm run serve
 ```
 
 Allez ensuite sur http://localhost:8080/
 
-
 ## 🔗 Links
 
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/julie-martinez-34535621b/)
-
-
-

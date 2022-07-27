@@ -7,7 +7,7 @@
     <div class="post_icons"></div>
 
     <i v-if="post.UserId == userIdSS || this.$store._state.data.userStore.userInfos.admin == true" class="fa fa-pen" @click="etatModify()"> </i>
-    <div  @click="etatModify()"></div>
+    <div @click="etatModify()"></div>
     <i v-if="post.UserId == userIdSS || this.$store._state.data.userStore.userInfos.admin == true" class="fa fa-trash" @click="etatDelete()"> </i>
   </div>
   <div class="post_title">{{ post.title }}</div>
@@ -54,7 +54,7 @@ export default {
 
   methods: {
     cleanDate: (date) => {
-      return moment(date).format("DD/MM/YYYY à h:mm");
+      return moment(date).format("DD/MM/YYYY à HH:MM");
     },
 
     onFileChange(e) {
