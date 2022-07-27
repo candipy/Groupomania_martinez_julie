@@ -6,7 +6,7 @@ Groupomania est un réseau social d'entreprise interne pour les employés. Le bu
 
 ## Installation
 
-### Prérequis ###
+### Prérequis
 
 Pour lancer le projet, vous devez avoir les programmes suivants installés sur votre machine :
 
@@ -14,7 +14,7 @@ Node.js
 MySQL
 
 
-### DataBase ###
+### DataBase 
 
 Créer la base de données appelée group_dev
 
@@ -22,7 +22,7 @@ Pour un projet exemple, importez les données présentes dans le dossier Databas
 Pour un projet vierge, Lancez la commande npx sequelize-cli db:migrate depuis le terminal dans le dossier Back
 
 
-### Backend ###
+### Backend
 
 Complétez le fichier .env avec les variables d'environnement selon vos besoins.
 
