@@ -22,23 +22,38 @@ Pour un projet exemple, importez les données présentes dans le dossier Databas
 Pour un projet vierge, Lancez la commande npx sequelize-cli db:migrate depuis le terminal dans le dossier Back
 
 
+## Variables Environnement
+
+Pour lancer ce projet, vous devez ajouter vos variables d'environnement au fichier.env 
+
+`PORT`
+
+`TOKEN_SECRET `
+
 ### Backend
 
-Complétez le fichier .env avec les variables d'environnement selon vos besoins.
 
 A partir d'un terminal, ouvrir le dossier Back : 
 ```bash
-  npm install
-  npm start
-```
-
-```sh
 npm install
+npm start
 ```
 
 Le serveur fonctionne sur http://localhost:3000/
 
-FRONTEND
+### Frontend
 
-Ouvrir un second terminal de ce dossier,
-Tapez les commandes suivantes : cd front, npm install, npm run serve Aller ensuite sur http://localhost:8080/
+A partir d'un terminal, ouvrir le dossier Front :
+
+```bash
+npm install
+npm run serve 
+```
+
+Allez ensuite sur http://localhost:8080/
+
+
+## 🔗 Links
+[![twitter](https://www.linkedin.com/in/julie-martinez-34535621b/)
+
+
