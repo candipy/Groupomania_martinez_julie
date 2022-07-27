@@ -1,6 +1,8 @@
 # Groupomania_martinez_julie
 
-![Logo](/Users/julie/Documents/P7/Groupomania_martinez_julie_code/front/src/assets/icon-left-font-monochrome-red.png)
+[Logo](/Users/julie/Documents/P7/Groupomania_martinez_julie_code/front/src/assets/icon-left-font-monochrome-red.png)
+
+![Logo]
 
 Projet 7 du parcours "Développeur Web" avec OPENCLASSROOMS
 Groupomania est un réseau social d'entreprise interne pour les employés. Le but de cet outil est de faciliter les interactions entre collègues.
