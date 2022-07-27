@@ -1,26 +1,39 @@
 # Groupomania_martinez_julie
 
-GROUPAMANIA :
 
 Projet 7 du parcours "Développeur Web" avec OPENCLASSROOMS
 Groupomania est un réseau social d'entreprise interne pour les employés. Le but de cet outil est de faciliter les interactions entre collègues.
 
-DATABASE
+## Installation
+
+### Prérequis ###
+
+Pour lancer le projet, vous devez avoir les programmes suivants installés sur votre machine :
+
+Node.js
+MySQL
+
+
+### DataBase ###
 
 Créer la base de données appelée group_dev
 
-Pour la présentation importez les données présentes dans le dossier Database_group_dev (fourni en externe à GitHub)
+Pour un projet exemple, importez les données présentes dans le dossier Database_group_dev (fourni en externe)
+Pour un projet vierge, Lancez la commande npx sequelize-cli db:migrate depuis le terminal dans le dossier Back
 
-( Pour un projet vierge, Lancez la commande npx sequelize-cli db:migrate depuis le terminal dans le dossier Front )
 
-
-BACKEND
+### Backend ###
 
 Complétez le fichier .env avec les variables d'environnement selon vos besoins.
-Ouvrir le dossier dans un terminal
+
+A partir d'un terminal, ouvrir le dossier Back : 
+```bash
+  npm install
+  npm start
+```
 Tapez les commandes suivantes : cd back, npm install, nodemon.
 
-Le serveur fonctionne sur http://localhost:3000/ ou sur le port choisi dans le fichier .env
+Le serveur fonctionne sur http://localhost:3000/
 
 FRONTEND
 
