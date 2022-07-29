@@ -94,7 +94,6 @@ export default {
         })
         .then(
           (postCreate) => {
-            console.log("store add view", this.$store._state.data.postStore);
             this.$store.commit("postStore/setMode", "success");
             this.$store.commit("postStore/setEtat", { etat: "", info: "" });
             this.title = null;
@@ -102,7 +101,6 @@ export default {
             this.image = null;
           },
           (errorCreatePost) => {
-            console.log("errorCreatePost :>> ", errorCreatePost);
             if (this.etat == "error_serveur") {
               this.$router.push("error500");
             }

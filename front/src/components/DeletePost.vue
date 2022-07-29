@@ -12,13 +12,6 @@ import { mapState } from "vuex";
 export default {
   name: "DeletePost",
 
-  // computed: {
-  //   ...mapState("postStore", {
-  //     etat: (state) => state.etat,
-  //     info: (state) => state.info,
-  //   }),
-  // },
-
   methods: {
     noEtat() {
       this.$store.commit("postStore/setEtat", { etat: "", info: "" });

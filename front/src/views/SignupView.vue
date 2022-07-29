@@ -165,7 +165,6 @@ export default {
         })
         .then(
           (userCreate) => {
-            console.log("UserCreate :>> ", userCreate);
             this.$store
               .dispatch("userStore/login", {
                 email: this.email,
@@ -173,11 +172,9 @@ export default {
               })
               .then(
                 (userLog) => {
-                  console.log("userLog Vue login:>> ", userLog);
                   this.$router.push("feed");
                 },
                 (errorUserLogin) => {
-                  console.log("errorUserLogin :>> ", errorUserLogin);
                   if (this.status == "error_serveur") {
                     this.$router.push("error500");
                   }
@@ -185,7 +182,6 @@ export default {
               );
           },
           (errorUserCreate) => {
-            console.log("errorUserCreate :>> ", errorUserCreate);
             if (this.status == "error_serveur") {
               this.$router.push("error500");
             }

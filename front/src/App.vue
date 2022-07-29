@@ -1,8 +1,4 @@
-<template>
-  <!-- <div id="app"> -->
-  <router-view />
-  <!-- </div> -->
-</template>
+<template></template>
 
 <style lang="scss">
 @import "../src/css/reset.css";

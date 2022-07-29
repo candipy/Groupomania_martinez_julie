@@ -4,17 +4,12 @@ const axios = require("axios");
 
 const instance = axios.create({
   baseURL: "http://localhost:3000/api/",
-  // timeout: 1000,
-  // headers: {'X-Custom-Header': 'foobar'}
 });
 
 const token = sessionStorage.getItem("token");
 if (token) {
-  console.log("token :>> ", token);
   axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-  console.log(axios.defaults.headers.common["Authorization"]);
 }
-console.log("token :>> ", token);
 
 const userStore = {
   namespaced: true,
@@ -83,7 +78,6 @@ const userStore = {
             let messages = errorUserLogin.response.data.Message;
             Object.keys(messages).forEach((error) => {
               let message = messages[error];
-              console.log("message :>> ", message);
               if (error === "error_user") {
                 commit("setStatus", { status: "error_user", errors: message });
                 reject(errorUserLogin);
@@ -111,11 +105,9 @@ const userStore = {
             resolve(userCreate);
           })
           .catch((errorUserCreate) => {
-            console.log("errorUserCreate :>> ", errorUserCreate);
             if (errorUserCreate.response.data.errorUserCreate) {
               let errorsSequelize = errorUserCreate.response.data.errorUserCreate.errors;
               errorsSequelize.forEach((error) => {
-                console.log("error :>> ", error);
                 if (error.message === "email must be unique") {
                   commit("setStatus", { status: "error_unique", errors: "Cet email est déjà utilisé" });
                   reject(errorUserCreate);
@@ -158,7 +150,6 @@ const userStore = {
 
         .then((user) => {
           commit("userInfos", user.data);
-          console.log("user.getOneUSer :>> ", user.data);
         })
         .catch((error) => {
           console.log("error.getOneUser :>> ", error);
@@ -178,7 +169,6 @@ const userStore = {
           })
 
           .catch((errorDeleteUser) => {
-            console.log("errorDeleteUser :>> ", errorDeleteUser);
             if ((messages = errorDeleteUser.response.data.Message)) {
               let messages = errorDeleteUser.response.data.Message;
               Object.keys(messages).forEach((error) => {
@@ -207,5 +197,4 @@ const userStore = {
   },
 };
 
-// console.log(userStore);
 export default userStore;

@@ -34,7 +34,7 @@
 
 <script>
 import Header from "@/components/Header.vue";
-import btnLogout from "@/components/BtnLogout.vue";
+
 
 import { mapState } from "vuex";
 
@@ -42,7 +42,7 @@ export default {
   name: "Profil",
   components: {
     Header,
-    btnLogout,
+
   },
 
   data: () => {

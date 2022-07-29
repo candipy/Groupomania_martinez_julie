@@ -4,9 +4,6 @@
 
     <p><i class="fa fa-pen"></i></p>
   </div>
-  <!-- <div v-else class="whatsNew">
-    <p>Nouvelle publication</p>
-  </div> -->
 </template>
 
 <script>
@@ -17,9 +14,6 @@ export default {
   components: {},
 
   computed: {
-    // ...mapState("userStore", {
-    //   userInfos: (state) => state.userInfos,
-    // }),
     ...mapState("postStore", {
       mode: (state) => state.mode,
     }),

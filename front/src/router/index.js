@@ -18,9 +18,7 @@ const routes = [
   {
     path: "/signup",
     name: "signup",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+
     component: () => import(/* webpackChunkName: "about" */ "../views/SignupView.vue"),
   },
 
@@ -44,34 +42,11 @@ const routes = [
     name: "error500",
     component: () => import(/* webpackChunkName: "about" */ "../views/Error500View.vue"),
   },
-  // {
-  //   path: "/deleteAccount",
-  //   name: "deleteAccount",
-  //   component: () => import(/* webpackChunkName: "about" */ "../views/DeleteAccountView.vue"),
-  // },
-  // {
-  //   path: "/posts/:id",
-  //   name: "OnePost",
-  //   component: () => import(/* webpackChunkName: "about" */ "../views/OnePost.vue"),
-  // },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
-
-// router.beforeEach((next) => {
-//   debugger;
-//   const token = sessionStorage.getItem("token");
-//   if (token) {
-//     console.log("token :>> ", token);
-//     instance.defaults.headers.common["Authorization"] = "Bearer " + token;
-//     console.log(instance.defaults.headers.common["Authorization"]);
-//   }
-//   // else {
-//   //   next("./login");
-//   // }
-// });
 
 export default router;

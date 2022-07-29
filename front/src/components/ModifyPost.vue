@@ -42,9 +42,6 @@ export default {
     }),
   },
 
-  mounted() {
-    console.log(this.post);
-  },
   methods: {
     noEtat() {
       this.$store.commit("postStore/setEtat", { etat: "", info: "" });
@@ -57,7 +54,6 @@ export default {
 
     deleteImage() {
       this.image = "delete";
-      console.log("this.image :>> ", this.image);
     },
 
     modifyPost() {
@@ -66,7 +62,6 @@ export default {
       postUpdate.append("message", this.post.message);
       postUpdate.append("UserId", this.userIdSS);
       postUpdate.append("image", this.image);
-      console.log(this.image);
 
       this.$store.dispatch("postStore/modifyPost", postUpdate, {
         headers: {

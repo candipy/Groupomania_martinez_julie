@@ -68,11 +68,9 @@ const postStore = {
       axios
         .post("http://localhost:3000/api/posts/", postCreate)
         .then((postCreate) => {
-          console.log("postCreate store :>> ", postCreate);
           dispatch("getAllPost");
         })
         .catch((errorPostCreate) => {
-          console.log("plop");
           console.log("errorPostCreate :>> ", errorPostCreate);
         });
     },
@@ -97,7 +95,6 @@ const postStore = {
         .patch("http://localhost:3000/api/posts/" + state.post.id + "/", postUpdate)
 
         .then((postUpdate) => {
-          console.log("postUpdate :>> ", postUpdate);
           dispatch("getAllPost");
         })
 
@@ -123,7 +120,6 @@ const postStore = {
       axios
         .post("http://localhost:3000/api/posts/" + state.post.id + "/like/", like)
         .then((like) => {
-          console.log("like :>> ", like);
           dispatch("getAllPost");
         })
         .catch((error) => {
@@ -133,5 +129,4 @@ const postStore = {
   },
 };
 
-// console.log(userStore);
 export default postStore;
