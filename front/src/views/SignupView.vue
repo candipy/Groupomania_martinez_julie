@@ -2,9 +2,6 @@
   <Header />
 
   <div class="card">
-    <nav>
-      <router-link to="/" class="btn-grad">Home</router-link>
-    </nav>
     <!-- Titre -->
 
     <h1>Création de votre compte</h1>

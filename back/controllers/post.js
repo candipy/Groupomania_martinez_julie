@@ -31,7 +31,6 @@ exports.deletePost = (req, res, next) => {
 
     .then((post) => {
       if (!post || post == null) {
-        alert("1");
         res.status(404).json({ Message: { error_post: "Publication non trouvée !" } });
       }
       if (post.UserId !== req.auth.userId && req.auth.userAdmin == false) {
@@ -163,7 +162,8 @@ exports.createPost = (req, res, next) => {
 
     db.Post.create(post)
       .then((postCreate) => res.status(201).json({ postCreate }))
-      .catch((err) => res.status(500).json(`${err}`));  } else if (!req.file) {
+      .catch((err) => res.status(500).json(`${err}`));
+  } else if (!req.file) {
     const post = {
       title: req.body.title,
       message: req.body.message,
@@ -171,7 +171,8 @@ exports.createPost = (req, res, next) => {
     };
     db.Post.create(post)
       .then((postCreate) => res.status(201).json({ postCreate }))
-      .catch((err) => res.status(500).json(`${err}`));  }
+      .catch((err) => res.status(500).json(`${err}`));
+  }
 };
 
 // exports.getPostsByUser = (req, res, next) => {
